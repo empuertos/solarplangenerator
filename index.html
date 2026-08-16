@@ -263,7 +263,7 @@
 </div>
 
 <script>
-// ========== DARK MODE LOGIC ==========
+// ========== DARK MODE LOGIC — GUMAGANA NA! ==========
 const htmlEl = document.documentElement;
 const themeBtn = document.getElementById('themeBtn');
 
@@ -293,11 +293,11 @@ function toggleTheme() {
     setTheme(current === 'dark' ? 'light' : 'dark');
 }
 
-// Initialize
+// Initialize — gumagana agad pag bukas!
 loadTheme();
 themeBtn.addEventListener('click', toggleTheme);
 
-// Listen for system theme changes (if no manual preference)
+// Auto-update pag binago ang system setting
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
     if (!localStorage.getItem('theme')) {
         setTheme(e.matches ? 'dark' : 'light', false);
@@ -506,7 +506,7 @@ function generateAll() {
         <div class="warning-box"><strong>✅ Fire-Safe Design:</strong> All wiring sized with 125% continuous load derating per PNEC 2017 — prevents overheating & fire risk.</div>
     `;
 
-    // === SLD TAB ===
+    // === SLD TAB — AUTO DARK MODE SVG ===
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     const svgText = isDark ? '#F8FAFC' : '#0F172A';
     const svgFill1 = isDark ? '#1E3A8A' : '#E0F2FE';
@@ -590,13 +590,4 @@ function generateAll() {
             <tr><th colspan="2">BATTERY SYSTEM — PROTECTED DESIGN</th></tr>
             <tr><td>Battery Bank</td><td>${sys.battery.nominalKwh} kWh, ${sys.battery.nominalVoltage}V DC, ${sys.battery.battType}</td></tr>
             <tr><td>DoD Limit</td><td>Max ${sys.battery.DoD}% — never exceed to prevent damage</td></tr>
-            <tr><td>Protection</td><td>Built-in BMS — overcharge, over-discharge, over-temp, short circuit</td></tr>
-        </table>
-        `:''}
-        <h3>🛡️ SAFETY & INSTALLATION REQUIREMENTS</h3>
-        <ul style="margin-left:20px;">
-            <li>All wiring sized with 125% continuous load derating — prevents overheating & fire</li>
-            <li>Voltage Drop ≤3% — prevents energy loss & equipment damage</li>
-            <li>Copper conductors ONLY — aluminum prohibited for PV systems</li>
-            <li>DC & AC cables separated — minimum 30cm clearance</li>
-            <li>
+            <tr><td>Protection</td><td>Built-in BMS — overcharge, over-discharge, over
