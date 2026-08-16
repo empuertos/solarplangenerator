@@ -3,135 +3,526 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PRO Solar PV Design — Auto-Save ✅</title>
+    <title>PRO Solar PV Design & Contract Generator</title>
+    <!-- THEME LOADS FIRST - PREVENTS FLASH -->
+    <script>
+        (function(){
+            var s = localStorage.getItem('darkMode');
+            var d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (s === 'true' || (s === null && d)) {
+                document.documentElement.classList.add('dark-mode');
+            }
+        })();
+    </script>
     <style>
         :root {
-            --primary: #0F4C75; --secondary: #10B981; --accent: #3B82F6;
-            --danger: #EF4444; --warning: #F59E0B;
+            --primary: #0F4C75;
+            --secondary: #10B981;
+            --accent: #3B82F6;
+            --danger: #EF4444;
+            --warning: #F59E0B;
             --bg-main: linear-gradient(135deg, #F0F4F8, #E6F0F5);
-            --bg-card: #FFFFFF; --bg-alt: #F8FAFC; --bg-grad: #F0FDF4;
-            --text-main: #334155; --text-strong: #0F172A;
-            --border: #E2E8F0; --shadow: rgba(15,76,117,0.08);
+            --bg-card: #FFFFFF;
+            --bg-alt: #F8FAFC;
+            --bg-grad: #F0FDF4;
+            --text-main: #334155;
+            --text-strong: #0F172A;
+            --border: #E2E8F0;
+            --shadow: rgba(15,76,117,0.08);
             --header-grad: linear-gradient(90deg, #0F4C75, #136397);
         }
+
         html.dark-mode {
-            --primary: #60A5FA; --secondary: #34D399; --accent: #60A5FA;
-            --danger: #F87171; --warning: #FBBF24;
-            --bg-main: linear-gradient(135deg, #0F172A, #1E293B) !important;
-            --bg-card: #1E293B !important; --bg-alt: #334155 !important; --bg-grad: #1E293B !important;
-            --text-main: #E2E8F0 !important; --text-strong: #F8FAFC !important;
-            --border: #475569 !important; --shadow: rgba(0,0,0,0.3) !important;
-            --header-grad: linear-gradient(90deg, #1E40AF, #1E3A8A) !important;
+            --primary: #60A5FA;
+            --secondary: #34D399;
+            --accent: #60A5FA;
+            --danger: #F87171;
+            --warning: #FBBF24;
+            --bg-main: linear-gradient(135deg, #0F172A, #1E293B);
+            --bg-card: #1E293B;
+            --bg-alt: #334155;
+            --bg-grad: #1E3A2F;
+            --text-main: #E2E8F0;
+            --text-strong: #F8FAFC;
+            --border: #475569;
+            --shadow: rgba(0,0,0,0.3);
+            --header-grad: linear-gradient(90deg, #1E40AF, #1E3A8A);
         }
-        *{box-sizing:border-box; font-family: 'Segoe UI', sans-serif; margin:0; padding:0;}
-        body{background:var(--bg-main); min-height:100vh; padding:16px; max-width:1200px; margin:0 auto; color:var(--text-main); line-height:1.6;}
-        .theme-toggle{position:fixed; top:16px; right:16px; z-index:99999; background:var(--bg-card); border:2px solid var(--border); border-radius:50%; width:44px; height:44px; font-size:22px; cursor:pointer; display:flex; align-items:center; justify-content:center;}
-        .save-indicator{position:fixed; top:16px; right:70px; z-index:99998; font-size:12px; color:var(--secondary); background:var(--bg-card); padding:4px 8px; border-radius:6px; border:1px solid var(--border); opacity:0; transition:opacity 0.3s;}
-        .save-indicator.show{opacity:1;}
-        .error-box{background:linear-gradient(135deg, #FEF2F2, #FEE2E2); border-left:5px solid var(--danger); padding:16px; border-radius:10px; margin:16px 0; color:#991B1B; font-weight:500;}
-        html.dark-mode .error-box{background:linear-gradient(135deg, #7F1D1D, #991B1B); color:#FECACA;}
-        .header-bar{background:var(--header-grad); color:white; padding:20px; border-radius:12px; margin-bottom:20px;}
-        .header-bar h1{font-size:20px; font-weight:700; margin-bottom:4px;}
-        .card{background:var(--bg-card); border-radius:12px; padding:20px; margin-bottom:20px; box-shadow:0 4px 12px var(--shadow); border:1px solid var(--border);}
-        .card h2{color:var(--primary); font-size:18px; font-weight:700; margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--border);}
-        .grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:16px; margin-bottom:12px;}
-        .form-group label{display:block; font-weight:600; margin-bottom:6px; color:var(--text-strong); font-size:14px;}
-        input,select{width:100%; padding:10px 12px; border:1.5px solid var(--border); border-radius:8px; font-size:15px; background:var(--bg-alt); color:var(--text-main);}
-        input.invalid, select.invalid{border-color:var(--danger); background:#FEF2F2;}
-        html.dark-mode input.invalid, html.dark-mode select.invalid{background:#450A0A;}
-        input:focus,select:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(59,130,246,0.15);}
-        .btn-group{display:flex; flex-wrap:wrap; gap:10px; margin-top:20px;}
-        button{padding:12px 20px; border-radius:8px; font-size:15px; font-weight:600; cursor:pointer; border:none; transition:all 0.2s;}
-        .btn-primary{background:linear-gradient(90deg, var(--secondary), #059669); color:white; box-shadow:0 4px 12px rgba(16,185,129,0.25);}
-        .btn-primary:hover{transform:translateY(-2px);}
-        .btn-secondary{background:var(--bg-card); color:var(--primary); border:2px solid var(--primary);}
-        .btn-secondary:hover{background:var(--primary); color:white;}
-        .btn-outline{background:transparent; color:var(--text-main); border:1.5px solid var(--border);}
-        /* ===== TABS — HIDDEN BY DEFAULT UNTIL GENERATE ===== */
-        .tabs{display:none; flex-wrap:nowrap; overflow-x:auto; gap:4px; margin-bottom:20px; border-bottom:2px solid var(--border); padding-bottom:2px;}
-        .tabs.show{display:flex; animation:fadeIn 0.4s ease;} /* Show after generate */
-        .tab{padding:10px 14px; border-radius:8px 8px 0 0; cursor:pointer; font-weight:600; font-size:13px; color:var(--text-main); border-bottom:3px solid transparent; white-space:nowrap;}
-        .tab:hover{background:var(--bg-alt); color:var(--primary);}
-        .tab.active{color:var(--primary); border-bottom:3px solid var(--secondary); background:rgba(16,185,129,0.06);}
-        .tab-content{display:none; animation:fadeIn 0.3s ease;}
-        .tab-content.active{display:block;}
-        @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
-        .result-box{background:var(--bg-grad); border-left:5px solid var(--secondary); padding:16px; border-radius:10px; margin:16px 0;}
-        .warning-box{background:linear-gradient(135deg, #FFFBEB, #FEF3C7); border-left:5px solid var(--warning); padding:14px 16px; border-radius:10px; margin:16px 0; color:#78350F;}
-        .battery-note{background:linear-gradient(135deg, #EFF6FF, #DBEAFE); border-left:5px solid var(--accent); padding:14px 16px; border-radius:10px; margin:16px 0; color:#1E40AF;}
-        html.dark-mode .warning-box{background:linear-gradient(135deg, #423600, #5C4900); color:#FDE047;}
-        html.dark-mode .battery-note{background:linear-gradient(135deg, #1E3A8A, #1E40AF); color:#BFDBFE;}
-        .highlight{background:#FEF3C7; color:#92400E; padding:2px 8px; border-radius:4px; font-weight:600; display:inline-block;}
-        html.dark-mode .highlight{background:#78350F; color:#FDE047;}
-        .wire-safe{color:#059669; font-weight:700;}
-        html.dark-mode .wire-safe{color:#34D399;}
-        table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14px;}
-        table th, table td{border:1px solid var(--border); padding:10px 12px; text-align:left; vertical-align:top;}
-        table th{background:linear-gradient(180deg, #EFF6FF, #DBEAFE); color:var(--primary); font-weight:700;}
-        html.dark-mode table th{background:linear-gradient(180deg, #1E3A8A, #1E40AF);}
-        table tr:nth-child(even){background:var(--bg-alt);}
-        .agreement-box{border:2px solid var(--primary); border-radius:12px; padding:20px; background:var(--bg-card); line-height:1.8;}
-        .agreement-box h2{text-align:center; text-decoration:underline; border-bottom:2px solid var(--primary); padding-bottom:12px; margin-bottom:20px;}
-        .signature-section{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:30px;}
-        .signature-line{border-bottom:1.5px solid var(--text-strong); margin-top:24px; margin-bottom:6px; min-height:24px;}
-        .price-tag{font-size:18px; font-weight:700; color:var(--secondary);}
-        .diagram-container{background:var(--bg-alt); border:2px solid var(--border); border-radius:12px; padding:12px; min-height:450px; overflow:auto;}
-        @media print{
-            *{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
-            body{background:white !important; color:#000 !important;}
-            .no-print, .theme-toggle, .save-indicator, .error-box{display:none !important;}
-            .tabs{display:flex !important;} /* Show tabs in print */
-            .card{box-shadow:none; border:1px solid #ccc; padding:15px; background:white !important;}
-            table{page-break-inside:avoid;}
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
         }
-        @media(max-width:768px){
-            body{padding:12px;}
-            .header-bar{padding:16px; padding-right:60px;}
-            .card{padding:16px;}
-            .grid{grid-template-columns:1fr; gap:12px;}
-            .btn-group{flex-direction:column;}
-            button{width:100%;}
-            .signature-section{grid-template-columns:1fr;}
+
+        body {
+            background: var(--bg-main);
+            min-height: 100vh;
+            padding: 16px;
+            max-width: 1200px;
+            margin: 0 auto;
+            color: var(--text-main);
+            line-height: 1.6;
+            transition: background 0.25s ease, color 0.25s ease;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 99999;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            font-size: 22px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .save-indicator {
+            position: fixed;
+            top: 16px;
+            right: 70px;
+            z-index: 99998;
+            font-size: 12px;
+            color: var(--secondary);
+            background: var(--bg-card);
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            opacity: 0;
+            transition: opacity 0.25s;
+        }
+
+        .save-indicator.show {
+            opacity: 1;
+        }
+
+        .error-box {
+            background: linear-gradient(135deg, #FEF2F2, #FEE2E2);
+            border-left: 5px solid var(--danger);
+            padding: 16px;
+            border-radius: 10px;
+            margin: 16px 0;
+            color: #991B1B;
+            font-weight: 500;
+        }
+
+        html.dark-mode .error-box {
+            background: linear-gradient(135deg, #450A0A, #7F1D1D);
+            color: #FECACA;
+        }
+
+        .header-bar {
+            background: var(--header-grad);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            transition: all 0.25s ease;
+        }
+
+        .header-bar h1 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px var(--shadow);
+            border: 1px solid var(--border);
+            transition: all 0.25s ease;
+        }
+
+        .card h2 {
+            color: var(--primary);
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-strong);
+            font-size: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-size: 15px;
+            background: var(--bg-alt);
+            color: var(--text-main);
+            transition: all 0.25s ease;
+        }
+
+        input.invalid, select.invalid {
+            border-color: var(--danger);
+            background: #FEF2F2;
+        }
+
+        html.dark-mode input.invalid,
+        html.dark-mode select.invalid {
+            background: #450A0A;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--secondary), #059669);
+            color: white;
+            box-shadow: 0 4px 12px rgba(16,185,129,0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-main);
+            border: 1.5px solid var(--border);
+        }
+
+        .tabs {
+            display: none;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            gap: 4px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 2px;
+        }
+
+        .tabs.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab {
+            padding: 10px 14px;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--text-main);
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .tab:hover {
+            background: var(--bg-alt);
+            color: var(--primary);
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--secondary);
+            background: rgba(16,185,129,0.06);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-box {
+            background: var(--bg-grad);
+            border-left: 5px solid var(--secondary);
+            padding: 16px;
+            border-radius: 10px;
+            margin: 16px 0;
+            transition: all 0.25s ease;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+            border-left: 5px solid var(--warning);
+            padding: 14px 16px;
+            border-radius: 10px;
+            margin: 16px 0;
+            color: #78350F;
+            transition: all 0.25s ease;
+        }
+
+        .battery-note {
+            background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
+            border-left: 5px solid var(--accent);
+            padding: 14px 16px;
+            border-radius: 10px;
+            margin: 16px 0;
+            color: #1E40AF;
+            transition: all 0.25s ease;
+        }
+
+        html.dark-mode .warning-box {
+            background: linear-gradient(135deg, #423600, #5C4900);
+            color: #FDE047;
+        }
+
+        html.dark-mode .battery-note {
+            background: linear-gradient(135deg, #1E3A8A, #1E40AF);
+            color: #BFDBFE;
+        }
+
+        .highlight {
+            background: #FEF3C7;
+            color: #92400E;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.25s ease;
+        }
+
+        html.dark-mode .highlight {
+            background: #78350F;
+            color: #FDE047;
+        }
+
+        .wire-safe {
+            color: #059669;
+            font-weight: 700;
+        }
+
+        html.dark-mode .wire-safe {
+            color: #34D399;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            font-size: 14px;
+        }
+
+        table th, table td {
+            border: 1px solid var(--border);
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+            transition: all 0.25s ease;
+        }
+
+        table th {
+            background: linear-gradient(180deg, #EFF6FF, #DBEAFE);
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        html.dark-mode table th {
+            background: linear-gradient(180deg, #1E3A8A, #1E40AF);
+        }
+
+        table tr:nth-child(even) {
+            background: var(--bg-alt);
+        }
+
+        .agreement-box {
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 20px;
+            background: var(--bg-card);
+            line-height: 1.8;
+            transition: all 0.25s ease;
+        }
+
+        .agreement-box h2 {
+            text-align: center;
+            text-decoration: underline;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+
+        .signature-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 30px;
+        }
+
+        .signature-line {
+            border-bottom: 1.5px solid var(--text-strong);
+            margin-top: 24px;
+            margin-bottom: 6px;
+            min-height: 24px;
+        }
+
+        .price-tag {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .diagram-container {
+            background: var(--bg-alt);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 12px;
+            min-height: 450px;
+            overflow: auto;
+            transition: all 0.25s ease;
+        }
+
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            body {
+                background: white !important;
+                color: #000 !important;
+            }
+            .no-print, .theme-toggle, .save-indicator, .error-box {
+                display: none !important;
+            }
+            .tabs {
+                display: flex !important;
+            }
+            .card {
+                box-shadow: none;
+                border: 1px solid #ccc;
+                padding: 15px;
+                background: white !important;
+            }
+            table {
+                page-break-inside: avoid;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+            .header-bar {
+                padding: 16px;
+                padding-right: 60px;
+            }
+            .card {
+                padding: 16px;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .btn-group {
+                flex-direction: column;
+            }
+            button {
+                width: 100%;
+            }
+            .signature-section {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
 
 <button class="theme-toggle no-print" id="themeBtn" title="Toggle Dark/Light Mode">🌙</button>
-<div class="save-indicator no-print" id="saveIndicator">💾 Saved</div>
+<div class="save-indicator no-print" id="saveIndicator">Saved</div>
 
 <div class="header-bar no-print">
-    <h1>☀️ SOLAR PV SYSTEM DESIGN & CONTRACT AGREEMENT</h1>
-    <p>💾 Auto-Save Enabled • 🔋 Auto-Shutoff @ 20% Reserve • Dark Mode • Print Ready</p>
+    <h1>SOLAR PV SYSTEM DESIGN & CONTRACT AGREEMENT</h1>
+    <p>Auto-Save Enabled | Auto-Shutoff @ 20% Reserve | Dark Mode | Print Ready</p>
 </div>
 
-<!-- ===== TABS — HIDDEN UNTIL GENERATE IS CLICKED ===== -->
 <div class="tabs no-print" id="mainTabs">
-    <div class="tab active" data-tab="input">📋 Project Details</div>
-    <div class="tab" data-tab="summary">📊 Specs & Wire</div>
-    <div class="tab" data-tab="battery">🔋 Battery Sizing</div>
-    <div class="tab" data-tab="sld">⚡ SLD Diagram</div>
-    <div class="tab" data-tab="plan">📐 Electrical Plan</div>
-    <div class="tab" data-tab="agreement">📄 Contract</div>
+    <div class="tab active" data-tab="input">Project Details</div>
+    <div class="tab" data-tab="summary">Specs & Wire</div>
+    <div class="tab" data-tab="battery">Battery Sizing</div>
+    <div class="tab" data-tab="sld">SLD Diagram</div>
+    <div class="tab" data-tab="plan">Electrical Plan</div>
+    <div class="tab" data-tab="agreement">Contract</div>
 </div>
 
-<!-- INPUT TAB — ALWAYS VISIBLE -->
+<!-- INPUT TAB -->
 <div class="tab-content active card" id="input">
     <h2>Project Information</h2>
-    <p style="margin-bottom:16px;">💾 <strong>Auto-Save ON:</strong> Everything you enter is automatically saved!</p>
+    <p style="margin-bottom:16px;"><strong>Auto-Save ON:</strong> Everything you enter is automatically saved!</p>
     <div id="errorContainer"></div>
     
     <div class="grid">
         <div class="form-group">
-            <label>👤 Client / Project Name *</label>
+            <label>Client / Project Name *</label>
             <input type="text" id="clientName" placeholder="e.g. Juan Dela Cruz Residence" required>
         </div>
         <div class="form-group">
-            <label>📍 Location / Address *</label>
+            <label>Location / Address *</label>
             <input type="text" id="projAddress" placeholder="City, Province" required>
         </div>
         <div class="form-group">
-            <label>🔌 System Type *</label>
+            <label>System Type *</label>
             <select id="sysType" required>
                 <option value="">-- Select System Type --</option>
                 <option value="Grid-tie">Grid-tie (On-Grid / Net Metering)</option>
@@ -140,121 +531,146 @@
             </select>
         </div>
         <div class="form-group">
-            <label>⚡ Monthly Electricity Consumption (kWh) *</label>
-            <input type="number" id="monthlyKwh" value="" placeholder="e.g. 250 kWh" min="1" required>
+            <label>Monthly Electricity Consumption (kWh) *</label>
+            <input type="number" id="monthlyKwh" placeholder="e.g. 250 kWh" min="1" required>
         </div>
         <div class="form-group">
-            <label>💰 Total Project Price (PHP) — Leave blank for AUTO</label>
-            <input type="number" id="projectPrice" value="" placeholder="Custom price or leave blank" min="0">
+            <label>Total Project Price (PHP) - Leave blank for AUTO</label>
+            <input type="number" id="projectPrice" placeholder="Custom price or leave blank" min="0">
         </div>
         <div class="form-group">
-            <label>🔋 Battery Type (Hybrid/Off-grid) *</label>
+            <label>Battery Type (Hybrid/Off-grid) *</label>
             <select id="batteryType" required>
                 <option value="">-- Select Battery Type --</option>
-                <option value="LiFePO4">LiFePO4 (Lithium) — Recommended</option>
+                <option value="LiFePO4">LiFePO4 (Lithium) - Recommended</option>
                 <option value="Lead-Acid">Lead-Acid / AGM / Gel</option>
             </select>
         </div>
         <div class="form-group">
-            <label>⏱️ Backup Autonomy (Hours) *</label>
-            <input type="number" id="autonomyHours" value="" placeholder="Hours of backup power needed" min="1" required>
+            <label>Backup Autonomy (Hours) *</label>
+            <input type="number" id="autonomyHours" placeholder="Hours of backup power needed" min="1" required>
         </div>
         <div class="form-group">
-            <label>☀️ PV Module Power (Wp) *</label>
+            <label>PV Module Power (Wp) *</label>
             <select id="panelWp" required>
                 <option value="">-- Select Panel Power --</option>
                 <option value="400">400 Wp</option>
-                <option value="450">450 Wp — Most Common</option>
+                <option value="450">450 Wp - Most Common</option>
                 <option value="500">500 Wp</option>
                 <option value="550">550 Wp</option>
             </select>
         </div>
         <div class="form-group">
-            <label>📏 DC Cable Length (meters) *</label>
-            <input type="number" id="dcLength" value="" placeholder="Panels → Inverter distance" min="1" required>
+            <label>DC Cable Length (meters) *</label>
+            <input type="number" id="dcLength" placeholder="Panels to Inverter distance" min="1" required>
         </div>
         <div class="form-group">
-            <label>📏 AC Cable Length (meters) *</label>
-            <input type="number" id="acLength" value="" placeholder="Inverter → Distribution Panel" min="1" required>
+            <label>AC Cable Length (meters) *</label>
+            <input type="number" id="acLength" placeholder="Inverter to Distribution Panel" min="1" required>
         </div>
         <div class="form-group">
-            <label>🌅 Peak Sun Hours *</label>
+            <label>Peak Sun Hours *</label>
             <select id="peakSun" required>
                 <option value="">-- Select Peak Sun Hours --</option>
-                <option value="4.0">4.0 hrs — Mindanao</option>
-                <option value="4.5">4.5 hrs — Central Visayas (Cebu)</option>
-                <option value="5.0">5.0 hrs — Luzon / Manila</option>
+                <option value="4.0">4.0 hrs - Mindanao</option>
+                <option value="4.5">4.5 hrs - Central Visayas (Cebu)</option>
+                <option value="5.0">5.0 hrs - Luzon / Manila</option>
             </select>
         </div>
         <div class="form-group">
-            <label>👷 Contractor / Installer Name *</label>
+            <label>Contractor / Installer Name *</label>
             <input type="text" id="contractorName" placeholder="Company Name / License No." required>
         </div>
     </div>
 
     <div class="battery-note no-print">
-        <strong>🔋 BATTERY RULES — AUTO SHUTOFF ENABLED @ 20% ✅</strong>
+        <strong>BATTERY RULES - AUTO SHUTOFF ENABLED @ 20%</strong>
         <ul style="margin:8px 0 0 20px; font-size:14px;">
-            <li><strong>Total Capacity:</strong> 100% — Full charge</li>
-            <li><strong>Usable Capacity:</strong> 80% — This is ALL you can safely use!</li>
-            <li><strong>⚠️ 20% RESERVE — AUTO SHUTOFF:</strong> When battery reaches <strong>20% remaining</strong> → Inverter automatically turns OFF!</li>
-            <li><strong>🔄 To use again:</strong> Must recharge above 20% first!</li>
+            <li><strong>Total Capacity:</strong> 100% - Full charge</li>
+            <li><strong>Usable Capacity:</strong> 80% - This is ALL you can safely use!</li>
+            <li><strong>20% RESERVE - AUTO SHUTOFF:</strong> When battery reaches <strong>20% remaining</strong> - Inverter automatically turns OFF!</li>
+            <li><strong>To use again:</strong> Must recharge above 20% first!</li>
         </ul>
     </div>
 
     <div class="result-box">
-        <strong>📐 Live Calculation:</strong>
-        <p id="calcOut" style="margin-top:6px; font-size:14px;">Enter values above → real-time results appear here.</p>
+        <strong>Live Calculation:</strong>
+        <p id="calcOut" style="margin-top:6px; font-size:14px;">Enter values above - real-time results appear here.</p>
     </div>
 
     <div class="btn-group no-print">
-        <button class="btn-primary" id="generateBtn">🔄 GENERATE ALL DOCUMENTS</button>
-        <button class="btn-secondary" onclick="window.print()">🖨️ Print / Save PDF</button>
-        <button class="btn-outline" onclick="clearAllData()">🗑️ Clear All / New Form</button>
+        <button class="btn-primary" id="generateBtn">GENERATE ALL DOCUMENTS</button>
+        <button class="btn-secondary" onclick="window.print()">Print / Save PDF</button>
+        <button class="btn-outline" onclick="clearAllData()">Clear All / New Form</button>
     </div>
 </div>
 
-<!-- ALL OTHER TABS — HIDDEN UNTIL GENERATE -->
+<!-- BATTERY TAB -->
 <div class="tab-content card" id="battery">
-    <h2>🔋 Battery Sizing & Protection — Auto Shutoff @ 20%</h2>
-    <p style="margin-bottom:16px;"><strong>Rules:</strong> 100% Total → 80% Usable → 20% Reserve. At 20% → Inverter auto-shuts off.</p>
+    <h2>Battery Sizing & Protection - Auto Shutoff @ 20%</h2>
+    <p style="margin-bottom:16px;"><strong>Rules:</strong> 100% Total - 80% Usable - 20% Reserve. At 20% - Inverter auto-shuts off.</p>
     <div id="batteryContent"></div>
 </div>
 
+<!-- SUMMARY TAB -->
 <div class="tab-content card" id="summary">
-    <h2>📊 System Specifications & Wire Sizing</h2>
-    <p style="margin-bottom:16px;">Wire sized with <strong>125% Safety Factor</strong> & <strong>≤3% Voltage Drop</strong> — PNEC 2017 Compliant.</p>
+    <h2>System Specifications & Wire Sizing</h2>
+    <p style="margin-bottom:16px;">Wire sized with <strong>125% Safety Factor</strong> & <strong>3% Voltage Drop</strong> - PNEC 2017 Compliant.</p>
     <div id="summaryContent"></div>
 </div>
 
+<!-- SLD TAB -->
 <div class="tab-content card" id="sld">
-    <h2>⚡ Single Line Diagram</h2>
-    <p style="margin-bottom:16px;">Permit-ready diagram — PNEC 2017 compliant.</p>
+    <h2>Single Line Diagram</h2>
+    <p style="margin-bottom:16px;">Permit-ready diagram - PNEC 2017 compliant.</p>
     <div class="diagram-container" id="sldCanvas"></div>
 </div>
 
+<!-- PLAN TAB -->
 <div class="tab-content card" id="plan">
-    <h2>📐 Electrical Plan & Technical Specifications</h2>
+    <h2>Electrical Plan & Technical Specifications</h2>
     <div id="planContent"></div>
 </div>
 
+<!-- AGREEMENT TAB -->
 <div class="tab-content card" id="agreement">
-    <h2>📄 Contract Agreement — Supply & Installation</h2>
+    <h2>Contract Agreement - Supply & Installation</h2>
     <div id="agreementContent"></div>
 </div>
 
-<!-- ================================================== -->
-<!-- ALL JAVASCRIPT — PLACED AT END FOR PROPER LOADING -->
-<!-- ================================================== -->
 <script>
-// ---------- AUTO-SAVE + DARK MODE ----------
-const html = document.documentElement;
-const btn = document.getElementById('themeBtn');
-const saveIndicator = document.getElementById('saveIndicator');
-const errorContainer = document.getElementById('errorContainer');
-const tabsContainer = document.getElementById('mainTabs'); // Reference to tabs
+// ============================================================
+// DARK MODE - FULLY FIXED
+// ============================================================
+var htmlEl = document.documentElement;
+var themeBtn = document.getElementById('themeBtn');
+var lastSysData = null;
 
-const fieldsToSave = [
+function updateThemeIcon() {
+    themeBtn.textContent = htmlEl.classList.contains('dark-mode') ? '\u2600\uFE0F' : '\uD83C\uDF19';
+}
+
+themeBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    htmlEl.classList.toggle('dark-mode');
+    var isDark = htmlEl.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', isDark);
+    updateThemeIcon();
+    if (lastSysData) {
+        renderSLD(lastSysData);
+    }
+});
+
+updateThemeIcon();
+
+// ============================================================
+// AUTO-SAVE
+// ============================================================
+var saveIndicator = document.getElementById('saveIndicator');
+var errorContainer = document.getElementById('errorContainer');
+var tabsContainer = document.getElementById('mainTabs');
+
+var fieldsToSave = [
     'clientName', 'projAddress', 'sysType', 'monthlyKwh', 'projectPrice',
     'batteryType', 'autonomyHours', 'panelWp', 'dcLength', 'acLength',
     'peakSun', 'contractorName'
@@ -262,118 +678,151 @@ const fieldsToSave = [
 
 function showSaved() {
     saveIndicator.classList.add('show');
-    setTimeout(() => saveIndicator.classList.remove('show'), 1500);
+    setTimeout(function() {
+        saveIndicator.classList.remove('show');
+    }, 1500);
 }
 
 function saveField(id) {
-    const el = document.getElementById(id);
+    var el = document.getElementById(id);
     if (!el) return;
     localStorage.setItem('solarcalc_' + id, el.value);
     showSaved();
 }
 
 function loadAllData() {
-    fieldsToSave.forEach(id => {
-        const el = document.getElementById(id);
-        const saved = localStorage.getItem('solarcalc_' + id);
-        if (el && saved !== null) el.value = saved;
+    fieldsToSave.forEach(function(id) {
+        var el = document.getElementById(id);
+        var saved = localStorage.getItem('solarcalc_' + id);
+        if (el && saved !== null) {
+            el.value = saved;
+        }
     });
 }
 
 function clearAllData() {
     if (!confirm('Clear all data? This cannot be undone!')) return;
-    fieldsToSave.forEach(id => localStorage.removeItem('solarcalc_' + id));
-    tabsContainer.classList.remove('show'); // Hide tabs again on new form
+    fieldsToSave.forEach(function(id) {
+        localStorage.removeItem('solarcalc_' + id);
+    });
+    localStorage.removeItem('darkMode');
+    tabsContainer.classList.remove('show');
+    htmlEl.classList.remove('dark-mode');
+    lastSysData = null;
+    updateThemeIcon();
     location.reload();
 }
 
 function setupAutoSave() {
-    fieldsToSave.forEach(id => {
-        const el = document.getElementById(id);
+    fieldsToSave.forEach(function(id) {
+        var el = document.getElementById(id);
         if (!el) return;
-        el.addEventListener('input', () => saveField(id));
-        el.addEventListener('change', () => saveField(id));
+        el.addEventListener('input', function() { saveField(id); });
+        el.addEventListener('change', function() { saveField(id); });
     });
 }
 
-function loadTheme() {
-    const saved = localStorage.getItem('darkMode');
-    const sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (saved === 'true' || (saved === null && sysDark)) {
-        html.classList.add('dark-mode');
-        btn.textContent = '☀️';
-    } else {
-        html.classList.remove('dark-mode');
-        btn.textContent = '🌙';
-    }
-}
-
-btn.addEventListener('click', () => {
-    const isDark = html.classList.toggle('dark-mode');
-    btn.textContent = isDark ? '☀️' : '🌙';
-    localStorage.setItem('darkMode', isDark);
-});
-
-// ---------- TABS NAVIGATION ----------
-document.querySelectorAll('.tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+// ============================================================
+// TABS NAVIGATION
+// ============================================================
+document.querySelectorAll('.tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+        document.querySelectorAll('.tab').forEach(function(t) {
+            t.classList.remove('active');
+        });
+        document.querySelectorAll('.tab-content').forEach(function(c) {
+            c.classList.remove('active');
+        });
         tab.classList.add('active');
         document.getElementById(tab.dataset.tab).classList.add('active');
     });
 });
 
-// ---------- CALCULATION ENGINE ----------
+// ============================================================
+// CALCULATION ENGINE
+// ============================================================
 function calculatePrice(kwp, sysType) {
-    const rates = {'Grid-tie':50000, 'Hybrid':70000, 'Off-grid':100000};
+    var rates = { 'Grid-tie': 50000, 'Hybrid': 70000, 'Off-grid': 100000 };
     return Math.round(kwp * (rates[sysType] || 50000));
 }
 
 function getWireSizeDC(kw, voc, length) {
-    const imp = kw * 1000 / voc;
-    const amps = imp * 1.25;
-    const minArea = (2 * length * 0.01724 * imp) / (0.03 * voc);
-    const sizes = [
-        {a:2.5, l:'2.5 mm²', m:25}, {a:4, l:'4 mm²', m:32}, {a:6, l:'6 mm²', m:40},
-        {a:10, l:'10 mm²', m:55}, {a:16, l:'16 mm²', m:70}, {a:25, l:'25 mm²', m:90}
+    var imp = kw * 1000 / voc;
+    var amps = imp * 1.25;
+    var minArea = (2 * length * 0.01724 * imp) / (0.03 * voc);
+    var sizes = [
+        { a: 2.5, l: '2.5 mm\u00B2', m: 25 },
+        { a: 4, l: '4 mm\u00B2', m: 32 },
+        { a: 6, l: '6 mm\u00B2', m: 40 },
+        { a: 10, l: '10 mm\u00B2', m: 55 },
+        { a: 16, l: '16 mm\u00B2', m: 70 },
+        { a: 25, l: '25 mm\u00B2', m: 90 }
     ];
-    let sel = sizes[1];
-    for(let s of sizes) if(s.m >= amps && s.a >= minArea) {sel = s; break;}
-    const vDrop = ((2 * length * 0.01724 * imp) / sel.a).toFixed(2);
-    return {...sel, amps:amps.toFixed(1), vDrop, minArea:minArea.toFixed(1)};
+    var sel = sizes[1];
+    for (var i = 0; i < sizes.length; i++) {
+        var s = sizes[i];
+        if (s.m >= amps && s.a >= minArea) {
+            sel = s;
+            break;
+        }
+    }
+    var vDrop = ((2 * length * 0.01724 * imp) / sel.a).toFixed(2);
+    return {
+        a: sel.a,
+        l: sel.l,
+        m: sel.m,
+        amps: amps.toFixed(1),
+        vDrop: vDrop,
+        minArea: minArea.toFixed(1)
+    };
 }
 
 function getWireSizeAC(kw, length) {
-    const fla = (kw * 1000 / 230) / 0.95;
-    const amps = fla * 1.25;
-    const minArea = (2 * length * 0.01724 * fla) / 6.9;
-    const sizes = [
-        {a:2.5, l:'2.5 mm² (14 AWG)', m:20}, {a:4, l:'4 mm² (12 AWG)', m:25},
-        {a:5.5, l:'5.5 mm² (12 AWG)', m:30}, {a:8, l:'8 mm² (10 AWG)', m:40},
-        {a:14, l:'14 mm² (8 AWG)', m:55}, {a:22, l:'22 mm² (6 AWG)', m:75}
+    var fla = (kw * 1000 / 230) / 0.95;
+    var amps = fla * 1.25;
+    var minArea = (2 * length * 0.01724 * fla) / 6.9;
+    var sizes = [
+        { a: 2.5, l: '2.5 mm\u00B2 (14 AWG)', m: 20 },
+        { a: 4, l: '4 mm\u00B2 (12 AWG)', m: 25 },
+        { a: 5.5, l: '5.5 mm\u00B2 (12 AWG)', m: 30 },
+        { a: 8, l: '8 mm\u00B2 (10 AWG)', m: 40 },
+        { a: 14, l: '14 mm\u00B2 (8 AWG)', m: 55 },
+        { a: 22, l: '22 mm\u00B2 (6 AWG)', m: 75 }
     ];
-    let sel = sizes[1];
-    for(let s of sizes) if(s.m >= amps && s.a >= minArea) {sel = s; break;}
-    const vDrop = ((2 * length * 0.01724 * fla) / sel.a).toFixed(2);
-    return {...sel, amps:amps.toFixed(1), vDrop, minArea:minArea.toFixed(1)};
+    var sel = sizes[1];
+    for (var i = 0; i < sizes.length; i++) {
+        var s = sizes[i];
+        if (s.m >= amps && s.a >= minArea) {
+            sel = s;
+            break;
+        }
+    }
+    var vDrop = ((2 * length * 0.01724 * fla) / sel.a).toFixed(2);
+    return {
+        a: sel.a,
+        l: sel.l,
+        m: sel.m,
+        amps: amps.toFixed(1),
+        vDrop: vDrop,
+        minArea: minArea.toFixed(1)
+    };
 }
 
 function getBreaker(wire) {
-    const map = {2.5:16,4:25,5.5:25,6:32,8:40,10:50,14:63,22:80,25:100};
+    var map = { 2.5: 16, 4: 25, 5.5: 25, 6: 32, 8: 40, 10: 50, 14: 63, 22: 80, 25: 100 };
     return map[wire.a] || 32;
 }
 
 function calculateBattery(dailyLoad, battType, autonomyHours) {
-    const DoD = battType === 'LiFePO4' ? 0.80 : 0.50;
-    const minRemainingPercent = battType === 'LiFePO4' ? 20 : 50;
-    const safetyMargin = 1.15;
-    const tempDerate = 1.10;
-    const usableCapacity = dailyLoad * autonomyHours / 24;
-    const requiredUsable = usableCapacity * safetyMargin * tempDerate;
-    const totalBatteryCapacity = requiredUsable / DoD;
-    const nominalVoltage = Math.ceil(Math.sqrt(totalBatteryCapacity) / 12) * 12 || 48;
-    const Ah = Math.round((totalBatteryCapacity / nominalVoltage) * 10) / 10;
+    var DoD = battType === 'LiFePO4' ? 0.80 : 0.50;
+    var minRemainingPercent = battType === 'LiFePO4' ? 20 : 50;
+    var safetyMargin = 1.15;
+    var tempDerate = 1.10;
+    var usableCapacity = dailyLoad * autonomyHours / 24;
+    var requiredUsable = usableCapacity * safetyMargin * tempDerate;
+    var totalBatteryCapacity = requiredUsable / DoD;
+    var nominalVoltage = Math.ceil(Math.sqrt(totalBatteryCapacity) / 12) * 12 || 48;
+    var Ah = Math.round((totalBatteryCapacity / nominalVoltage) * 10) / 10;
     return {
         totalKwh: Math.round(totalBatteryCapacity * 10) / 10,
         usableKwh: Math.round(requiredUsable * 10) / 10,
@@ -381,259 +830,511 @@ function calculateBattery(dailyLoad, battType, autonomyHours) {
         DoD: DoD * 100,
         safetyMargin: '15%',
         tempAllowance: '10%',
-        nominalVoltage,
-        Ah,
-        battType
+        nominalVoltage: nominalVoltage,
+        Ah: Ah,
+        battType: battType
     };
 }
 
 function calculateSystem(inputs) {
-    const {monthlyKwh, panelWp, peakSun, dcLength, acLength, sysType, batteryType, autonomyHours, projectPrice} = inputs;
-    const dailyLoad = monthlyKwh / 30;
-    const loss = 0.75;
-    const reqKwp = dailyLoad / (peakSun * loss);
-    const actualKwp = Math.ceil(reqKwp * 10) / 10;
-    const panelCount = Math.ceil(actualKwp * 1000 / panelWp);
-    const realKwp = Math.round(panelCount * panelWp / 1000 * 100) / 100;
-    const invKw = Math.ceil(actualKwp * 1.3 * 10) / 10;
-    const voc = Math.min(600, Math.floor(600 / 45) * 45);
-    const dcWire = getWireSizeDC(realKwp, voc, dcLength);
-    const acWire = getWireSizeAC(invKw, acLength);
-    const breaker = getBreaker(acWire);
-    const monthlyProd = Math.round(realKwp * peakSun * 30 * loss);
-    const battery = (sysType==='Hybrid' || sysType==='Off-grid') ? calculateBattery(dailyLoad, batteryType, autonomyHours) : null;
+    var monthlyKwh = inputs.monthlyKwh;
+    var panelWp = inputs.panelWp;
+    var peakSun = inputs.peakSun;
+    var dcLength = inputs.dcLength;
+    var acLength = inputs.acLength;
+    var sysType = inputs.sysType;
+    var batteryType = inputs.batteryType;
+    var autonomyHours = inputs.autonomyHours;
+    var projectPrice = inputs.projectPrice;
+
+    var dailyLoad = monthlyKwh / 30;
+    var loss = 0.75;
+    var reqKwp = dailyLoad / (peakSun * loss);
+    var actualKwp = Math.ceil(reqKwp * 10) / 10;
+    var panelCount = Math.ceil(actualKwp * 1000 / panelWp);
+    var realKwp = Math.round(panelCount * panelWp / 1000 * 100) / 100;
+    var invKw = Math.ceil(actualKwp * 1.3 * 10) / 10;
+    var voc = Math.min(600, Math.floor(600 / 45) * 45);
+    var dcWire = getWireSizeDC(realKwp, voc, dcLength);
+    var acWire = getWireSizeAC(invKw, acLength);
+    var breaker = getBreaker(acWire);
+    var monthlyProd = Math.round(realKwp * peakSun * 30 * loss);
+    var battery = null;
     
-    let finalPrice, isAutoPrice;
-    if(!projectPrice || projectPrice === '' || projectPrice===0) {
+    if (sysType === 'Hybrid' || sysType === 'Off-grid') {
+        battery = calculateBattery(dailyLoad, batteryType, autonomyHours);
+    }
+
+    var finalPrice, isAutoPrice;
+    if (!projectPrice || projectPrice === '' || projectPrice === 0) {
         finalPrice = calculatePrice(realKwp, sysType);
         isAutoPrice = true;
     } else {
         finalPrice = projectPrice;
         isAutoPrice = false;
     }
-    return {dailyLoad:Math.round(dailyLoad*10)/10, reqKwp, actualKwp:realKwp, panelCount, panelWp, invKw, monthlyProd, dcWire, acWire, breaker, voc, battery, finalPrice, isAutoPrice};
+
+    return {
+        dailyLoad: Math.round(dailyLoad * 10) / 10,
+        reqKwp: reqKwp,
+        actualKwp: realKwp,
+        panelCount: panelCount,
+        panelWp: panelWp,
+        invKw: invKw,
+        monthlyProd: monthlyProd,
+        dcWire: dcWire,
+        acWire: acWire,
+        breaker: breaker,
+        voc: voc,
+        battery: battery,
+        finalPrice: finalPrice,
+        isAutoPrice: isAutoPrice,
+        inputs: inputs
+    };
 }
 
-// ---------- LIVE CALCULATION ----------
-['monthlyKwh','panelWp','peakSun','dcLength','acLength','sysType','batteryType','autonomyHours','projectPrice'].forEach(id=>{
-    const el = document.getElementById(id);
-    if(el) {
+// ============================================================
+// LIVE CALCULATION
+// ============================================================
+var liveFields = ['monthlyKwh', 'panelWp', 'peakSun', 'dcLength', 'acLength', 'sysType', 'batteryType', 'autonomyHours', 'projectPrice'];
+liveFields.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) {
         el.addEventListener('input', updateLiveCalc);
         el.addEventListener('change', updateLiveCalc);
     }
 });
 
 function updateLiveCalc() {
-    const inputs = {
-        monthlyKwh:+document.getElementById('monthlyKwh').value||0,
-        panelWp:+document.getElementById('panelWp').value||0,
-        peakSun:+document.getElementById('peakSun').value||0,
-        dcLength:+document.getElementById('dcLength').value||0,
-        acLength:+document.getElementById('acLength').value||0,
-        sysType:document.getElementById('sysType').value,
-        batteryType:document.getElementById('batteryType').value,
-        autonomyHours:+document.getElementById('autonomyHours').value||0,
-        projectPrice:+document.getElementById('projectPrice').value||0
+    var inputs = {
+        monthlyKwh: parseFloat(document.getElementById('monthlyKwh').value) || 0,
+        panelWp: parseFloat(document.getElementById('panelWp').value) || 0,
+        peakSun: parseFloat(document.getElementById('peakSun').value) || 0,
+        dcLength: parseFloat(document.getElementById('dcLength').value) || 0,
+        acLength: parseFloat(document.getElementById('acLength').value) || 0,
+        sysType: document.getElementById('sysType').value,
+        batteryType: document.getElementById('batteryType').value,
+        autonomyHours: parseFloat(document.getElementById('autonomyHours').value) || 0,
+        projectPrice: parseFloat(document.getElementById('projectPrice').value) || 0
     };
-    
+
     if (!inputs.monthlyKwh || !inputs.panelWp || !inputs.peakSun) {
-        document.getElementById('calcOut').innerHTML = 'Enter values above → real-time results appear here.';
+        document.getElementById('calcOut').innerHTML = 'Enter values above - real-time results appear here.';
         return;
     }
-    
-    const r = calculateSystem(inputs);
-    let html = `Daily Load: <strong>${r.dailyLoad} kWh</strong> → System: <span class="highlight">${r.actualKwp} kWp</span> (${r.panelCount}×${r.panelWp}Wp) | Inverter: ${r.invKw} kW | DC: <span class="wire-safe">${r.dcWire.l}</span> | AC: <span class="wire-safe">${r.acWire.l}</span> | Breaker: ${r.breaker}A | Price: <span class="highlight">₱${r.finalPrice.toLocaleString()}</span>`;
-    if(r.battery) html += ` | Battery: <span class="highlight">${r.battery.totalKwh} kWh Total | ${r.battery.usableKwh} kWh Usable | ⚠️ ${r.battery.reservePercent}% Reserve</span>`;
+
+    var r = calculateSystem(inputs);
+    var html = 'Daily Load: <strong>' + r.dailyLoad + ' kWh</strong> | System: <span class="highlight">' + r.actualKwp + ' kWp</span> (' + r.panelCount + ' x ' + r.panelWp + 'Wp) | Inverter: ' + r.invKw + ' kW | DC: <span class="wire-safe">' + r.dcWire.l + '</span> | AC: <span class="wire-safe">' + r.acWire.l + '</span> | Breaker: ' + r.breaker + 'A | Price: <span class="highlight">\u20B1' + r.finalPrice.toLocaleString() + '</span>';
+    if (r.battery) {
+        html += ' | Battery: <span class="highlight">' + r.battery.totalKwh + ' kWh Total | ' + r.battery.usableKwh + ' kWh Usable | ' + r.battery.reservePercent + '% Reserve</span>';
+    }
     document.getElementById('calcOut').innerHTML = html;
 }
 
-// ---------- FORM VALIDATION ----------
+// ============================================================
+// FORM VALIDATION
+// ============================================================
 function validateForm() {
-    let isValid = true;
-    let errorMessages = [];
-    
+    var isValid = true;
+    var errorMessages = [];
+
     errorContainer.innerHTML = '';
-    document.querySelectorAll('.invalid').forEach(el => el.classList.remove('invalid'));
-    
-    const requiredFields = [
-        {id: 'clientName', label: 'Client / Project Name'},
-        {id: 'projAddress', label: 'Location / Address'},
-        {id: 'sysType', label: 'System Type'},
-        {id: 'monthlyKwh', label: 'Monthly Electricity Consumption'},
-        {id: 'batteryType', label: 'Battery Type'},
-        {id: 'autonomyHours', label: 'Backup Autonomy Hours'},
-        {id: 'panelWp', label: 'PV Module Power'},
-        {id: 'dcLength', label: 'DC Cable Length'},
-        {id: 'acLength', label: 'AC Cable Length'},
-        {id: 'peakSun', label: 'Peak Sun Hours'},
-        {id: 'contractorName', label: 'Contractor / Installer Name'}
+    document.querySelectorAll('.invalid').forEach(function(el) {
+        el.classList.remove('invalid');
+    });
+
+    var requiredFields = [
+        { id: 'clientName', label: 'Client / Project Name' },
+        { id: 'projAddress', label: 'Location / Address' },
+        { id: 'sysType', label: 'System Type' },
+        { id: 'monthlyKwh', label: 'Monthly Electricity Consumption' },
+        { id: 'batteryType', label: 'Battery Type' },
+        { id: 'autonomyHours', label: 'Backup Autonomy Hours' },
+        { id: 'panelWp', label: 'PV Module Power' },
+        { id: 'dcLength', label: 'DC Cable Length' },
+        { id: 'acLength', label: 'AC Cable Length' },
+        { id: 'peakSun', label: 'Peak Sun Hours' },
+        { id: 'contractorName', label: 'Contractor / Installer Name' }
     ];
-    
-    requiredFields.forEach(field => {
-        const el = document.getElementById(field.id);
+
+    requiredFields.forEach(function(field) {
+        var el = document.getElementById(field.id);
         if (!el) return;
-        const value = el.value.trim();
-        
+        var value = el.value.trim();
+
         if (!value || value === '') {
             isValid = false;
-            errorMessages.push(`❌ <strong>${field.label}</strong> is required.`);
+            errorMessages.push('<li><strong>' + field.label + '</strong> is required.</li>');
             el.classList.add('invalid');
         } else if (el.type === 'number' && (parseFloat(value) <= 0 || isNaN(parseFloat(value)))) {
             isValid = false;
-            errorMessages.push(`❌ <strong>${field.label}</strong> must be a positive number.`);
+            errorMessages.push('<li><strong>' + field.label + '</strong> must be a positive number.</li>');
             el.classList.add('invalid');
         }
     });
-    
+
     if (!isValid) {
-        errorContainer.innerHTML = `<div class="error-box"><strong>⚠️ Please fill in all required fields (*) before generating:</strong><ul style="margin:8px 0 0 20px;">${errorMessages.map(m => `<li>${m}</li>`).join('')}</ul></div>`;
-        errorContainer.scrollIntoView({behavior: 'smooth', block: 'start'});
+        errorContainer.innerHTML = '<div class="error-box"><strong>Please fill in all required fields (*) before generating:</strong><ul style="margin:8px 0 0 20px;">' + errorMessages.join('') + '</ul></div>';
+        errorContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
     return isValid;
 }
 
-// ---------- GENERATE ALL — MAIN FUNCTION ----------
-function generateAll() {
-    console.log('🔍 Validating form...');
-    if (!validateForm()) {
-        console.log('❌ Validation failed — stopped.');
-        return;
+// ============================================================
+// RENDER SLD DIAGRAM
+// ============================================================
+function renderSLD(sys) {
+    var isDark = htmlEl.classList.contains('dark-mode');
+    var svgText = isDark ? '#F8FAFC' : '#0F172A';
+    var svgFill1 = isDark ? '#1E3A8A' : '#E0F2FE';
+    var svgFill2 = isDark ? '#1E40AF' : '#DBEAFE';
+    var svgFill3 = isDark ? '#581C87' : '#F3E8FF';
+    var svgFill4 = isDark ? '#065F46' : '#D1FAE5';
+    var svgBg = isDark ? '#334155' : '#F8FAFC';
+    var svgBorder = isDark ? '#64748B' : '#E2E8F0';
+
+    var batterySvg = '';
+    if (sys.battery) {
+        batterySvg = '<rect x="200" y="160" width="120" height="70" rx="6" fill="' + svgFill4 + '" stroke="#34D399" stroke-width="2"/>' +
+            '<text x="260" y="190" text-anchor="middle" font-size="13" font-weight="bold" fill="' + svgText + '">BATTERY</text>' +
+            '<text x="260" y="210" text-anchor="middle" font-size="11" fill="' + svgText + '">' + sys.battery.totalKwh + ' kWh | ' + sys.battery.nominalVoltage + 'V</text>' +
+            '<line x1="260" y1="160" x2="260" y2="140" stroke="' + svgText + '" stroke-width="2"/>';
     }
-    console.log('✅ Validation passed — generating...');
-    
-    // ===== SHOW ALL TABS AFTER SUCCESSFUL GENERATE =====
+
+    document.getElementById('sldCanvas').innerHTML =
+        '<svg width="100%" height="450" viewBox="0 0 850 450" xmlns="http://www.w3.org/2000/svg">' +
+        '<defs><marker id="arr" viewBox="0 0 10 6" refX="9" refY="3" markerWidth="8" markerHeight="6" orient="auto"><polygon points="0,0 10,3 0,6" fill="' + svgText + '"/></marker></defs>' +
+        '<rect x="0" y="0" width="850" height="40" fill="' + svgBg + '" rx="4"/>' +
+        '<text x="425" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="' + svgText + '">SINGLE LINE DIAGRAM - ' + sys.actualKwp + ' kWp ' + sys.inputs.sysType + '</text>' +
+        
+        '<rect x="30" y="55" width="110" height="75" rx="6" fill="' + svgFill1 + '" stroke="#0369A1" stroke-width="2"/>' +
+        '<text x="85" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="' + svgText + '">PV ARRAY</text>' +
+        '<text x="85" y="105" text-anchor="middle" font-size="11" fill="' + svgText + '">' + sys.panelCount + 'x' + sys.inputs.panelWp + 'Wp</text>' +
+        
+        '<line x1="140" y1="92" x2="200" y2="92" stroke="' + svgText + '" stroke-width="2" marker-end="url(#arr)"/>' +
+        '<text x="170" y="82" text-anchor="middle" font-size="10" fill="#F87171">DC ' + sys.dcWire.l + '</text>' +
+        
+        '<rect x="200" y="45" width="120" height="95" rx="8" fill="' + svgFill2 + '" stroke="#3B82F6" stroke-width="2"/>' +
+        '<text x="260" y="80" text-anchor="middle" font-size="14" font-weight="bold" fill="' + svgText + '">INVERTER</text>' +
+        '<text x="260" y="100" text-anchor="middle" font-size="12" fill="' + svgText + '">' + sys.invKw + ' kW</text>' +
+        '<text x="260" y="120" text-anchor="middle" font-size="10" fill="' + svgText + '">230V AC | 60Hz</text>' +
+        
+        '<line x1="320" y1="92" x2="380" y2="92" stroke="' + svgText + '" stroke-width="2" marker-end="url(#arr)"/>' +
+        '<text x="350" y="82" text-anchor="middle" font-size="10" fill="#F87171">AC ' + sys.acWire.l + '</text>' +
+        
+        '<rect x="380" y="55" width="100" height="75" rx="6" fill="' + svgFill3 + '" stroke="#A855F7" stroke-width="2"/>' +
+        '<text x="430" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="' + svgText + '">PANEL</text>' +
+        '<text x="430" y="105" text-anchor="middle" font-size="11" fill="' + svgText + '">' + sys.breaker + 'A Breaker</text>' +
+        
+        '<line x1="480" y1="92" x2="540" y2="92" stroke="' + svgText + '" stroke-width="2" marker-end="url(#arr)"/>' +
+        
+        '<rect x="540" y="55" width="90" height="75" rx="6" fill="' + svgBg + '" stroke="' + svgBorder + '" stroke-width="2"/>' +
+        '<text x="585" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="' + svgText + '">UTILITY</text>' +
+        
+        batterySvg +
+        
+        '<rect x="30" y="250" width="500" height="140" rx="6" fill="' + svgBg + '" stroke="' + svgBorder + '"/>' +
+        '<text x="45" y="275" font-size="13" font-weight="bold" fill="' + svgText + '">LEGEND & SIZING - PNEC 2017 COMPLIANT</text>' +
+        '<text x="45" y="300" font-size="11" fill="' + svgText + '">DC: ' + sys.dcWire.l + ' PV1-F | Current: ' + sys.dcWire.amps + 'A | Drop: ' + sys.dcWire.vDrop + 'V</text>' +
+        '<text x="45" y="320" font-size="11" fill="' + svgText + '">AC: ' + sys.acWire.l + ' THHN | Current: ' + sys.acWire.amps + 'A | Drop: ' + sys.acWire.vDrop + 'V</text>' +
+        '<text x="45" y="340" font-size="11" fill="' + svgText + '">Main Breaker: ' + sys.breaker + 'A 2-Pole | System: ' + sys.actualKwp + ' kWp</text>' +
+        '<text x="45" y="360" font-size="11" fill="' + svgText + '">Safety Factor: 125% | Max Voltage Drop: 3% | Copper Conductors</text>' +
+        '<text x="45" y="380" font-size="10" fill="' + svgText + '">Date: ' + sys.inputs.date + ' | Project: ' + sys.inputs.clientName + '</text>' +
+        '</svg>';
+}
+
+// ============================================================
+// GENERATE ALL - MAIN FUNCTION
+// ============================================================
+function generateAll() {
+    if (!validateForm()) return;
     tabsContainer.classList.add('show');
-    
-    try {
-        const today = new Date().toLocaleDateString('en-PH', {year:'numeric', month:'long', day:'numeric'});
-        const inputs = {
-            clientName: document.getElementById('clientName').value.trim(),
-            projAddress: document.getElementById('projAddress').value.trim(),
-            sysType: document.getElementById('sysType').value,
-            monthlyKwh: +document.getElementById('monthlyKwh').value,
-            projectPrice: document.getElementById('projectPrice').value ? +document.getElementById('projectPrice').value : 0,
-            panelWp: +document.getElementById('panelWp').value,
-            peakSun: +document.getElementById('peakSun').value,
-            dcLength: +document.getElementById('dcLength').value,
-            acLength: +document.getElementById('acLength').value,
-            batteryType: document.getElementById('batteryType').value,
-            autonomyHours: +document.getElementById('autonomyHours').value,
-            contractorName: document.getElementById('contractorName').value.trim(),
-            date: today
-        };
-        const sys = calculateSystem(inputs);
 
-        // ---- BATTERY TAB ----
-        if(sys.battery) {
-            document.getElementById('batteryContent').innerHTML = `
-                <table>
-                    <tr><th colspan="2">🔋 BATTERY SPECIFICATIONS — AUTO SHUTOFF @ ${sys.battery.reservePercent}%</th></tr>
-                    <tr><td>Battery Type</td><td><strong>${sys.battery.battType}</strong> — ${sys.battery.battType==='LiFePO4'?'Long Life (6,000+ cycles)':'Lower Cost (500 cycles)'}</td></tr>
-                    <tr><td>📦 TOTAL Capacity (100%)</td><td class="wire-safe"><strong>${sys.battery.totalKwh} kWh</strong> — Full charge</td></tr>
-                    <tr><td>✅ USABLE Capacity (${sys.battery.DoD}%)</td><td><strong>${sys.battery.usableKwh} kWh</strong> — Safe operating capacity</td></tr>
-                    <tr><td>⚠️ RESERVE — NEVER DISCHARGE BELOW! (${sys.battery.reservePercent}%)</td><td style="color:red; font-weight:bold;"><strong>${sys.battery.reservePercent}% MINIMUM — INVERTER AUTO-SHUTS OFF HERE!</strong></td></tr>
-                    <tr><td>Maximum Depth of Discharge</td><td><strong>MAX ${sys.battery.DoD}%</strong> — NEVER EXCEED THIS LIMIT!</td></tr>
-                    <tr><td>Safety Margin (Aging & Heat)</td><td><strong>${sys.battery.safetyMargin}</strong> — Extra capacity included</td></tr>
-                    <tr><td>Temperature Allowance</td><td><strong>${sys.battery.tempAllowance}</strong> — For tropical climate >35°C</td></tr>
-                    <tr><th colspan="2">📦 FINAL RECOMMENDED SIZE</th></tr>
-                    <tr><td>Nominal Capacity</td><td class="wire-safe"><strong>${sys.battery.totalKwh} kWh</strong> TOTAL</td></tr>
-                    <tr><td>Nominal Voltage</td><td><strong>${sys.battery.nominalVoltage} V</strong> DC</td></tr>
-                    <tr><td>Recommended Capacity</td><td><strong>${sys.battery.Ah} Ah</strong> @ ${sys.battery.nominalVoltage}V</td></tr>
-                </table>
-                <div class="warning-box">
-                    <strong>⚠️ CRITICAL PROTECTION RULES — MUST READ!</strong>
-                    <ul style="margin:8px 0 0 20px;">
-                        <li>🔋 <strong>100% Total → ${sys.battery.DoD}% Usable → ${sys.battery.reservePercent}% Reserve Always Remains</strong></li>
-                        <li>⚠️ <strong>AT ${sys.battery.reservePercent}% REMAINING → INVERTER AUTO-SHUTS OFF!</strong> System stops automatically to protect battery from damage.</li>
-                        <li>🔄 <strong>TO RESUME OPERATION:</strong> Must recharge battery above ${sys.battery.reservePercent}% first — system will NOT turn on until recharged!</li>
-                        <li>❌ NEVER bypass the ${sys.battery.reservePercent}% shutoff setting — permanent battery damage will occur!</li>
-                        <li>❌ NEVER expose to direct sunlight or temperatures above 35°C — service life reduced by 50% at 40°C!</li>
-                        <li>✅ Always maintain between ${sys.battery.reservePercent}%–100% for maximum lifespan (6,000+ cycles)</li>
-                        <li>✅ Always use certified BMS — protects against overcharge, over-discharge, and short circuit</li>
-                    </ul>
-                </div>
-            `;
-        } else {
-            document.getElementById('batteryContent').innerHTML = `<p>Select <strong>Hybrid</strong> or <strong>Off-grid</strong> system type to view battery sizing and protection calculations.</p>`;
-        }
+    var today = new Date().toLocaleDateString('en-PH', { year: 'numeric', month: 'long', day: 'numeric' });
+    var inputs = {
+        clientName: document.getElementById('clientName').value.trim(),
+        projAddress: document.getElementById('projAddress').value.trim(),
+        sysType: document.getElementById('sysType').value,
+        monthlyKwh: parseFloat(document.getElementById('monthlyKwh').value),
+        projectPrice: document.getElementById('projectPrice').value ? parseFloat(document.getElementById('projectPrice').value) : 0,
+        panelWp: parseFloat(document.getElementById('panelWp').value),
+        peakSun: parseFloat(document.getElementById('peakSun').value),
+        dcLength: parseFloat(document.getElementById('dcLength').value),
+        acLength: parseFloat(document.getElementById('acLength').value),
+        batteryType: document.getElementById('batteryType').value,
+        autonomyHours: parseFloat(document.getElementById('autonomyHours').value),
+        contractorName: document.getElementById('contractorName').value.trim(),
+        date: today
+    };
 
-        // ---- SUMMARY TAB ----
-        document.getElementById('summaryContent').innerHTML = `
-            <table>
-                <tr><th colspan="2">📊 SYSTEM SIZING</th></tr>
-                <tr><td>Monthly Consumption</td><td><strong>${inputs.monthlyKwh} kWh</strong></td></tr>
-                <tr><td>Daily Load</td><td>${sys.dailyLoad} kWh</td></tr>
-                <tr><td>System Capacity</td><td><strong>${sys.actualKwp} kWp</strong> — ${sys.panelCount} × ${inputs.panelWp}Wp Monocrystalline Panels</td></tr>
-                <tr><td>Inverter Size</td><td>${sys.invKw} kW — 230V AC, 60Hz</td></tr>
-                <tr><td>Est. Monthly Production</td><td><strong>${sys.monthlyProd} kWh</strong></td></tr>
-            </table>
-            <table>
-                <tr><th colspan="2">⚡ DC SIDE — PV ARRAY TO INVERTER</th></tr>
-                <tr><td>Cable Specification</td><td class="wire-safe"><strong>${sys.dcWire.l} — PV1-F Solar Cable, UV-Resistant, 1000V DC</strong></td></tr>
-                <tr><td>Design Current (125% Safety)</td><td>${sys.dcWire.amps} A</td></tr>
-                <tr><td>Voltage Drop</td><td>${sys.dcWire.vDrop}V — ≤3% within acceptable limit</td></tr>
-            </table>
-            <table>
-                <tr><th colspan="2">🔌 AC SIDE — INVERTER TO DISTRIBUTION PANEL</th></tr>
-                <tr><td>Cable Specification</td><td class="wire-safe"><strong>${sys.acWire.l} — THHN/THWN-2 Copper, 600V, 90°C</strong></td></tr>
-                <tr><td>Design Current (125% Safety)</td><td>${sys.acWire.amps} A</td></tr>
-                <tr><td>Voltage Drop</td><td>${sys.acWire.vDrop}V — ≤3% within acceptable limit</td></tr>
-                <tr><td>Main Circuit Breaker</td><td class="wire-safe"><strong>${sys.breaker}A, 230V, 2-Pole</strong> — Matched to wire ampacity</td></tr>
-            </table>
-            <table>
-                <tr><th colspan="2">💰 PROJECT PRICE</th></tr>
-                <tr><td>Total Contract Price ${sys.isAutoPrice?'<span style="color:#0284C7; font-style:italic; font-size:12px;">(Estimated: ₱50k/70k/100k per kWp based on system type)</span>':''}</td><td class="price-tag">₱ ${sys.finalPrice.toLocaleString('en-PH')}</td></tr>
-            </table>
-            <div class="warning-box"><strong>✅ Fire-Safe Design:</strong> All conductors sized with 125% continuous load derating per PNEC 2017 — prevents overheating and fire risk.</div>
-        `;
+    var sys = calculateSystem(inputs);
+    lastSysData = sys;
 
-        // ---- SLD DIAGRAM ----
-        const isDark = document.documentElement.classList.contains('dark-mode');
-        const svgText = isDark ? '#F8FAFC' : '#0F172A';
-        const svgFill1 = isDark ? '#1E3A8A' : '#E0F2FE';
-        const svgFill2 = isDark ? '#1E40AF' : '#DBEAFE';
-        const svgFill3 = isDark ? '#581C87' : '#F3E8FF';
-        const svgFill4 = isDark ? '#065F46' : '#D1FAE5';
-        const svgBg = isDark ? '#334155' : '#F8FAFC';
-        const svgBorder = isDark ? '#64748B' : '#E2E8F0';
+    // BATTERY TAB
+    var batteryHtml = '';
+    if (sys.battery) {
+        batteryHtml =
+            '<table>' +
+            '<tr><th colspan="2">BATTERY SPECIFICATIONS - AUTO SHUTOFF @ ' + sys.battery.reservePercent + '%</th></tr>' +
+            '<tr><td>Battery Type</td><td><strong>' + sys.battery.battType + '</strong> - ' + (sys.battery.battType === 'LiFePO4' ? 'Long Life (6,000+ cycles)' : 'Lower Cost (500 cycles)') + '</td></tr>' +
+            '<tr><td>TOTAL Capacity (100%)</td><td class="wire-safe"><strong>' + sys.battery.totalKwh + ' kWh</strong> - Full charge</td></tr>' +
+            '<tr><td>USABLE Capacity (' + sys.battery.DoD + '%)</td><td><strong>' + sys.battery.usableKwh + ' kWh</strong> - Safe operating capacity</td></tr>' +
+            '<tr><td>RESERVE - NEVER DISCHARGE BELOW! (' + sys.battery.reservePercent + '%)</td><td style="color:red; font-weight:bold;"><strong>' + sys.battery.reservePercent + '% MINIMUM - INVERTER AUTO-SHUTS OFF HERE!</strong></td></tr>' +
+            '<tr><td>Maximum Depth of Discharge</td><td><strong>MAX ' + sys.battery.DoD + '%</strong> - NEVER EXCEED THIS LIMIT!</td></tr>' +
+            '<tr><td>Safety Margin (Aging & Heat)</td><td><strong>' + sys.battery.safetyMargin + '</strong> - Extra capacity included</td></tr>' +
+            '<tr><td>Temperature Allowance</td><td><strong>' + sys.battery.tempAllowance + '</strong> - For tropical climate >35\u00B0C</td></tr>' +
+            '<tr><th colspan="2">FINAL RECOMMENDED SIZE</th></tr>' +
+            '<tr><td>Nominal Capacity</td><td class="wire-safe"><strong>' + sys.battery.totalKwh + ' kWh</strong> TOTAL</td></tr>' +
+            '<tr><td>Nominal Voltage</td><td><strong>' + sys.battery.nominalVoltage + ' V</strong> DC</td></tr>' +
+            '<tr><td>Recommended Capacity</td><td><strong>' + sys.battery.Ah + ' Ah</strong> @ ' + sys.battery.nominalVoltage + 'V</td></tr>' +
+            '</table>' +
+            '<div class="warning-box">' +
+            '<strong>CRITICAL PROTECTION RULES - MUST READ!</strong>' +
+            '<ul style="margin:8px 0 0 20px;">' +
+            '<li><strong>100% Total -> ' + sys.battery.DoD + '% Usable -> ' + sys.battery.reservePercent + '% Reserve Always Remains</strong></li>' +
+            '<li><strong>AT ' + sys.battery.reservePercent + '% REMAINING -> INVERTER AUTO-SHUTS OFF!</strong> System stops automatically to protect battery from damage.</li>' +
+            '<li><strong>TO RESUME OPERATION:</strong> Must recharge battery above ' + sys.battery.reservePercent + '% first - system will NOT turn on until recharged!</li>' +
+            '<li>NEVER bypass the ' + sys.battery.reservePercent + '% shutoff setting - permanent battery damage will occur!</li>' +
+            '<li>NEVER expose to direct sunlight or temperatures above 35\u00B0C - service life reduced by 50% at 40\u00B0C!</li>' +
+            '<li>Always maintain between ' + sys.battery.reservePercent + '%-100% for maximum lifespan (6,000+ cycles)</li>' +
+            '<li>Always use certified BMS - protects against overcharge, over-discharge, and short circuit</li>' +
+            '</ul></div>';
+    } else {
+        batteryHtml = '<p>Select <strong>Hybrid</strong> or <strong>Off-grid</strong> system type to view battery sizing and protection calculations.</p>';
+    }
+    document.getElementById('batteryContent').innerHTML = batteryHtml;
 
-        document.getElementById('sldCanvas').innerHTML = `
-    <svg width="100%" height="450" viewBox="0 0 850 450" xmlns="http://www.w3.org/2000/svg">
-        <defs><marker id="arr" viewBox="0 0 10 6" refX="9" refY="3" markerWidth="8" markerHeight="6" orient="auto"><polygon points="0,0 10,3 0,6" fill="${svgText}"/></marker></defs>
-        <rect x="0" y="0" width="850" height="40" fill="${svgBg}" rx="4"/>
-        <text x="425" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="${svgText}">SINGLE LINE DIAGRAM — ${sys.actualKwp} kWp ${inputs.sysType}</text>
-        
-        <rect x="30" y="55" width="110" height="75" rx="6" fill="${svgFill1}" stroke="#0369A1" stroke-width="2"/>
-        <text x="85" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="${svgText}">PV ARRAY</text>
-        <text x="85" y="105" text-anchor="middle" font-size="11" fill="${svgText}">${sys.panelCount}×${inputs.panelWp}Wp</text>
-        
-        <line x1="140" y1="92" x2="200" y2="92" stroke="${svgText}" stroke-width="2" marker-end="url(#arr)"/>
-        <text x="170" y="82" text-anchor="middle" font-size="10" fill="#F87171">DC ${sys.dcWire.l}</text>
-        
-        <rect x="200" y="45" width="120" height="95" rx="8" fill="${svgFill2}" stroke="#3B82F6" stroke-width="2"/>
-        <text x="260" y="80" text-anchor="middle" font-size="14" font-weight="bold" fill="${svgText}">INVERTER</text>
-        <text x="260" y="100" text-anchor="middle" font-size="12" fill="${svgText}">${sys.invKw} kW</text>
-        <text x="260" y="120" text-anchor="middle" font-size="10" fill="${svgText}">230V AC • 60Hz</text>
-        
-        <line x1="320" y1="92" x2="380" y2="92" stroke="${svgText}" stroke-width="2" marker-end="url(#arr)"/>
-        <text x="350" y="82" text-anchor="middle" font-size="10" fill="#F87171">AC ${sys.acWire.l}</text>
-        
-        <rect x="380" y="55" width="100" height="75" rx="6" fill="${svgFill3}" stroke="#A855F7" stroke-width="2"/>
-        <text x="430" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="${svgText}">PANEL</text>
-        <text x="430" y="105" text-anchor="middle" font-size="11" fill="${svgText}">${sys.breaker}A Breaker</text>
-        
-        <line x1="480" y1="92" x2="540" y2="92" stroke="${svgText}" stroke-width="2" marker-end="url(#arr)"/>
-        
-        <rect x="540" y="55" width="90" height="75" rx="6" fill="${svgBg}" stroke="${svgBorder}" stroke-width="2"/>
-        <text x="585" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="${svgText}">UTILITY</text>
-        
-        ${sys.battery?`
-        <rect x="200" y="160" width="120" height="70" rx="6" fill="${svgFill4}" stroke="#34D399" stroke-width="2"/>
-        <text x="260" y="190" text-anchor="middle" font-size="13" font-weight="bold" fill="${svgText}">BATTERY</text>
-        <text x="260" y="210" text-anchor="middle" font-size="11" fill="${svgText}">${sys.battery.totalKwh} kWh • ${sys.battery.nominalVoltage}V</text>
-        <line x1="260" y1="160" x2="260" y2="140" stroke="${svgText}" stroke-width="2" marker-end="url(#arr)"/>
-        `:''}
-        
-        <rect x="30" y="250" width="500" height="140" rx="6" fill="${svgBg}" stroke="${svgBorder}"/>
-        <text x="45" y="275" font-size="13" font-weight="bold" fill="${svgText}">LEGEND & SIZING — PNEC 2017 COMPLIANT</text>
-        <text x="45" y="
+    // SUMMARY TAB
+    document.getElementById('summaryContent').innerHTML =
+        '<table>' +
+        '<tr><th colspan="2">SYSTEM SIZING</th></tr>' +
+        '<tr><td>Monthly Consumption</td><td><strong>' + inputs.monthlyKwh + ' kWh</strong></td></tr>' +
+        '<tr><td>Daily Load</td><td>' + sys.dailyLoad + ' kWh</td></tr>' +
+        '<tr><td>System Capacity</td><td><strong>' + sys.actualKwp + ' kWp</strong> - ' + sys.panelCount + ' x ' + inputs.panelWp + 'Wp Monocrystalline Panels</td></tr>' +
+        '<tr><td>Inverter Size</td><td>' + sys.invKw + ' kW - 230V AC, 60Hz</td></tr>' +
+        '<tr><td>Est. Monthly Production</td><td><strong>' + sys.monthlyProd + ' kWh</strong></td></tr>' +
+        '</table>' +
+        '<table>' +
+        '<tr><th colspan="2">DC SIDE - PV ARRAY TO INVERTER</th></tr>' +
+        '<tr><td>Cable Specification</td><td class="wire-safe"><strong>' + sys.dcWire.l + ' - PV1-F Solar Cable, UV-Resistant, 1000V DC</strong></td></tr>' +
+        '<tr><td>Design Current (125% Safety)</td><td>' + sys.dcWire.amps + ' A</td></tr>' +
+        '<tr><td>Voltage Drop</td><td>' + sys.dcWire.vDrop + 'V - within 3% acceptable limit</td></tr>' +
+        '</table>' +
+        '<table>' +
+        '<tr><th colspan="2">AC SIDE - INVERTER TO DISTRIBUTION PANEL</th></tr>' +
+        '<tr><td>Cable Specification</td><td class="wire-safe"><strong>' + sys.acWire.l + ' - THHN/THWN-2 Copper, 600V, 90\u00B0C</strong></td></tr>' +
+        '<tr><td>Design Current (125% Safety)</td><td>' + sys.acWire.amps + ' A</td></tr>' +
+        '<tr><td>Voltage Drop</td><td>' + sys.acWire.vDrop + 'V - within 3% acceptable limit</td></tr>' +
+        '<tr><td>Main Circuit Breaker</td><td class="wire-safe"><strong>' + sys.breaker + 'A, 230V, 2-Pole</strong> - Matched to wire ampacity</td></tr>' +
+        '</table>' +
+        '<table>' +
+        '<tr><th colspan="2">PROJECT PRICE</th></tr>' +
+        '<tr><td>Total Contract Price ' + (sys.isAutoPrice ? '<span style="color:#0284C7; font-style:italic; font-size:12px;">(Estimated: \u20B150k/70k/100k per kWp based on system type)</span>' : '') + '</td><td class="price-tag">\u20B1 ' + sys.finalPrice.toLocaleString('en-PH') + '</td></tr>' +
+        '</table>' +
+        '<div class="warning-box"><strong>Fire-Safe Design:</strong> All conductors sized with 125% continuous load derating per PNEC 2017 - prevents overheating and fire risk.</div>';
+
+    // SLD DIAGRAM
+    renderSLD(sys);
+
+    // ELECTRICAL PLAN
+    document.getElementById('planContent').innerHTML =
+        '<div class="agreement-box">' +
+        '<h2>ELECTRICAL PLAN & TECHNICAL SPECIFICATIONS</h2>' +
+        '<p><strong>Project Name:</strong> ' + inputs.clientName + '</p>' +
+        '<p><strong>Location:</strong> ' + inputs.projAddress + '</p>' +
+        '<p><strong>Date:</strong> ' + inputs.date + '</p>' +
+        '<p><strong>System Type:</strong> ' + inputs.sysType + '</p>' +
+        '<br><hr><br>' +
+        '<h3 style="color:var(--primary);">A. PV MODULES</h3>' +
+        '<table>' +
+        '<tr><th>Parameter</th><th>Specification</th></tr>' +
+        '<tr><td>Module Type</td><td>Monocrystalline Silicon PV Module</td></tr>' +
+        '<tr><td>Module Power</td><td>' + inputs.panelWp + ' Wp</td></tr>' +
+        '<tr><td>Quantity</td><td>' + sys.panelCount + ' pieces</td></tr>' +
+        '<tr><td>Total Array Power</td><td><strong>' + sys.actualKwp + ' kWp</strong></td></tr>' +
+        '<tr><td>Array Configuration</td><td>Series-parallel arrangement for optimal voltage</td></tr>' +
+        '<tr><td>Max System Voltage</td><td>' + sys.voc + ' V DC</td></tr>' +
+        '</table>' +
+        '<br>' +
+        '<h3 style="color:var(--primary);">B. INVERTER</h3>' +
+        '<table>' +
+        '<tr><th>Parameter</th><th>Specification</th></tr>' +
+        '<tr><td>Rated Power</td><td>' + sys.invKw + ' kW</td></tr>' +
+        '<tr><td>Type</td><td>' + inputs.sysType + ' Inverter (Transformerless)</td></tr>' +
+        '<tr><td>Input Voltage</td><td>' + sys.voc + ' V DC Max</td></tr>' +
+        '<tr><td>Output Voltage</td><td>230 V AC, 60 Hz, Single Phase</td></tr>' +
+        '<tr><td>Efficiency</td><td>97.5% Euro Efficiency</td></tr>' +
+        '<tr><td>Protection</td><td>IP65 Rated, Anti-islanding, Over/Under voltage</td></tr>' +
+        '</table>' +
+        '<br>' +
+        '<h3 style="color:var(--primary);">C. CABLING & PROTECTION</h3>' +
+        '<table>' +
+        '<tr><th>Component</th><th>Specification</th></tr>' +
+        '<tr><td>DC Cable (PV to Inverter)</td><td>' + sys.dcWire.l + ' PV1-F, TUV certified, UV resistant, 1000V DC</td></tr>' +
+        '<tr><td>DC Cable Length</td><td>' + inputs.dcLength + ' meters</td></tr>' +
+        '<tr><td>AC Cable (Inverter to Panel)</td><td>' + sys.acWire.l + ' THHN/THWN-2 Copper, 600V</td></tr>' +
+        '<tr><td>AC Cable Length</td><td>' + inputs.acLength + ' meters</td></tr>' +
+        '<tr><td>Main Circuit Breaker</td><td>' + sys.breaker + 'A, 230V, 2-Pole</td></tr>' +
+        '<tr><td>DC Disconnect</td><td>IP65 Rated DC Isolator Switch</td></tr>' +
+        '<tr><td>Surge Protection</td><td>Type II SPD (DC and AC sides)</td></tr>' +
+        '<tr><td>Grounding</td><td>Equipment grounding per PNEC 2017 Article 250</td></tr>' +
+        '</table>' +
+        '<br>' +
+        '<h3 style="color:var(--primary);">D. COMPLIANCE & STANDARDS</h3>' +
+        '<ul style="margin-left:20px;">' +
+        '<li>Philippine Electrical Code (PNEC) 2017</li>' +
+        '<li>Philippine Grid Code (for Grid-tie systems)</li>' +
+        '<li>IEC 62548 - PV Array Safety Requirements</li>' +
+        '<li>IEC 61683 - Inverter Safety</li>' +
+        '<li>All materials tested and certified by TUV, CE, or equivalent</li>' +
+        '<li>Fire safety compliant with 125% conductor derating</li>' +
+        '</ul>' +
+        '<br>' +
+        '<h3 style="color:var(--primary);">E. INSTALLATION NOTES</h3>' +
+        '<ul style="margin-left:20px;">' +
+        '<li>Modules to be mounted on galvanized steel racking structure</li>' +
+        '<li>Tilt angle optimized for latitude of installation site</li>' +
+        '<li>Minimum 0.6m clearance from roof edges per safety standards</li>' +
+        '<li>All connections to be properly torqued and insulated</li>' +
+        '<li>System labeling per PNEC requirements</li>' +
+        '<li>Commissioning test and handover documentation included</li>' +
+        '</ul>' +
+        '</div>';
+
+    // CONTRACT AGREEMENT
+    document.getElementById('agreementContent').innerHTML =
+        '<div class="agreement-box">' +
+        '<h2>CONTRACT AGREEMENT FOR SUPPLY AND INSTALLATION OF SOLAR PV SYSTEM</h2>' +
+        '<p><strong>KNOW ALL MEN BY THESE PRESENTS:</strong></p>' +
+        '<p>This Agreement is made and entered into this <strong>' + inputs.date + '</strong>, by and between:</p>' +
+        '<br>' +
+        '<p><strong>THE CONTRACTOR:</strong><br>' +
+        'Name: ' + inputs.contractorName + '<br>' +
+        '(Hereinafter referred to as the "CONTRACTOR")</p>' +
+        '<br>' +
+        '<p><strong>THE CLIENT:</strong><br>' +
+        'Name: ' + inputs.clientName + '<br>' +
+        'Address: ' + inputs.projAddress + '<br>' +
+        '(Hereinafter referred to as the "CLIENT")</p>' +
+        '<br><hr><br>' +
+        '<h3 style="color:var(--primary);">ARTICLE I: SCOPE OF WORK</h3>' +
+        '<p>The CONTRACTOR agrees to supply, deliver, install, test, and commission a Grid-Connected/Hybrid/Off-Grid Solar Photovoltaic (PV) System with the following specifications:</p>' +
+        '<table>' +
+        '<tr><th>Description</th><th>Specification</th></tr>' +
+        '<tr><td>System Type</td><td>' + inputs.sysType + '</td></tr>' +
+        '<tr><td>Total PV Array Capacity</td><td><strong>' + sys.actualKwp + ' kWp</strong></td></tr>' +
+        '<tr><td>PV Modules</td><td>' + sys.panelCount + ' pieces x ' + inputs.panelWp + ' Wp Monocrystalline</td></tr>' +
+        '<tr><td>Inverter</td><td>' + sys.invKw + ' kW ' + inputs.sysType + ' Inverter</td></tr>' +
+        '<tr><td>Main Breaker</td><td>' + sys.breaker + 'A, 230V, 2-Pole</td></tr>' +
+        '<tr><td>Estimated Monthly Production</td><td>' + sys.monthlyProd + ' kWh</td></tr>' +
+        (sys.battery ? '<tr><td>Battery System</td><td>' + sys.battery.totalKwh + ' kWh ' + sys.battery.battType + ' @ ' + sys.battery.nominalVoltage + 'V</td></tr>' : '') +
+        '</table>' +
+        '<br>' +
+        '<h3 style="color:var(--primary);">ARTICLE II: CONTRACT PRICE</h3>' +
+        '<p>The total contract price for the entire project is the sum of <strong class="price-tag">\u20B1 ' + sys.finalPrice.toLocaleString('en-PH') + '</strong> (Philippine Pesos).</p>' +
+        '<p><strong>Payment Terms:</strong></p>' +
+        '<ul style="margin-left:20px;">' +
+        '<li><strong>50% Down Payment</strong> - Upon signing of this agreement, to cover material procurement</li>' +
+        '<li><strong>40% Progress Payment</strong> - Upon delivery of materials to site</li>' +
+        '<li><strong>10% Final Payment</strong> - Upon successful commissioning and acceptance testing</li>' +
+        '</ul>' +
+        '<br>' +
+        '<h3 style="color:var(--primary);">ARTICLE III: PROJECT TIMELINE</h3>' +
+        '<ul style="margin-left:20px;">' +
+        '<li><strong>Material Procurement:</strong> 2-3 weeks from receipt of down payment</li>' +
+        '<li><strong>Installation Period:</strong> 5-7 working days from material delivery</li>' +
+        '<li><strong>Testing & Commissioning:</strong> 1-2 days</li>' +
+        '<li><strong>Total Estimated Duration:</strong> Approximately 4-5 weeks</li>' +
+        '</ul>' +
+        '<br>' +
+        '<h3 style="color:var(--primary);">ARTICLE IV: WARRANTIES</h3>' +
+        '<ul style="margin-left:20px;">' +
+        '<li><strong>PV Modules:</strong> 10-year product warranty, 25-year performance warranty (80% minimum output)</li>' +
+        '<li><strong>Inverter:</strong> 5-year warranty (extendable to 10 years)</li>' +
+        (sys.battery ? '<li><strong>Battery:</strong> 3-year warranty</li>' : '') +
+        '<li><strong>Installation Workmanship:</strong> 1-year warranty</li>' +
+        '<li><strong>Free Maintenance:</strong> 2 preventive maintenance visits within first year</li>' +
+        '</ul>' +
+        '<br>' +
+        '<h3 style="color:var(--primary);">ARTICLE V: CLIENT RESPONSIBILITIES</h3>' +
+        '<ul style="margin-left:20px;">' +
+        '<li>Provide safe and unobstructed access to the installation site</li>' +
+        '<li>Ensure structural integrity of roof/mounting surface</li>' +
+        '<li>Provide necessary electrical service entrance and metering point</li>' +
+        '<li>Secure all necessary permits and approvals from local authorities and utility company (assistance available)</li>' +
+        '<li>Make payments according to the agreed schedule</li>' +
+        '</ul>' +
+        '<br>' +
+        '<h3 style="color:var(--primary);">ARTICLE VI: CONTRACTOR RESPONSIBILITIES</h3>' +
+        '<ul style="margin-left:20px;">' +
+        '<li>Provide all materials, labor, tools, and equipment necessary for complete installation</li>' +
+        '<li>Ensure all work complies with PNEC 2017 and applicable standards</li>' +
+        '<li>Provide qualified and trained installation personnel</li>' +
+        '<li>Perform testing and commissioning of the complete system</li>' +
+        '<li>Provide as-built drawings and operation manual upon completion</li>' +
+        '<li>Train the CLIENT on basic system operation and monitoring</li>' +
+        '</ul>' +
+        '<br>' +
+        '<h3 style="color:var(--primary);">ARTICLE VII: TERMINATION</h3>' +
+        '<p>Either party may terminate this agreement upon 15 days written notice for material breach. In case of termination by the CLIENT without cause, the CLIENT shall pay for work actually performed plus reasonable termination costs.</p>' +
+        '<br>' +
+        '<h3 style="color:var(--primary);">ARTICLE VIII: DISPUTE RESOLUTION</h3>' +
+        '<p>Any dispute arising from this agreement shall first be settled amicably through negotiation. If unresolved, the dispute shall be submitted to arbitration in accordance with Philippine law.</p>' +
+        '<br>' +
+        '<h3 style="color:var(--primary);">ARTICLE IX: GENERAL PROVISIONS</h3>' +
+        '<ul style="margin-left:20px;">' +
+        '<li>This agreement constitutes the entire understanding between the parties</li>' +
+        '<li>Any modifications must be in writing and signed by both parties</li>' +
+        '<li>The CONTRACTOR may assign subcontractors but remains fully responsible for all work</li>' +
+        '<li>Force majeure events shall extend the project timeline accordingly</li>' +
+        '<li>This agreement shall be governed by the laws of the Republic of the Philippines</li>' +
+        '</ul>' +
+        '<br><hr><br>' +
+        '<p><strong>IN WITNESS WHEREOF</strong>, the parties have executed this agreement as of the date first above written.</p>' +
+        '<div class="signature-section">' +
+        '<div>' +
+        '<p><strong>FOR THE CONTRACTOR:</strong></p>' +
+        '<div class="signature-line"></div>' +
+        '<p>Authorized Representative</p>' +
+        '<p>' + inputs.contractorName + '</p>' +
+        '</div>' +
+        '<div>' +
+        '<p><strong>FOR THE CLIENT:</strong></p>' +
+        '<div class="signature-line"></div>' +
+        '<p>Client Signature</p>' +
+        '<p>' + inputs.clientName + '</p>' +
+        '</div>' +
+        '</div>' +
+        '<br><br>' +
+        '<div class="signature-section">' +
+        '<div>' +
+        '<p><strong>ACKNOWLEDGED IN THE PRESENCE OF:</strong></p>' +
+        '<div class="signature-line"></div>' +
+        '<p>Witness 1</p>' +
+        '</div>' +
+        '<div>' +
+        '<p><strong>&nbsp;</strong></p>' +
+        '<div class="signature-line"></div>' +
+        '<p>Witness 2</p>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
+
+    // Switch to summary tab after generation
+    document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+    document.querySelector('.tab[data-tab="summary"]').classList.add('active');
+    document.getElementById('summary').classList.add('active');
+}
+
+// ============================================================
+// INITIALIZATION
+// ============================================================
+document.getElementById('generateBtn').addEventListener('click', generateAll);
+loadAllData();
+setupAutoSave();
+updateLiveCalc();
+</script>
+
+</body>
+</html>
