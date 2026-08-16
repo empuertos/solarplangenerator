@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PRO Solar PV Design — Dark Mode Fixed</title>
+    <meta name="color-scheme" content="light dark">
+    <title>PRO Solar PV Design — Dark Mode ✅</title>
     <style>
+        /* ==========================================
+           DARK MODE FIX — HIGHEST PRIORITY
+        ========================================== */
         :root {
             --primary: #0F4C75; --secondary: #10B981; --accent: #3B82F6;
             --danger: #EF4444; --warning: #F59E0B;
@@ -13,30 +17,32 @@
             --text-main: #334155; --text-strong: #0F172A;
             --border: #E2E8F0; --shadow: rgba(15,76,117,0.08);
             --header-grad: linear-gradient(90deg, #0F4C75, #136397);
-            --toggle-icon: '🌙';
+            color-scheme: light;
         }
-        [data-theme="dark"] {
+
+        /* ✅ DARK MODE — FORCE HIGHER PRIORITY */
+        html.dark-mode {
             --primary: #60A5FA; --secondary: #34D399; --accent: #60A5FA;
             --danger: #F87171; --warning: #FBBF24;
-            --bg-main: linear-gradient(135deg, #0F172A, #1E293B);
-            --bg-card: #1E293B; --bg-alt: #334155; --bg-grad: #1E293B;
-            --text-main: #E2E8F0; --text-strong: #F8FAFC;
-            --border: #475569; --shadow: rgba(0,0,0,0.3);
-            --header-grad: linear-gradient(90deg, #1E40AF, #1E3A8A);
-            --toggle-icon: '☀️';
+            --bg-main: linear-gradient(135deg, #0F172A, #1E293B) !important;
+            --bg-card: #1E293B !important; --bg-alt: #334155 !important; --bg-grad: #1E293B !important;
+            --text-main: #E2E8F0 !important; --text-strong: #F8FAFC !important;
+            --border: #475569 !important; --shadow: rgba(0,0,0,0.3) !important;
+            --header-grad: linear-gradient(90deg, #1E40AF, #1E3A8A) !important;
+            color-scheme: dark;
         }
+
         *{box-sizing:border-box; font-family: 'Segoe UI', sans-serif; margin:0; padding:0;}
-        body{background:var(--bg-main); min-height:100vh; padding:16px; max-width:1200px; margin:0 auto; color:var(--text-main); line-height:1.6; transition: background 0.3s ease, color 0.3s ease;}
+        body{background:var(--bg-main); min-height:100vh; padding:16px; max-width:1200px; margin:0 auto; color:var(--text-main); line-height:1.6; transition: background 0.3s ease, color 0.3s ease !important;}
         
-        .theme-toggle{position:fixed; top:16px; right:16px; z-index:9999; background:var(--bg-card); border:2px solid var(--border); border-radius:50%; width:44px; height:44px; font-size:22px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px var(--shadow); transition:all 0.2s ease;}
+        .theme-toggle{position:fixed; top:16px; right:16px; z-index:99999; background:var(--bg-card); border:2px solid var(--border); border-radius:50%; width:44px; height:44px; font-size:22px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px var(--shadow); transition:all 0.2s ease;}
         .theme-toggle:hover{transform:scale(1.15);}
-        .theme-toggle::before{content:var(--toggle-icon);}
         
         .header-bar{background:var(--header-grad); color:white; padding:20px; border-radius:12px; margin-bottom:20px; box-shadow:0 6px 20px var(--shadow); position:relative;}
         .header-bar h1{font-size:20px; font-weight:700; margin-bottom:4px;}
         .header-bar p{opacity:0.9; font-size:13px;}
         
-        .card{background:var(--bg-card); border-radius:12px; padding:20px; margin-bottom:20px; box-shadow:0 4px 12px var(--shadow); border:1px solid var(--border); transition:background 0.3s ease;}
+        .card{background:var(--bg-card); border-radius:12px; padding:20px; margin-bottom:20px; box-shadow:0 4px 12px var(--shadow); border:1px solid var(--border); transition:background 0.3s ease !important;}
         .card h2{color:var(--primary); font-size:18px; font-weight:700; margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--border);}
         .card h3{color:var(--primary); font-size:15px; font-weight:600; margin:16px 0 8px;}
         
@@ -58,7 +64,7 @@
         .tab{padding:10px 14px; border-radius:8px 8px 0 0; cursor:pointer; font-weight:600; font-size:13px; color:var(--text-main); border-bottom:3px solid transparent; white-space:nowrap; transition:all 0.2s ease;}
         .tab:hover{background:var(--bg-alt); color:var(--primary);}
         .tab.active{color:var(--primary); border-bottom:3px solid var(--secondary); background:rgba(16,185,129,0.06);}
-        [data-theme="dark"] .tab.active{background:rgba(52,211,153,0.1);}
+        html.dark-mode .tab.active{background:rgba(52,211,153,0.1);}
         .tab-content{display:none; animation:fadeIn 0.3s ease;}
         .tab-content.active{display:block;}
         @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
@@ -66,19 +72,19 @@
         .result-box{background:var(--bg-grad); border-left:5px solid var(--secondary); padding:16px; border-radius:10px; margin:16px 0;}
         .warning-box{background:linear-gradient(135deg, #FFFBEB, #FEF3C7); border-left:5px solid var(--warning); padding:14px 16px; border-radius:10px; margin:16px 0; color:#78350F;}
         .battery-note{background:linear-gradient(135deg, #EFF6FF, #DBEAFE); border-left:5px solid var(--accent); padding:14px 16px; border-radius:10px; margin:16px 0; color:#1E40AF;}
-        [data-theme="dark"] .warning-box{background:linear-gradient(135deg, #423600, #5C4900); color:#FDE047; border-left-color:#FBBF24;}
-        [data-theme="dark"] .battery-note{background:linear-gradient(135deg, #1E3A8A, #1E40AF); color:#BFDBFE; border-left-color:#60A5FA;}
+        html.dark-mode .warning-box{background:linear-gradient(135deg, #423600, #5C4900); color:#FDE047; border-left-color:#FBBF24;}
+        html.dark-mode .battery-note{background:linear-gradient(135deg, #1E3A8A, #1E40AF); color:#BFDBFE; border-left-color:#60A5FA;}
         .highlight{background:#FEF3C7; color:#92400E; padding:2px 8px; border-radius:4px; font-weight:600; display:inline-block; margin:2px 0;}
-        [data-theme="dark"] .highlight{background:#78350F; color:#FDE047;}
+        html.dark-mode .highlight{background:#78350F; color:#FDE047;}
         .wire-safe{color:#059669; font-weight:700;}
-        [data-theme="dark"] .wire-safe{color:#34D399;}
+        html.dark-mode .wire-safe{color:#34D399;}
         .auto-price-note{color:#0284C7; font-style:italic; font-size:12px; margin-top:4px; display:block;}
-        [data-theme="dark"] .auto-price-note{color:#93C5FD;}
+        html.dark-mode .auto-price-note{color:#93C5FD;}
         
         table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14px;}
         table th, table td{border:1px solid var(--border); padding:10px 12px; text-align:left; vertical-align:top;}
         table th{background:linear-gradient(180deg, #EFF6FF, #DBEAFE); color:var(--primary); font-weight:700;}
-        [data-theme="dark"] table th{background:linear-gradient(180deg, #1E3A8A, #1E40AF);}
+        html.dark-mode table th{background:linear-gradient(180deg, #1E3A8A, #1E40AF);}
         table tr:nth-child(even){background:var(--bg-alt);}
         
         .agreement-box{border:2px solid var(--primary); border-radius:12px; padding:20px; background:var(--bg-card); line-height:1.8;}
@@ -114,8 +120,8 @@
 </head>
 <body>
 
-<!-- DARK MODE BUTTON -->
-<button class="theme-toggle no-print" id="themeBtn" title="Toggle Dark/Light Mode"></button>
+<!-- ✅ DARK MODE BUTTON -->
+<button class="theme-toggle no-print" id="themeBtn" title="Toggle Dark/Light Mode">🌙</button>
 
 <div class="header-bar no-print">
     <h1>☀️ SOLAR PV SYSTEM DESIGN & CONTRACT AGREEMENT</h1>
@@ -252,51 +258,41 @@
     <div id="agreementContent"></div>
 </div>
 
+<!-- =============================================
+     ✅ SIMPLEST, MOST RELIABLE DARK MODE SCRIPT
+     ============================================= -->
 <script>
-// =============================================
-// ✅ DARK MODE — FINAL FIXED & TESTED
-// =============================================
-const htmlEl = document.documentElement;
-const themeBtn = document.getElementById('themeBtn');
+    const html = document.documentElement;
+    const btn = document.getElementById('themeBtn');
 
-function getSystemTheme() {
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-}
-
-function setTheme(theme, save = true) {
-    if (theme === 'dark') {
-        htmlEl.setAttribute('data-theme', 'dark');
-    } else {
-        htmlEl.removeAttribute('data-theme');
+    // Load saved theme on page load
+    function loadTheme() {
+        const saved = localStorage.getItem('darkMode');
+        const sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (saved === 'true' || (saved === null && sysDark)) {
+            html.classList.add('dark-mode');
+            btn.textContent = '☀️';
+        } else {
+            html.classList.remove('dark-mode');
+            btn.textContent = '🌙';
+        }
     }
-    if (save) localStorage.setItem('theme', theme);
-    console.log("✅ Theme set to:", theme);
-}
 
-function toggleTheme() {
-    const isDarkNow = htmlEl.getAttribute('data-theme') === 'dark';
-    setTheme(isDarkNow ? 'light' : 'dark');
-}
+    // Toggle theme
+    btn.addEventListener('click', () => {
+        const isDark = html.classList.toggle('dark-mode');
+        btn.textContent = isDark ? '☀️' : '🌙';
+        localStorage.setItem('darkMode', isDark);
+        console.log('✅ Dark Mode:', isDark ? 'ON' : 'OFF');
+    });
 
-function initTheme() {
-    const saved = localStorage.getItem('theme');
-    setTheme(saved || getSystemTheme(), false);
-    themeBtn.addEventListener('click', toggleTheme);
-    console.log("✅ Dark Mode Ready — Click the 🌙 button!");
-}
+    // Run on load
+    loadTheme();
+</script>
 
-// Initialize
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initTheme);
-} else {
-    initTheme();
-}
-
-// Auto system theme change
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-    if (!localStorage.getItem('theme')) setTheme(e.matches ? 'dark' : 'light', false);
-});
-
+<!-- REST OF YOUR SCRIPTS BELOW -->
+<script>
 // ========== TAB NAVIGATION ==========
 document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', () => {
@@ -307,7 +303,7 @@ document.querySelectorAll('.tab').forEach(tab => {
     });
 });
 
-// ========== AUTO PRICING LOGIC (PH 2026) ==========
+// ========== AUTO PRICING LOGIC ==========
 function calculatePrice(kwp, sysType) {
     const rates = {'Grid-tie':50000, 'Hybrid':70000, 'Off-grid':100000};
     return Math.round(kwp * (rates[sysType] || 50000));
@@ -346,7 +342,7 @@ function getBreaker(wire) {
     return map[wire.a] || 32;
 }
 
-// ========== BATTERY SIZING WITH PROTECTION ==========
+// ========== BATTERY SIZING ==========
 function calculateBattery(dailyLoad, battType, autonomyHours) {
     const DoD = battType === 'LiFePO4' ? 0.80 : 0.50;
     const safetyMargin = 1.20;
@@ -438,7 +434,7 @@ function generateAll() {
     };
     const sys = calculateSystem(inputs);
 
-    // === BATTERY TAB ===
+    // BATTERY TAB
     if(sys.battery) {
         document.getElementById('batteryContent').innerHTML = `
             <table>
@@ -469,7 +465,7 @@ function generateAll() {
         document.getElementById('batteryContent').innerHTML = `<p>Select <strong>Hybrid</strong> or <strong>Off-grid</strong> system type to see battery sizing and protection calculations.</p>`;
     }
 
-    // === SUMMARY TAB ===
+    // SUMMARY TAB
     document.getElementById('summaryContent').innerHTML = `
         <table>
             <tr><th colspan="2">📊 SYSTEM SIZING</th></tr>
@@ -499,8 +495,8 @@ function generateAll() {
         <div class="warning-box"><strong>✅ Fire-Safe Design:</strong> All wiring sized with 125% continuous load derating per PNEC 2017 — prevents overheating & fire risk.</div>
     `;
 
-    // === SLD TAB — SVG DIAGRAM ===
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    // SLD DIAGRAM — AUTO DARK MODE
+    const isDark = document.documentElement.classList.contains('dark-mode');
     const svgText = isDark ? '#F8FAFC' : '#0F172A';
     const svgFill1 = isDark ? '#1E3A8A' : '#E0F2FE';
     const svgFill2 = isDark ? '#1E40AF' : '#DBEAFE';
@@ -555,7 +551,7 @@ function generateAll() {
 </svg>
     `;
 
-    // === ELECTRICAL PLAN TAB ===
+    // ELECTRICAL PLAN TAB
     document.getElementById('planContent').innerHTML = `
         <h3>📐 ELECTRICAL DESIGN STANDARDS</h3>
         <table>
@@ -597,7 +593,11 @@ function generateAll() {
         </ul>
     `;
 
-    // === CONTRACT TAB ===
+    // CONTRACT TAB
     document.getElementById('agreementContent').innerHTML = `
         <div class="agreement-box">
-            <h2>
+            <h2>CONTRACT AGREEMENT FOR SOLAR PV SYSTEM INSTALLATION</h2>
+            
+            <p><strong>Date:</strong> ${inputs.date}</p>
+            <p><strong>Client Name:</strong> ${inputs.clientName}</p>
+            <p><strong>Project Location:</strong>
