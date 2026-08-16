@@ -442,21 +442,68 @@
             body {
                 background: white !important;
                 color: #000 !important;
+                padding: 0 !important;
+                max-width: 100% !important;
             }
-            .no-print, .theme-toggle, .save-indicator, .error-box {
+            .no-print, .theme-toggle, .save-indicator, .error-box, .tabs {
                 display: none !important;
             }
-            .tabs {
-                display: flex !important;
+            /* SHOW ALL TAB CONTENTS WHEN PRINTING */
+            .tab-content {
+                display: block !important;
+                page-break-after: always;
+                animation: none !important;
+            }
+            .tab-content:last-child {
+                page-break-after: auto;
             }
             .card {
-                box-shadow: none;
-                border: 1px solid #ccc;
-                padding: 15px;
+                box-shadow: none !important;
+                border: 1px solid #ccc !important;
+                padding: 15px !important;
                 background: white !important;
+                margin-bottom: 0 !important;
+                border-radius: 0 !important;
+            }
+            .card h2 {
+                color: #0F4C75 !important;
+                border-bottom: 2px solid #0F4C75 !important;
+                font-size: 16px !important;
             }
             table {
                 page-break-inside: avoid;
+            }
+            .diagram-container {
+                background: white !important;
+                border: 1px solid #ccc !important;
+                page-break-inside: avoid;
+            }
+            .agreement-box {
+                background: white !important;
+                border: 2px solid #0F4C75 !important;
+            }
+            .agreement-box h2 {
+                color: #0F4C75 !important;
+                border-bottom: 2px solid #0F4C75 !important;
+            }
+            h3 {
+                color: #0F4C75 !important;
+            }
+            .warning-box, .battery-note, .result-box {
+                background: #f5f5f5 !important;
+                border: 1px solid #ccc !important;
+                color: #000 !important;
+            }
+            .highlight {
+                background: #fff3cd !important;
+                color: #000 !important;
+                border: 1px solid #ccc;
+            }
+            .wire-safe {
+                color: #065f46 !important;
+            }
+            .price-tag {
+                color: #065f46 !important;
             }
         }
 
@@ -569,6 +616,10 @@
             <input type="number" id="acLength" placeholder="Inverter to Distribution Panel" min="1" required>
         </div>
         <div class="form-group">
+            <label>Battery Cable Length (meters) *</label>
+            <input type="number" id="battLength" placeholder="Battery to Inverter distance" min="1" required>
+        </div>
+        <div class="form-group">
             <label>Peak Sun Hours *</label>
             <select id="peakSun" required>
                 <option value="">-- Select Peak Sun Hours --</option>
@@ -600,7 +651,7 @@
 
     <div class="btn-group no-print">
         <button class="btn-primary" id="generateBtn">GENERATE ALL DOCUMENTS</button>
-        <button class="btn-secondary" onclick="window.print()">Print / Save PDF</button>
+        <button class="btn-secondary" onclick="printAllPages()">Print / Save PDF (All Pages)</button>
         <button class="btn-outline" onclick="clearAllData()">Clear All / New Form</button>
     </div>
 </div>
@@ -673,7 +724,7 @@ var tabsContainer = document.getElementById('mainTabs');
 var fieldsToSave = [
     'clientName', 'projAddress', 'sysType', 'monthlyKwh', 'projectPrice',
     'batteryType', 'autonomyHours', 'panelWp', 'dcLength', 'acLength',
-    'peakSun', 'contractorName'
+    'battLength', 'peakSun', 'contractorName'
 ];
 
 function showSaved() {
@@ -813,6 +864,52 @@ function getBreaker(wire) {
     return map[wire.a] || 32;
 }
 
+// ============================================================
+// BATTERY WIRE SIZING - Battery to Inverter
+// ============================================================
+function getBatteryWireSize(invKw, battVoltage, length) {
+    var maxCurrent = (invKw * 1000) / (battVoltage * 0.95);
+    var designCurrent = maxCurrent * 1.25;
+    var maxVoltageDrop = battVoltage * 0.01;
+    var minArea = (2 * length * 0.01724 * maxCurrent) / maxVoltageDrop;
+    
+    var sizes = [
+        { a: 10, l: '10 mm\u00B2', m: 55 },
+        { a: 16, l: '16 mm\u00B2', m: 70 },
+        { a: 25, l: '25 mm\u00B2', m: 90 },
+        { a: 35, l: '35 mm\u00B2', m: 110 },
+        { a: 50, l: '50 mm\u00B2', m: 135 },
+        { a: 70, l: '70 mm\u00B2', m: 170 },
+        { a: 95, l: '95 mm\u00B2', m: 210 },
+        { a: 120, l: '120 mm\u00B2', m: 250 }
+    ];
+    
+    var sel = sizes[0];
+    for (var i = 0; i < sizes.length; i++) {
+        var s = sizes[i];
+        if (s.m >= designCurrent && s.a >= minArea) {
+            sel = s;
+            break;
+        }
+    }
+    
+    var vDrop = ((2 * length * 0.01724 * maxCurrent) / sel.a).toFixed(2);
+    var vDropPercent = ((vDrop / battVoltage) * 100).toFixed(2);
+    
+    return {
+        a: sel.a,
+        l: sel.l,
+        m: sel.m,
+        maxCurrent: maxCurrent.toFixed(1),
+        designCurrent: designCurrent.toFixed(1),
+        vDrop: vDrop,
+        vDropPercent: vDropPercent,
+        minArea: minArea.toFixed(1),
+        battVoltage: battVoltage,
+        recommended: 'PV1-F Solar Cable o Flexible Battery Cable (1000V DC, 90\u00B0C, Copper)'
+    };
+}
+
 function calculateBattery(dailyLoad, battType, autonomyHours) {
     var DoD = battType === 'LiFePO4' ? 0.80 : 0.50;
     var minRemainingPercent = battType === 'LiFePO4' ? 20 : 50;
@@ -842,6 +939,7 @@ function calculateSystem(inputs) {
     var peakSun = inputs.peakSun;
     var dcLength = inputs.dcLength;
     var acLength = inputs.acLength;
+    var battLength = inputs.battLength || dcLength;
     var sysType = inputs.sysType;
     var batteryType = inputs.batteryType;
     var autonomyHours = inputs.autonomyHours;
@@ -860,9 +958,11 @@ function calculateSystem(inputs) {
     var breaker = getBreaker(acWire);
     var monthlyProd = Math.round(realKwp * peakSun * 30 * loss);
     var battery = null;
+    var batteryWire = null;
     
     if (sysType === 'Hybrid' || sysType === 'Off-grid') {
         battery = calculateBattery(dailyLoad, batteryType, autonomyHours);
+        batteryWire = getBatteryWireSize(invKw, battery.nominalVoltage, battLength);
     }
 
     var finalPrice, isAutoPrice;
@@ -887,6 +987,7 @@ function calculateSystem(inputs) {
         breaker: breaker,
         voc: voc,
         battery: battery,
+        batteryWire: batteryWire,
         finalPrice: finalPrice,
         isAutoPrice: isAutoPrice,
         inputs: inputs
@@ -896,7 +997,7 @@ function calculateSystem(inputs) {
 // ============================================================
 // LIVE CALCULATION
 // ============================================================
-var liveFields = ['monthlyKwh', 'panelWp', 'peakSun', 'dcLength', 'acLength', 'sysType', 'batteryType', 'autonomyHours', 'projectPrice'];
+var liveFields = ['monthlyKwh', 'panelWp', 'peakSun', 'dcLength', 'acLength', 'battLength', 'sysType', 'batteryType', 'autonomyHours', 'projectPrice'];
 liveFields.forEach(function(id) {
     var el = document.getElementById(id);
     if (el) {
@@ -912,6 +1013,7 @@ function updateLiveCalc() {
         peakSun: parseFloat(document.getElementById('peakSun').value) || 0,
         dcLength: parseFloat(document.getElementById('dcLength').value) || 0,
         acLength: parseFloat(document.getElementById('acLength').value) || 0,
+        battLength: parseFloat(document.getElementById('battLength').value) || 0,
         sysType: document.getElementById('sysType').value,
         batteryType: document.getElementById('batteryType').value,
         autonomyHours: parseFloat(document.getElementById('autonomyHours').value) || 0,
@@ -926,7 +1028,10 @@ function updateLiveCalc() {
     var r = calculateSystem(inputs);
     var html = 'Daily Load: <strong>' + r.dailyLoad + ' kWh</strong> | System: <span class="highlight">' + r.actualKwp + ' kWp</span> (' + r.panelCount + ' x ' + r.panelWp + 'Wp) | Inverter: ' + r.invKw + ' kW | DC: <span class="wire-safe">' + r.dcWire.l + '</span> | AC: <span class="wire-safe">' + r.acWire.l + '</span> | Breaker: ' + r.breaker + 'A | Price: <span class="highlight">\u20B1' + r.finalPrice.toLocaleString() + '</span>';
     if (r.battery) {
-        html += ' | Battery: <span class="highlight">' + r.battery.totalKwh + ' kWh Total | ' + r.battery.usableKwh + ' kWh Usable | ' + r.battery.reservePercent + '% Reserve</span>';
+        html += ' | Battery: <span class="highlight">' + r.battery.totalKwh + ' kWh | ' + r.battery.usableKwh + ' kWh Usable</span>';
+        if (r.batteryWire) {
+            html += ' | Batt Wire: <span class="wire-safe">' + r.batteryWire.l + '</span>';
+        }
     }
     document.getElementById('calcOut').innerHTML = html;
 }
@@ -953,6 +1058,7 @@ function validateForm() {
         { id: 'panelWp', label: 'PV Module Power' },
         { id: 'dcLength', label: 'DC Cable Length' },
         { id: 'acLength', label: 'AC Cable Length' },
+        { id: 'battLength', label: 'Battery Cable Length' },
         { id: 'peakSun', label: 'Peak Sun Hours' },
         { id: 'contractorName', label: 'Contractor / Installer Name' }
     ];
@@ -998,7 +1104,8 @@ function renderSLD(sys) {
         batterySvg = '<rect x="200" y="160" width="120" height="70" rx="6" fill="' + svgFill4 + '" stroke="#34D399" stroke-width="2"/>' +
             '<text x="260" y="190" text-anchor="middle" font-size="13" font-weight="bold" fill="' + svgText + '">BATTERY</text>' +
             '<text x="260" y="210" text-anchor="middle" font-size="11" fill="' + svgText + '">' + sys.battery.totalKwh + ' kWh | ' + sys.battery.nominalVoltage + 'V</text>' +
-            '<line x1="260" y1="160" x2="260" y2="140" stroke="' + svgText + '" stroke-width="2"/>';
+            '<line x1="260" y1="160" x2="260" y2="140" stroke="' + svgText + '" stroke-width="2"/>' +
+            '<text x="280" y="155" text-anchor="start" font-size="10" fill="#F87171">' + (sys.batteryWire ? sys.batteryWire.l : '') + '</text>';
     }
 
     document.getElementById('sldCanvas').innerHTML =
@@ -1044,33 +1151,9 @@ function renderSLD(sys) {
 }
 
 // ============================================================
-// GENERATE ALL - MAIN FUNCTION
+// HELPER FUNCTIONS FOR CONTENT GENERATION
 // ============================================================
-function generateAll() {
-    if (!validateForm()) return;
-    tabsContainer.classList.add('show');
-
-    var today = new Date().toLocaleDateString('en-PH', { year: 'numeric', month: 'long', day: 'numeric' });
-    var inputs = {
-        clientName: document.getElementById('clientName').value.trim(),
-        projAddress: document.getElementById('projAddress').value.trim(),
-        sysType: document.getElementById('sysType').value,
-        monthlyKwh: parseFloat(document.getElementById('monthlyKwh').value),
-        projectPrice: document.getElementById('projectPrice').value ? parseFloat(document.getElementById('projectPrice').value) : 0,
-        panelWp: parseFloat(document.getElementById('panelWp').value),
-        peakSun: parseFloat(document.getElementById('peakSun').value),
-        dcLength: parseFloat(document.getElementById('dcLength').value),
-        acLength: parseFloat(document.getElementById('acLength').value),
-        batteryType: document.getElementById('batteryType').value,
-        autonomyHours: parseFloat(document.getElementById('autonomyHours').value),
-        contractorName: document.getElementById('contractorName').value.trim(),
-        date: today
-    };
-
-    var sys = calculateSystem(inputs);
-    lastSysData = sys;
-
-    // BATTERY TAB
+function fillBatteryTab(sys, inputs) {
     var batteryHtml = '';
     if (sys.battery) {
         batteryHtml =
@@ -1088,6 +1171,19 @@ function generateAll() {
             '<tr><td>Nominal Voltage</td><td><strong>' + sys.battery.nominalVoltage + ' V</strong> DC</td></tr>' +
             '<tr><td>Recommended Capacity</td><td><strong>' + sys.battery.Ah + ' Ah</strong> @ ' + sys.battery.nominalVoltage + 'V</td></tr>' +
             '</table>' +
+            '<br>' +
+            '<table>' +
+            '<tr><th colspan="2">🔌 BATTERY CABLE SIZING (Battery → Inverter)</th></tr>' +
+            '<tr><td>Recommended Wire Size</td><td class="wire-safe"><strong>' + sys.batteryWire.l + '</strong> - MINIMUM SIZE</td></tr>' +
+            '<tr><td>Wire Type</td><td><strong>' + sys.batteryWire.recommended + '</strong></td></tr>' +
+            '<tr><td>Maximum Discharge Current</td><td>' + sys.batteryWire.maxCurrent + ' A</td></tr>' +
+            '<tr><td>Design Current (125% Safety)</td><td><strong>' + sys.batteryWire.designCurrent + ' A</strong></td></tr>' +
+            '<tr><td>Cable Length</td><td>' + (inputs.battLength || inputs.dcLength) + ' meters</td></tr>' +
+            '<tr><td>System Voltage</td><td>' + sys.batteryWire.battVoltage + ' V DC</td></tr>' +
+            '<tr><td>Voltage Drop</td><td>' + sys.batteryWire.vDrop + ' V (' + sys.batteryWire.vDropPercent + '%) - ≤1% limit ✓</td></tr>' +
+            '<tr><td>Minimum Required Area</td><td>' + sys.batteryWire.minArea + ' mm²</td></tr>' +
+            '<tr><td>⚠️ IMPORTANT</td><td style="color:red; font-weight:bold;">Gumamit ng MAS MALAKING wire kung maaari para sa mas mababang init at mas mataas na efficiency!</td></tr>' +
+            '</table>' +
             '<div class="warning-box">' +
             '<strong>CRITICAL PROTECTION RULES - MUST READ!</strong>' +
             '<ul style="margin:8px 0 0 20px;">' +
@@ -1103,8 +1199,9 @@ function generateAll() {
         batteryHtml = '<p>Select <strong>Hybrid</strong> or <strong>Off-grid</strong> system type to view battery sizing and protection calculations.</p>';
     }
     document.getElementById('batteryContent').innerHTML = batteryHtml;
+}
 
-    // SUMMARY TAB
+function fillSummaryTab(sys, inputs) {
     document.getElementById('summaryContent').innerHTML =
         '<table>' +
         '<tr><th colspan="2">SYSTEM SIZING</th></tr>' +
@@ -1127,16 +1224,21 @@ function generateAll() {
         '<tr><td>Voltage Drop</td><td>' + sys.acWire.vDrop + 'V - within 3% acceptable limit</td></tr>' +
         '<tr><td>Main Circuit Breaker</td><td class="wire-safe"><strong>' + sys.breaker + 'A, 230V, 2-Pole</strong> - Matched to wire ampacity</td></tr>' +
         '</table>' +
+        (sys.batteryWire ? 
+            '<table>' +
+            '<tr><th colspan="2">🔌 BATTERY SIDE - BATTERY TO INVERTER</th></tr>' +
+            '<tr><td>Cable Specification</td><td class="wire-safe"><strong>' + sys.batteryWire.l + ' - ' + sys.batteryWire.recommended + '</strong></td></tr>' +
+            '<tr><td>Design Current (125% Safety)</td><td>' + sys.batteryWire.designCurrent + ' A</td></tr>' +
+            '<tr><td>Voltage Drop</td><td>' + sys.batteryWire.vDrop + ' V (' + sys.batteryWire.vDropPercent + '%) - ≤1% limit</td></tr>' +
+            '</table>' : '') +
         '<table>' +
         '<tr><th colspan="2">PROJECT PRICE</th></tr>' +
         '<tr><td>Total Contract Price ' + (sys.isAutoPrice ? '<span style="color:#0284C7; font-style:italic; font-size:12px;">(Estimated: \u20B150k/70k/100k per kWp based on system type)</span>' : '') + '</td><td class="price-tag">\u20B1 ' + sys.finalPrice.toLocaleString('en-PH') + '</td></tr>' +
         '</table>' +
         '<div class="warning-box"><strong>Fire-Safe Design:</strong> All conductors sized with 125% continuous load derating per PNEC 2017 - prevents overheating and fire risk.</div>';
+}
 
-    // SLD DIAGRAM
-    renderSLD(sys);
-
-    // ELECTRICAL PLAN
+function fillPlanTab(sys, inputs) {
     document.getElementById('planContent').innerHTML =
         '<div class="agreement-box">' +
         '<h2>ELECTRICAL PLAN & TECHNICAL SPECIFICATIONS</h2>' +
@@ -1179,8 +1281,20 @@ function generateAll() {
         '<tr><td>Surge Protection</td><td>Type II SPD (DC and AC sides)</td></tr>' +
         '<tr><td>Grounding</td><td>Equipment grounding per PNEC 2017 Article 250</td></tr>' +
         '</table>' +
+        (sys.batteryWire ? 
         '<br>' +
-        '<h3 style="color:var(--primary);">D. COMPLIANCE & STANDARDS</h3>' +
+        '<h3 style="color:var(--primary);">D. BATTERY CABLING (Hybrid/Off-grid)</h3>' +
+        '<table>' +
+        '<tr><th>Component</th><th>Specification</th></tr>' +
+        '<tr><td>Battery Cable (Battery to Inverter)</td><td><strong>' + sys.batteryWire.l + '</strong> - ' + sys.batteryWire.recommended + '</td></tr>' +
+        '<tr><td>Cable Length</td><td>' + (inputs.battLength || inputs.dcLength) + ' meters</td></tr>' +
+        '<tr><td>Maximum Discharge Current</td><td>' + sys.batteryWire.maxCurrent + ' A</td></tr>' +
+        '<tr><td>Design Current (125% Safety)</td><td>' + sys.batteryWire.designCurrent + ' A</td></tr>' +
+        '<tr><td>Voltage Drop</td><td>' + sys.batteryWire.vDrop + ' V (' + sys.batteryWire.vDropPercent + '%)</td></tr>' +
+        '<tr><td>Battery Fuse/Breaker</td><td>Size per battery manufacturer recommendation (typically ' + Math.round(parseFloat(sys.batteryWire.designCurrent) * 1.1) + 'A-'+ Math.round(parseFloat(sys.batteryWire.designCurrent) * 1.25) + 'A)</td></tr>' +
+        '</table>' : '') +
+        '<br>' +
+        '<h3 style="color:var(--primary);">' + (sys.batteryWire ? 'E' : 'D') + '. COMPLIANCE & STANDARDS</h3>' +
         '<ul style="margin-left:20px;">' +
         '<li>Philippine Electrical Code (PNEC) 2017</li>' +
         '<li>Philippine Grid Code (for Grid-tie systems)</li>' +
@@ -1190,7 +1304,7 @@ function generateAll() {
         '<li>Fire safety compliant with 125% conductor derating</li>' +
         '</ul>' +
         '<br>' +
-        '<h3 style="color:var(--primary);">E. INSTALLATION NOTES</h3>' +
+        '<h3 style="color:var(--primary);">' + (sys.batteryWire ? 'F' : 'E') + '. INSTALLATION NOTES</h3>' +
         '<ul style="margin-left:20px;">' +
         '<li>Modules to be mounted on galvanized steel racking structure</li>' +
         '<li>Tilt angle optimized for latitude of installation site</li>' +
@@ -1200,8 +1314,9 @@ function generateAll() {
         '<li>Commissioning test and handover documentation included</li>' +
         '</ul>' +
         '</div>';
+}
 
-    // CONTRACT AGREEMENT
+function fillAgreementTab(sys, inputs) {
     document.getElementById('agreementContent').innerHTML =
         '<div class="agreement-box">' +
         '<h2>CONTRACT AGREEMENT FOR SUPPLY AND INSTALLATION OF SOLAR PV SYSTEM</h2>' +
@@ -1319,6 +1434,84 @@ function generateAll() {
         '</div>' +
         '</div>' +
         '</div>';
+}
+
+// ============================================================
+// PRINT ALL PAGES - AUTO GENERATE FIRST
+// ============================================================
+function printAllPages() {
+    if (!tabsContainer.classList.contains('show')) {
+        if (!validateForm()) {
+            alert('Please fill in all required fields first (*) before printing.');
+            return;
+        }
+        var today = new Date().toLocaleDateString('en-PH', { year: 'numeric', month: 'long', day: 'numeric' });
+        var inputs = {
+            clientName: document.getElementById('clientName').value.trim(),
+            projAddress: document.getElementById('projAddress').value.trim(),
+            sysType: document.getElementById('sysType').value,
+            monthlyKwh: parseFloat(document.getElementById('monthlyKwh').value),
+            projectPrice: document.getElementById('projectPrice').value ? parseFloat(document.getElementById('projectPrice').value) : 0,
+            panelWp: parseFloat(document.getElementById('panelWp').value),
+            peakSun: parseFloat(document.getElementById('peakSun').value),
+            dcLength: parseFloat(document.getElementById('dcLength').value),
+            acLength: parseFloat(document.getElementById('acLength').value),
+            battLength: parseFloat(document.getElementById('battLength').value),
+            batteryType: document.getElementById('batteryType').value,
+            autonomyHours: parseFloat(document.getElementById('autonomyHours').value),
+            contractorName: document.getElementById('contractorName').value.trim(),
+            date: today
+        };
+        var sys = calculateSystem(inputs);
+        lastSysData = sys;
+        
+        fillBatteryTab(sys, inputs);
+        fillSummaryTab(sys, inputs);
+        renderSLD(sys);
+        fillPlanTab(sys, inputs);
+        fillAgreementTab(sys, inputs);
+        
+        tabsContainer.classList.add('show');
+    }
+    
+    setTimeout(function() {
+        window.print();
+    }, 300);
+}
+
+// ============================================================
+// GENERATE ALL - MAIN FUNCTION
+// ============================================================
+function generateAll() {
+    if (!validateForm()) return;
+    tabsContainer.classList.add('show');
+
+    var today = new Date().toLocaleDateString('en-PH', { year: 'numeric', month: 'long', day: 'numeric' });
+    var inputs = {
+        clientName: document.getElementById('clientName').value.trim(),
+        projAddress: document.getElementById('projAddress').value.trim(),
+        sysType: document.getElementById('sysType').value,
+        monthlyKwh: parseFloat(document.getElementById('monthlyKwh').value),
+        projectPrice: document.getElementById('projectPrice').value ? parseFloat(document.getElementById('projectPrice').value) : 0,
+        panelWp: parseFloat(document.getElementById('panelWp').value),
+        peakSun: parseFloat(document.getElementById('peakSun').value),
+        dcLength: parseFloat(document.getElementById('dcLength').value),
+        acLength: parseFloat(document.getElementById('acLength').value),
+        battLength: parseFloat(document.getElementById('battLength').value),
+        batteryType: document.getElementById('batteryType').value,
+        autonomyHours: parseFloat(document.getElementById('autonomyHours').value),
+        contractorName: document.getElementById('contractorName').value.trim(),
+        date: today
+    };
+
+    var sys = calculateSystem(inputs);
+    lastSysData = sys;
+
+    fillBatteryTab(sys, inputs);
+    fillSummaryTab(sys, inputs);
+    renderSLD(sys);
+    fillPlanTab(sys, inputs);
+    fillAgreementTab(sys, inputs);
 
     // Switch to summary tab after generation
     document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
