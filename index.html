@@ -440,174 +440,176 @@ function updateLiveCalc() {
 }
 
 // ==================================================
-// 🚀 BUONG GENERATE FUNCTION — WALANG PUTOL!
+// 🚀 COMPLETE & FIXED — GENERATE ALL DOCUMENTS
 // ==================================================
 function generateAll() {
     console.log('✅ Generating all documents...');
-    const today = new Date().toLocaleDateString('en-PH', {year:'numeric', month:'long', day:'numeric'});
-    const inputs = {
-        clientName:document.getElementById('clientName').value||'Client',
-        projAddress:document.getElementById('projAddress').value||'Philippines',
-        sysType:document.getElementById('sysType').value,
-        monthlyKwh:+document.getElementById('monthlyKwh').value||250,
-        projectPrice:+document.getElementById('projectPrice').value||0,
-        panelWp:+document.getElementById('panelWp').value||450,
-        peakSun:+document.getElementById('peakSun').value||4.5,
-        dcLength:+document.getElementById('dcLength').value||30,
-        acLength:+document.getElementById('acLength').value||15,
-        batteryType:document.getElementById('batteryType').value,
-        autonomyHours:+document.getElementById('autonomyHours').value||5,
-        contractorName:document.getElementById('contractorName').value||'Registered Contractor',
-        date:today
-    };
-    const sys = calculateSystem(inputs);
+    try {
+        const today = new Date().toLocaleDateString('en-PH', {year:'numeric', month:'long', day:'numeric'});
+        const inputs = {
+            clientName:document.getElementById('clientName').value||'Client',
+            projAddress:document.getElementById('projAddress').value||'Philippines',
+            sysType:document.getElementById('sysType').value,
+            monthlyKwh:+document.getElementById('monthlyKwh').value||250,
+            projectPrice:+document.getElementById('projectPrice').value||0,
+            panelWp:+document.getElementById('panelWp').value||450,
+            peakSun:+document.getElementById('peakSun').value||4.5,
+            dcLength:+document.getElementById('dcLength').value||30,
+            acLength:+document.getElementById('acLength').value||15,
+            batteryType:document.getElementById('batteryType').value,
+            autonomyHours:+document.getElementById('autonomyHours').value||5,
+            contractorName:document.getElementById('contractorName').value||'Registered Contractor',
+            date:today
+        };
+        const sys = calculateSystem(inputs);
 
-    // -------- BATTERY TAB --------
-    if(sys.battery) {
-        document.getElementById('batteryContent').innerHTML = `
+        // -------- BATTERY TAB --------
+        if(sys.battery) {
+            document.getElementById('batteryContent').innerHTML = `
+                <table>
+                    <tr><th colspan="2">🔋 BATTERY SPECIFICATIONS — AUTO SHUTOFF @ ${sys.battery.reservePercent}%</th></tr>
+                    <tr><td>Battery Type</td><td><strong>${sys.battery.battType}</strong> — ${sys.battery.battType==='LiFePO4'?'Long Life (6,000+ cycles)':'Lower Cost (500 cycles)'}</td></tr>
+                    <tr><td>📦 TOTAL Capacity (100%)</td><td class="wire-safe"><strong>${sys.battery.totalKwh} kWh</strong> — Full charge</td></tr>
+                    <tr><td>✅ USABLE Capacity (${sys.battery.DoD}%)</td><td><strong>${sys.battery.usableKwh} kWh</strong> — Safe operating capacity</td></tr>
+                    <tr><td>⚠️ RESERVE — NEVER DISCHARGE BELOW! (${sys.battery.reservePercent}%)</td><td style="color:red; font-weight:bold;"><strong>${sys.battery.reservePercent}% MINIMUM — INVERTER AUTO-SHUTS OFF HERE!</strong></td></tr>
+                    <tr><td>Maximum Depth of Discharge</td><td><strong>MAX ${sys.battery.DoD}%</strong> — NEVER EXCEED THIS LIMIT!</td></tr>
+                    <tr><td>Safety Margin (Aging & Heat)</td><td><strong>${sys.battery.safetyMargin}</strong> — Extra capacity included</td></tr>
+                    <tr><td>Temperature Allowance</td><td><strong>${sys.battery.tempAllowance}</strong> — For tropical climate >35°C</td></tr>
+                    <tr><th colspan="2">📦 FINAL RECOMMENDED SIZE</th></tr>
+                    <tr><td>Nominal Capacity</td><td class="wire-safe"><strong>${sys.battery.totalKwh} kWh</strong> TOTAL</td></tr>
+                    <tr><td>Nominal Voltage</td><td><strong>${sys.battery.nominalVoltage} V</strong> DC</td></tr>
+                    <tr><td>Recommended Capacity</td><td><strong>${sys.battery.Ah} Ah</strong> @ ${sys.battery.nominalVoltage}V</td></tr>
+                </table>
+                <div class="warning-box">
+                    <strong>⚠️ CRITICAL PROTECTION RULES — MUST READ!</strong>
+                    <ul style="margin:8px 0 0 20px;">
+                        <li>🔋 <strong>100% Total → ${sys.battery.DoD}% Usable → ${sys.battery.reservePercent}% Reserve Always Remains</strong></li>
+                        <li>⚠️ <strong>AT ${sys.battery.reservePercent}% REMAINING → INVERTER AUTO-SHUTS OFF!</strong> System stops automatically to protect battery from damage.</li>
+                        <li>🔄 <strong>TO RESUME OPERATION:</strong> Must recharge battery above ${sys.battery.reservePercent}% first — system will NOT turn on until recharged!</li>
+                        <li>❌ NEVER bypass the ${sys.battery.reservePercent}% shutoff setting — permanent battery damage will occur!</li>
+                        <li>❌ NEVER expose to direct sunlight or temperatures above 35°C — service life reduced by 50% at 40°C!</li>
+                        <li>✅ Always maintain between ${sys.battery.reservePercent}%–100% for maximum lifespan (6,000+ cycles)</li>
+                        <li>✅ Always use certified BMS — protects against overcharge, over-discharge, and short circuit</li>
+                    </ul>
+                </div>
+            `;
+        } else {
+            document.getElementById('batteryContent').innerHTML = `<p>Select <strong>Hybrid</strong> or <strong>Off-grid</strong> system type to view battery sizing and protection calculations.</p>`;
+        }
+
+        // -------- SUMMARY TAB --------
+        document.getElementById('summaryContent').innerHTML = `
             <table>
-                <tr><th colspan="2">🔋 BATTERY SPECIFICATIONS — AUTO SHUTOFF @ ${sys.battery.reservePercent}%</th></tr>
-                <tr><td>Battery Type</td><td><strong>${sys.battery.battType}</strong> — ${sys.battery.battType==='LiFePO4'?'Long Life (6,000+ cycles)':'Lower Cost (500 cycles)'}</td></tr>
-                <tr><td>📦 TOTAL Capacity (100%)</td><td class="wire-safe"><strong>${sys.battery.totalKwh} kWh</strong> — Full charge</td></tr>
-                <tr><td>✅ USABLE Capacity (${sys.battery.DoD}%)</td><td><strong>${sys.battery.usableKwh} kWh</strong> — Safe operating capacity</td></tr>
-                <tr><td>⚠️ RESERVE — NEVER DISCHARGE BELOW! (${sys.battery.reservePercent}%)</td><td style="color:red; font-weight:bold;"><strong>${sys.battery.reservePercent}% MINIMUM — INVERTER AUTO-SHUTS OFF HERE!</strong></td></tr>
-                <tr><td>Maximum Depth of Discharge</td><td><strong>MAX ${sys.battery.DoD}%</strong> — NEVER EXCEED THIS LIMIT!</td></tr>
-                <tr><td>Safety Margin (Aging & Heat)</td><td><strong>${sys.battery.safetyMargin}</strong> — Extra capacity included</td></tr>
-                <tr><td>Temperature Allowance</td><td><strong>${sys.battery.tempAllowance}</strong> — For tropical climate >35°C</td></tr>
-                <tr><th colspan="2">📦 FINAL RECOMMENDED SIZE</th></tr>
-                <tr><td>Nominal Capacity</td><td class="wire-safe"><strong>${sys.battery.totalKwh} kWh</strong> TOTAL</td></tr>
-                <tr><td>Nominal Voltage</td><td><strong>${sys.battery.nominalVoltage} V</strong> DC</td></tr>
-                <tr><td>Recommended Capacity</td><td><strong>${sys.battery.Ah} Ah</strong> @ ${sys.battery.nominalVoltage}V</td></tr>
+                <tr><th colspan="2">📊 SYSTEM SIZING</th></tr>
+                <tr><td>Monthly Consumption</td><td><strong>${inputs.monthlyKwh} kWh</strong></td></tr>
+                <tr><td>Daily Load</td><td>${sys.dailyLoad} kWh</td></tr>
+                <tr><td>System Capacity</td><td><strong>${sys.actualKwp} kWp</strong> — ${sys.panelCount} × ${inputs.panelWp}Wp Monocrystalline Panels</td></tr>
+                <tr><td>Inverter Size</td><td>${sys.invKw} kW — 230V AC, 60Hz</td></tr>
+                <tr><td>Est. Monthly Production</td><td><strong>${sys.monthlyProd} kWh</strong></td></tr>
             </table>
-            <div class="warning-box">
-                <strong>⚠️ CRITICAL PROTECTION RULES — MUST READ!</strong>
-                <ul style="margin:8px 0 0 20px;">
-                    <li>🔋 <strong>100% Total → ${sys.battery.DoD}% Usable → ${sys.battery.reservePercent}% Reserve Always Remains</strong></li>
-                    <li>⚠️ <strong>AT ${sys.battery.reservePercent}% REMAINING → INVERTER AUTO-SHUTS OFF!</strong> System stops automatically to protect battery from damage.</li>
-                    <li>🔄 <strong>TO RESUME OPERATION:</strong> Must recharge battery above ${sys.battery.reservePercent}% first — system will NOT turn on until recharged!</li>
-                    <li>❌ NEVER bypass the ${sys.battery.reservePercent}% shutoff setting — permanent battery damage will occur!</li>
-                    <li>❌ NEVER expose to direct sunlight or temperatures above 35°C — service life reduced by 50% at 40°C!</li>
-                    <li>✅ Always maintain between ${sys.battery.reservePercent}%–100% for maximum lifespan (6,000+ cycles)</li>
-                    <li>✅ Always use certified BMS — protects against overcharge, over-discharge, and short circuit</li>
-                </ul>
-            </div>
+            <table>
+                <tr><th colspan="2">⚡ DC SIDE — PV ARRAY TO INVERTER</th></tr>
+                <tr><td>Cable Specification</td><td class="wire-safe"><strong>${sys.dcWire.l} — PV1-F Solar Cable, UV-Resistant, 1000V DC</strong></td></tr>
+                <tr><td>Design Current (125% Safety)</td><td>${sys.dcWire.amps} A</td></tr>
+                <tr><td>Voltage Drop</td><td>${sys.dcWire.vDrop}V — ≤3% within acceptable limit</td></tr>
+            </table>
+            <table>
+                <tr><th colspan="2">🔌 AC SIDE — INVERTER TO DISTRIBUTION PANEL</th></tr>
+                <tr><td>Cable Specification</td><td class="wire-safe"><strong>${sys.acWire.l} — THHN/THWN-2 Copper, 600V, 90°C</strong></td></tr>
+                <tr><td>Design Current (125% Safety)</td><td>${sys.acWire.amps} A</td></tr>
+                <tr><td>Voltage Drop</td><td>${sys.acWire.vDrop}V — ≤3% within acceptable limit</td></tr>
+                <tr><td>Main Circuit Breaker</td><td class="wire-safe"><strong>${sys.breaker}A, 230V, 2-Pole</strong> — Matched to wire ampacity</td></tr>
+            </table>
+            <table>
+                <tr><th colspan="2">💰 PROJECT PRICE</th></tr>
+                <tr><td>Total Contract Price ${sys.isAutoPrice?'<span style="color:#0284C7; font-style:italic; font-size:12px;">(Estimated: ₱50k/70k/100k per kWp based on system type)</span>':''}</td><td class="price-tag">₱ ${sys.finalPrice.toLocaleString('en-PH')}</td></tr>
+            </table>
+            <div class="warning-box"><strong>✅ Fire-Safe Design:</strong> All conductors sized with 125% continuous load derating per PNEC 2017 — prevents overheating and fire risk.</div>
         `;
-    } else {
-        document.getElementById('batteryContent').innerHTML = `<p>Select <strong>Hybrid</strong> or <strong>Off-grid</strong> system type to view battery sizing and protection calculations.</p>`;
-    }
 
-    // -------- SUMMARY TAB --------
-    document.getElementById('summaryContent').innerHTML = `
-        <table>
-            <tr><th colspan="2">📊 SYSTEM SIZING</th></tr>
-            <tr><td>Monthly Consumption</td><td><strong>${inputs.monthlyKwh} kWh</strong></td></tr>
-            <tr><td>Daily Load</td><td>${sys.dailyLoad} kWh</td></tr>
-            <tr><td>System Capacity</td><td><strong>${sys.actualKwp} kWp</strong> — ${sys.panelCount} × ${inputs.panelWp}Wp Monocrystalline Panels</td></tr>
-            <tr><td>Inverter Size</td><td>${sys.invKw} kW — 230V AC, 60Hz</td></tr>
-            <tr><td>Est. Monthly Production</td><td><strong>${sys.monthlyProd} kWh</strong></td></tr>
-        </table>
-        <table>
-            <tr><th colspan="2">⚡ DC SIDE — PV ARRAY TO INVERTER</th></tr>
-            <tr><td>Cable Specification</td><td class="wire-safe"><strong>${sys.dcWire.l} — PV1-F Solar Cable, UV-Resistant, 1000V DC</strong></td></tr>
-            <tr><td>Design Current (125% Safety)</td><td>${sys.dcWire.amps} A</td></tr>
-            <tr><td>Voltage Drop</td><td>${sys.dcWire.vDrop}V — ≤3% within acceptable limit</td></tr>
-        </table>
-        <table>
-            <tr><th colspan="2">🔌 AC SIDE — INVERTER TO DISTRIBUTION PANEL</th></tr>
-            <tr><td>Cable Specification</td><td class="wire-safe"><strong>${sys.acWire.l} — THHN/THWN-2 Copper, 600V, 90°C</strong></td></tr>
-            <tr><td>Design Current (125% Safety)</td><td>${sys.acWire.amps} A</td></tr>
-            <tr><td>Voltage Drop</td><td>${sys.acWire.vDrop}V — ≤3% within acceptable limit</td></tr>
-            <tr><td>Main Circuit Breaker</td><td class="wire-safe"><strong>${sys.breaker}A, 230V, 2-Pole</strong> — Matched to wire ampacity</td></tr>
-        </table>
-        <table>
-            <tr><th colspan="2">💰 PROJECT PRICE</th></tr>
-            <tr><td>Total Contract Price ${sys.isAutoPrice?'<span style="color:#0284C7; font-style:italic; font-size:12px;">(Estimated: ₱50k/70k/100k per kWp based on system type)</span>':''}</td><td class="price-tag">₱ ${sys.finalPrice.toLocaleString('en-PH')}</td></tr>
-        </table>
-        <div class="warning-box"><strong>✅ Fire-Safe Design:</strong> All conductors sized with 125% continuous load derating per PNEC 2017 — prevents overheating and fire risk.</div>
-    `;
+        // -------- SLD DIAGRAM TAB --------
+        const isDark = document.documentElement.classList.contains('dark-mode');
+        const svgText = isDark ? '#F8FAFC' : '#0F172A';
+        const svgFill1 = isDark ? '#1E3A8A' : '#E0F2FE';
+        const svgFill2 = isDark ? '#1E40AF' : '#DBEAFE';
+        const svgFill3 = isDark ? '#581C87' : '#F3E8FF';
+        const svgFill4 = isDark ? '#065F46' : '#D1FAE5';
+        const svgBg = isDark ? '#334155' : '#F8FAFC';
+        const svgBorder = isDark ? '#64748B' : '#E2E8F0';
 
-    // -------- SLD DIAGRAM TAB --------
-    const isDark = document.documentElement.classList.contains('dark-mode');
-    const svgText = isDark ? '#F8FAFC' : '#0F172A';
-    const svgFill1 = isDark ? '#1E3A8A' : '#E0F2FE';
-    const svgFill2 = isDark ? '#1E40AF' : '#DBEAFE';
-    const svgFill3 = isDark ? '#581C87' : '#F3E8FF';
-    const svgFill4 = isDark ? '#065F46' : '#D1FAE5';
-    const svgBg = isDark ? '#334155' : '#F8FAFC';
-    const svgBorder = isDark ? '#64748B' : '#E2E8F0';
+        document.getElementById('sldCanvas').innerHTML = `
+    <svg width="100%" height="450" viewBox="0 0 850 450" xmlns="http://www.w3.org/2000/svg">
+        <defs><marker id="arr" viewBox="0 0 10 6" refX="9" refY="3" markerWidth="8" markerHeight="6" orient="auto"><polygon points="0,0 10,3 0,6" fill="${svgText}"/></marker></defs>
+        <rect x="0" y="0" width="850" height="40" fill="${svgBg}" rx="4"/>
+        <text x="425" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="${svgText}">SINGLE LINE DIAGRAM — ${sys.actualKwp} kWp ${inputs.sysType}</text>
+        
+        <rect x="30" y="55" width="110" height="75" rx="6" fill="${svgFill1}" stroke="#0369A1" stroke-width="2"/>
+        <text x="85" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="${svgText}">PV ARRAY</text>
+        <text x="85" y="105" text-anchor="middle" font-size="11" fill="${svgText}">${sys.panelCount}×${inputs.panelWp}Wp</text>
+        
+        <line x1="140" y1="92" x2="200" y2="92" stroke="${svgText}" stroke-width="2" marker-end="url(#arr)"/>
+        <text x="170" y="82" text-anchor="middle" font-size="10" fill="#F87171">DC ${sys.dcWire.l}</text>
+        
+        <rect x="200" y="45" width="120" height="95" rx="8" fill="${svgFill2}" stroke="#3B82F6" stroke-width="2"/>
+        <text x="260" y="80" text-anchor="middle" font-size="14" font-weight="bold" fill="${svgText}">INVERTER</text>
+        <text x="260" y="100" text-anchor="middle" font-size="12" fill="${svgText}">${sys.invKw} kW</text>
+        <text x="260" y="120" text-anchor="middle" font-size="10" fill="${svgText}">230V AC • 60Hz</text>
+        
+        <line x1="320" y1="92" x2="380" y2="92" stroke="${svgText}" stroke-width="2" marker-end="url(#arr)"/>
+        <text x="350" y="82" text-anchor="middle" font-size="10" fill="#F87171">AC ${sys.acWire.l}</text>
+        
+        <rect x="380" y="55" width="100" height="75" rx="6" fill="${svgFill3}" stroke="#A855F7" stroke-width="2"/>
+        <text x="430" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="${svgText}">PANEL</text>
+        <text x="430" y="105" text-anchor="middle" font-size="11" fill="${svgText}">${sys.breaker}A Breaker</text>
+        
+        <line x1="480" y1="92" x2="540" y2="92" stroke="${svgText}" stroke-width="2" marker-end="url(#arr)"/>
+        
+        <rect x="540" y="55" width="90" height="75" rx="6" fill="${svgBg}" stroke="${svgBorder}" stroke-width="2"/>
+        <text x="585" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="${svgText}">UTILITY</text>
+        
+        ${sys.battery?`
+        <rect x="200" y="160" width="120" height="70" rx="6" fill="${svgFill4}" stroke="#34D399" stroke-width="2"/>
+        <text x="260" y="190" text-anchor="middle" font-size="13" font-weight="bold" fill="${svgText}">BATTERY</text>
+        <text x="260" y="210" text-anchor="middle" font-size="11" fill="${svgText}">${sys.battery.totalKwh} kWh • ${sys.battery.nominalVoltage}V</text>
+        <line x1="260" y1="160" x2="260" y2="140" stroke="${svgText}" stroke-width="2" marker-end="url(#arr)"/>
+        `:''}
+        
+        <rect x="30" y="250" width="500" height="140" rx="6" fill="${svgBg}" stroke="${svgBorder}"/>
+        <text x="45" y="275" font-size="13" font-weight="bold" fill="${svgText}">LEGEND & SIZING — PNEC 2017 COMPLIANT</text>
+        <text x="45" y="300" font-size="11" fill="${svgText}">DC: ${sys.dcWire.l} PV1-F — ${sys.dcWire.amps}A, Drop: ${sys.dcWire.vDrop}V</text>
+        <text x="45" y="320" font-size="11" fill="${svgText}">AC: ${sys.acWire.l} THHN — ${sys.acWire.amps}A, Drop: ${sys.acWire.vDrop}V</text>
+        <text x="45" y="340" font-size="11" fill="${svgText}">Breaker: ${sys.breaker}A 2-Pole • 230V, 60Hz</text>
+        <text x="45" y="360" font-size="11" fill="${svgText}">System: ${sys.actualKwp} kWp ${inputs.sysType} — ${inputs.date}</text>
+    </svg>`;
 
-    document.getElementById('sldCanvas').innerHTML = `
-<svg width="100%" height="450" viewBox="0 0 850 450" xmlns="http://www.w3.org/2000/svg">
-    <defs><marker id="arr" viewBox="0 0 10 6" refX="9" refY="3" markerWidth="8" markerHeight="6" orient="auto"><polygon points="0,0 10,3 0,6" fill="${svgText}"/></marker></defs>
-    <rect x="0" y="0" width="850" height="40" fill="${svgBg}" rx="4"/>
-    <text x="425" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="${svgText}">SINGLE LINE DIAGRAM — ${sys.actualKwp} kWp ${inputs.sysType}</text>
-    
-    <rect x="30" y="55" width="110" height="75" rx="6" fill="${svgFill1}" stroke="#0369A1" stroke-width="2"/>
-    <text x="85" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="${svgText}">PV ARRAY</text>
-    <text x="85" y="105" text-anchor="middle" font-size="11" fill="${svgText}">${sys.panelCount}×${inputs.panelWp}Wp</text>
-    
-    <line x1="140" y1="92" x2="200" y2="92" stroke="${svgText}" stroke-width="2" marker-end="url(#arr)"/>
-    <text x="170" y="82" text-anchor="middle" font-size="10" fill="#F87171">DC ${sys.dcWire.l}</text>
-    
-    <rect x="200" y="45" width="120" height="95" rx="8" fill="${svgFill2}" stroke="#3B82F6" stroke-width="2"/>
-    <text x="260" y="80" text-anchor="middle" font-size="14" font-weight="bold" fill="${svgText}">INVERTER</text>
-    <text x="260" y="100" text-anchor="middle" font-size="12" fill="${svgText}">${sys.invKw} kW</text>
-    <text x="260" y="120" text-anchor="middle" font-size="10" fill="${svgText}">230V AC • 60Hz</text>
-    
-    <line x1="320" y1="92" x2="380" y2="92" stroke="${svgText}" stroke-width="2" marker-end="url(#arr)"/>
-    <text x="350" y="82" text-anchor="middle" font-size="10" fill="#F87171">AC ${sys.acWire.l}</text>
-    
-    <rect x="380" y="55" width="100" height="75" rx="6" fill="${svgFill3}" stroke="#A855F7" stroke-width="2"/>
-    <text x="430" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="${svgText}">PANEL</text>
-    <text x="430" y="105" text-anchor="middle" font-size="11" fill="${svgText}">${sys.breaker}A Breaker</text>
-    
-    <line x1="480" y1="92" x2="540" y2="92" stroke="${svgText}" stroke-width="2" marker-end="url(#arr)"/>
-    
-    <rect x="540" y="55" width="90" height="75" rx="6" fill="${svgBg}" stroke="${svgBorder}" stroke-width="2"/>
-    <text x="585" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="${svgText}">UTILITY</text>
-    
-    ${sys.battery?`
-    <rect x="200" y="160" width="120" height="70" rx="6" fill="${svgFill4}" stroke="#34D399" stroke-width="2"/>
-    <text x="260" y="190" text-anchor="middle" font-size="13" font-weight="bold" fill="${svgText}">BATTERY</text>
-    <text x="260" y="210" text-anchor="middle" font-size="11" fill="${svgText}">${sys.battery.totalKwh} kWh • ${sys.battery.nominalVoltage}V</text>
-    <line x1="260" y1="160" x2="260" y2="140" stroke="${svgText}" stroke-width="2" marker-end="url(#arr)"/>
-    `:''}
-    
-    <rect x="30" y="250" width="500" height="140" rx="6" fill="${svgBg}" stroke="${svgBorder}"/>
-    <text x="45" y="275" font-size="13" font-weight="bold" fill="${svgText}">LEGEND & SIZING — PNEC 2017 COMPLIANT</text>
-    <text x="45" y="300" font-size="11" fill="${svgText}">DC: ${sys.dcWire.l} PV1-F — ${sys.dcWire.amps}A, Drop: ${sys.dcWire.vDrop}V</text>
-    <text x="45" y="320" font-size="11" fill="${svgText}">AC: ${sys.acWire.l} THHN — ${sys.acWire.amps}A, Drop: ${sys.acWire.vDrop}V</text>
-    <text x="45" y="340" font-size="11" fill="${svgText}">Breaker: ${sys.breaker}A 2-Pole • 230V, 60Hz</text>
-    <text x="45" y="360" font-size="11" fill="${svgText}">System: ${sys.actualKwp} kWp ${inputs.sysType} — ${inputs.date}</text>
-</svg>`;
-
-    // -------- ELECTRICAL PLAN TAB --------
-    document.getElementById('planContent').innerHTML = `
-        <h3>📐 GENERAL SPECIFICATIONS & TECHNICAL DATA</h3>
-        <table>
-            <tr><th colspan="2">PROJECT INFORMATION</th></tr>
-            <tr><td>Project Name / Client</td><td><strong>${inputs.clientName}</strong></td></tr>
-            <tr><td>Location / Address</td><td>${inputs.projAddress}</td></tr>
-            <tr><td>System Type</td><td>${inputs.sysType}</td></tr>
-            <tr><td>Date Prepared</td><td>${inputs.date}</td></tr>
-        </table>
-        <table>
-            <tr><th colspan="2">PV MODULE SPECIFICATIONS</th></tr>
-            <tr><td>Module Type</td><td>Monocrystalline Silicon — High Efficiency</td></tr>
-            <tr><td>Module Power</td><td>${inputs.panelWp} Wp per panel</td></tr>
-            <tr><td>Quantity</td><td>${sys.panelCount} units</td></tr>
-            <tr><td>Total Array Capacity</td><td><strong>${sys.actualKwp} kWp DC</strong></td></tr>
-            <tr><td>Module Efficiency</td><td>≥21%</td></tr>
-            <tr><td>System Voltage</td><td>${sys.voc} V DC Max</td></tr>
-        </table>
-        <table>
-            <tr><th colspan="2">INVERTER SPECIFICATIONS</th></tr>
-            <tr><td>Capacity / Size</td><td><strong>${sys.invKw} kW</strong></td></tr>
-            <tr><td>Input Voltage Range</td><td>120–${sys.voc} V DC</td></tr>
-            <tr><td>Output</td><td>230V AC, 60Hz, Single Phase</td></tr>
-            <tr><td>Efficiency</td><td>≥97.5% European Efficiency</td></tr>
-            <tr><td>Protection</td><td>Anti-Islanding, Over/Under Voltage, Over Temperature, Short Circuit</td></tr>
-        </table>
-        <table>
-            <tr><th colspan="2">CABLES & PROTECTION — PNEC 2017 COMPLIANT</th></tr>
-            <tr><td>DC Side — PV Cable</td><td>${sys.dcWire.l}, PV1-F, UV-Resistant, 1000V DC</td></tr
+        // -------- ELECTRICAL PLAN TAB --------
+        document.getElementById('planContent').innerHTML = `
+            <h3>📐 GENERAL SPECIFICATIONS & TECHNICAL DATA</h3>
+            <table>
+                <tr><th colspan="2">PROJECT INFORMATION</th></tr>
+                <tr><td>Project Name / Client</td><td><strong>${inputs.clientName}</strong></td></tr>
+                <tr><td>Location / Address</td><td>${inputs.projAddress}</td></tr>
+                <tr><td>System Type</td><td>${inputs.sysType}</td></tr>
+                <tr><td>Date Prepared</td><td>${inputs.date}</td></tr>
+            </table>
+            <table>
+                <tr><th colspan="2">PV MODULE SPECIFICATIONS</th></tr>
+                <tr><td>Module Type</td><td>Monocrystalline Silicon — High Efficiency</td></tr>
+                <tr><td>Module Power</td><td>${inputs.panelWp} Wp per panel</td></tr>
+                <tr><td>Quantity</td><td>${sys.panelCount} units</td></tr>
+                <tr><td>Total Array Capacity</td><td><strong>${sys.actualKwp} kWp DC</strong></td></tr>
+                <tr><td>Module Efficiency</td><td>≥21%</td></tr>
+                <tr><td>System Voltage</td><td>${sys.voc} V DC Max</td></tr>
+            </table>
+            <table>
+                <tr><th colspan="2">INVERTER SPECIFICATIONS</th></tr>
+                <tr><td>Capacity / Size</td><td><strong>${sys.invKw} kW</strong></td></tr>
+                <tr><td>Input Voltage Range</td><td>120–${sys.voc} V DC</td></tr>
+                <tr><td>Output</td><td>230V AC, 60Hz, Single Phase</td></tr>
+                <tr><td>Efficiency</td><td>≥97.5% European Efficiency</td></tr>
+                <tr><td>Protection</td><td>Anti-Islanding, Over/Under Voltage, Over Temperature, Short Circuit</td></tr>
+            </table>
+            <table>
+                <tr><th colspan="2">CABLES & PROTECTION — PNEC 2017 COMPLIANT</th></tr>
+                <tr><td>DC Side — PV Cable</td><td>${sys.dcWire.l}, PV1-F, UV-Resistant, 1000V DC</td></tr>
+                <tr><td>AC
