@@ -6,9 +6,6 @@
     <meta name="color-scheme" content="light dark">
     <title>PRO Solar PV Design — Dark Mode ✅</title>
     <style>
-        /* ==========================================
-           DARK MODE FIX — HIGHEST PRIORITY
-        ========================================== */
         :root {
             --primary: #0F4C75; --secondary: #10B981; --accent: #3B82F6;
             --danger: #EF4444; --warning: #F59E0B;
@@ -20,7 +17,6 @@
             color-scheme: light;
         }
 
-        /* ✅ DARK MODE — FORCE HIGHER PRIORITY */
         html.dark-mode {
             --primary: #60A5FA; --secondary: #34D399; --accent: #60A5FA;
             --danger: #F87171; --warning: #FBBF24;
@@ -120,12 +116,11 @@
 </head>
 <body>
 
-<!-- ✅ DARK MODE BUTTON -->
 <button class="theme-toggle no-print" id="themeBtn" title="Toggle Dark/Light Mode">🌙</button>
 
 <div class="header-bar no-print">
     <h1>☀️ SOLAR PV SYSTEM DESIGN & CONTRACT AGREEMENT</h1>
-    <p>Auto Wire Sizing • Auto Price (PH) • Battery Protection • Dark Mode • Desktop & Mobile Friendly</p>
+    <p>Auto Wire Sizing • Auto Price (PH) • 🔋 Battery Protection (Auto Shutoff @ 20%) • Dark Mode • Desktop & Mobile Friendly</p>
 </div>
 
 <div class="tabs no-print">
@@ -209,12 +204,15 @@
     </div>
 
     <div class="battery-note no-print">
-        <strong>🔋 Battery Protection Built-In — Hindi Masira!</strong>
+        <strong>🔋 BATTERY RULES — AUTO SHUTOFF @ 20% ✅</strong>
         <ul style="margin:8px 0 0 20px; font-size:14px;">
-            <li><strong>DoD Limit:</strong> LiFePO4 = 80% max, Lead-Acid = 50% max — hindi mauubos hanggang 0%</li>
-            <li><strong>Safety Margin:</strong> +20% extra capacity — allowance for aging & heat</li>
-            <li><strong>Temp Protection:</strong> Reduce DoD by 10% above 35°C — keep in cool, shaded area</li>
-            <li><strong>BMS Required:</strong> Always use built-in BMS — prevents overcharge/discharge/short circuit</li>
+            <li><strong>Total Capacity:</strong> 100% — Full charge</li>
+            <li><strong>Usable Capacity:</strong> 80% — This is ALL you can use safely!</li>
+            <li><strong>⚠️ 20% RESERVE — AUTO SHUTOFF:</strong> When battery reaches <strong>20% remaining</strong> → Inverter automatically OFF! System stops to protect battery.</li>
+            <li><strong>🔄 To use again:</strong> Must recharge above 20% first — will NOT turn on until charged!</li>
+            <li><strong>DoD Limit:</strong> LiFePO4 = 80% max (20% always remains), Lead-Acid = 50% max</li>
+            <li><strong>Safety Margin:</strong> +15% extra — allowance for aging & heat</li>
+            <li><strong>Temp Protection:</strong> Keep below 35°C — life halves at 40°C!</li>
         </ul>
     </div>
 
@@ -231,8 +229,8 @@
 </div>
 
 <div class="tab-content card" id="battery">
-    <h2>🔋 Battery Sizing & Protection — Allowance Included</h2>
-    <p style="margin-bottom:16px;">Calculation includes Depth of Discharge limit, Safety Margin, and Temperature allowance to protect battery life.</p>
+    <h2>🔋 Battery Sizing & Protection — Auto Shutoff @ 20%</h2>
+    <p style="margin-bottom:16px;"><strong>Rules:</strong> 100% Total → 80% Usable → 20% Reserve. At 20% → Inverter OFF. Must recharge to use again.</p>
     <div id="batteryContent"></div>
 </div>
 
@@ -258,14 +256,11 @@
     <div id="agreementContent"></div>
 </div>
 
-<!-- =============================================
-     ✅ SIMPLEST, MOST RELIABLE DARK MODE SCRIPT
-     ============================================= -->
+<!-- ✅ DARK MODE — SIMPLE & RELIABLE -->
 <script>
     const html = document.documentElement;
     const btn = document.getElementById('themeBtn');
 
-    // Load saved theme on page load
     function loadTheme() {
         const saved = localStorage.getItem('darkMode');
         const sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -279,21 +274,17 @@
         }
     }
 
-    // Toggle theme
     btn.addEventListener('click', () => {
         const isDark = html.classList.toggle('dark-mode');
         btn.textContent = isDark ? '☀️' : '🌙';
         localStorage.setItem('darkMode', isDark);
-        console.log('✅ Dark Mode:', isDark ? 'ON' : 'OFF');
     });
 
-    // Run on load
     loadTheme();
 </script>
 
-<!-- REST OF YOUR SCRIPTS BELOW -->
+<!-- TAB NAVIGATION -->
 <script>
-// ========== TAB NAVIGATION ==========
 document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', () => {
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -303,13 +294,13 @@ document.querySelectorAll('.tab').forEach(tab => {
     });
 });
 
-// ========== AUTO PRICING LOGIC ==========
+// AUTO PRICING
 function calculatePrice(kwp, sysType) {
     const rates = {'Grid-tie':50000, 'Hybrid':70000, 'Off-grid':100000};
     return Math.round(kwp * (rates[sysType] || 50000));
 }
 
-// ========== WIRE SIZING ==========
+// WIRE SIZING
 function getWireSizeDC(kw, voc, length) {
     const imp = kw * 1000 / voc;
     const amps = imp * 1.25;
@@ -342,20 +333,26 @@ function getBreaker(wire) {
     return map[wire.a] || 32;
 }
 
-// ========== BATTERY SIZING ==========
+// ✅ UPDATED BATTERY SIZING — EXACT RULES: 100% → 80% USABLE → 20% RESERVE
 function calculateBattery(dailyLoad, battType, autonomyHours) {
-    const DoD = battType === 'LiFePO4' ? 0.80 : 0.50;
-    const safetyMargin = 1.20;
-    const tempDerate = 1.10;
-    const usableCapacity = dailyLoad * autonomyHours / 24;
-    const requiredCapacity = usableCapacity / DoD * safetyMargin * tempDerate;
-    const nominalVoltage = Math.ceil(Math.sqrt(requiredCapacity) / 12) * 12 || 48;
-    const Ah = Math.round((requiredCapacity / nominalVoltage) * 10) / 10;
+    const DoD = battType === 'LiFePO4' ? 0.80 : 0.50; // LiFePO4: use 80%, leave 20%
+    const minRemainingPercent = battType === 'LiFePO4' ? 20 : 50; // 20% MUST REMAIN
+    const safetyMargin = 1.15; // +15% for aging & heat
+    const tempDerate = 1.10;   // +10% tropical heat
+    
+    const usableCapacity = dailyLoad * autonomyHours / 24; // Power needed for backup
+    const requiredUsable = usableCapacity * safetyMargin * tempDerate;
+    const totalBatteryCapacity = requiredUsable / DoD; // Total size needed
+    
+    const nominalVoltage = Math.ceil(Math.sqrt(totalBatteryCapacity) / 12) * 12 || 48;
+    const Ah = Math.round((totalBatteryCapacity / nominalVoltage) * 10) / 10;
+    
     return {
-        usableKwh: Math.round(usableCapacity*10)/10,
-        nominalKwh: Math.round(requiredCapacity*10)/10,
-        DoD: DoD*100,
-        safetyMargin: '20%',
+        totalKwh: Math.round(totalBatteryCapacity * 10) / 10,
+        usableKwh: Math.round(requiredUsable * 10) / 10,
+        reservePercent: minRemainingPercent,
+        DoD: DoD * 100,
+        safetyMargin: '15%',
         tempAllowance: '10%',
         nominalVoltage,
         Ah,
@@ -363,7 +360,7 @@ function calculateBattery(dailyLoad, battType, autonomyHours) {
     };
 }
 
-// ========== MAIN CALCULATION ==========
+// MAIN CALCULATION
 function calculateSystem(inputs) {
     const {monthlyKwh, panelWp, peakSun, dcLength, acLength, sysType, batteryType, autonomyHours, projectPrice} = inputs;
     const dailyLoad = monthlyKwh / 30;
@@ -391,7 +388,7 @@ function calculateSystem(inputs) {
     return {dailyLoad:Math.round(dailyLoad*10)/10, reqKwp, actualKwp:realKwp, panelCount, panelWp, invKw, monthlyProd, dcWire, acWire, breaker, voc, battery, finalPrice, isAutoPrice};
 }
 
-// ========== LIVE CALCULATION ==========
+// LIVE CALCULATION
 ['monthlyKwh','panelWp','peakSun','dcLength','acLength','sysType','batteryType','autonomyHours','projectPrice'].forEach(id=>{
     document.getElementById(id).addEventListener('input', updateLiveCalc);
 });
@@ -409,12 +406,12 @@ function updateLiveCalc() {
     };
     const r = calculateSystem(inputs);
     let html = `Daily Load: <strong>${r.dailyLoad} kWh</strong> → System: <span class="highlight">${r.actualKwp} kWp</span> (${r.panelCount}×${r.panelWp}Wp) | Inverter: ${r.invKw} kW | DC: <span class="wire-safe">${r.dcWire.l}</span> | AC: <span class="wire-safe">${r.acWire.l}</span> | Breaker: ${r.breaker}A | Price: <span class="highlight">₱${r.finalPrice.toLocaleString()}</span>`;
-    if(r.battery) html += ` | Battery: <span class="highlight">${r.battery.nominalKwh} kWh ${r.battery.nominalVoltage}V</span>`;
+    if(r.battery) html += ` | Battery: <span class="highlight">${r.battery.totalKwh} kWh Total | ${r.battery.usableKwh} kWh Usable | ⚠️ ${r.battery.reservePercent}% Reserve</span>`;
     document.getElementById('calcOut').innerHTML = html;
 }
 updateLiveCalc();
 
-// ========== GENERATE ALL ==========
+// GENERATE ALL DOCUMENTS
 function generateAll() {
     const today = new Date().toLocaleDateString('en-PH', {year:'numeric', month:'long', day:'numeric'});
     const inputs = {
@@ -434,30 +431,33 @@ function generateAll() {
     };
     const sys = calculateSystem(inputs);
 
-    // BATTERY TAB
+    // BATTERY TAB — EXACT RULES DISPLAYED
     if(sys.battery) {
         document.getElementById('batteryContent').innerHTML = `
             <table>
-                <tr><th colspan="2">🔋 BATTERY SPECIFICATIONS — WITH PROTECTION ALLOWANCE</th></tr>
+                <tr><th colspan="2">🔋 BATTERY SPECIFICATIONS — AUTO SHUTOFF @ ${sys.battery.reservePercent}%</th></tr>
                 <tr><td>Battery Type</td><td><strong>${sys.battery.battType}</strong> — ${sys.battery.battType==='LiFePO4'?'Long Life (6,000+ cycles)':'Lower Cost (500 cycles)'}</td></tr>
-                <tr><td>Usable Capacity (Load)</td><td><strong>${sys.battery.usableKwh} kWh</strong> — power needed for ${inputs.autonomyHours} hours backup</td></tr>
-                <tr><td>Depth of Discharge Limit</td><td><strong>${sys.battery.DoD}%</strong> — NOT TO EXCEED! ${sys.battery.DoD===80?'(LiFePO4 safe limit)':'(Lead-Acid safe limit)'}</td></tr>
-                <tr><td>Safety Margin (Aging/Extra)</td><td><strong>${sys.battery.safetyMargin}</strong> — allowance for battery degradation over time</td></tr>
-                <tr><td>Temperature Allowance</td><td><strong>${sys.battery.tempAllowance}</strong> — +10% for tropical heat above 35°C</td></tr>
-                <tr><th colspan="2">📦 FINAL BATTERY SPECIFICATION</th></tr>
-                <tr><td>Nominal Capacity</td><td class="wire-safe"><strong>${sys.battery.nominalKwh} kWh</strong> — TOTAL recommended size</td></tr>
+                <tr><td>📦 TOTAL Capacity (100%)</td><td class="wire-safe"><strong>${sys.battery.totalKwh} kWh</strong> — Full charge</td></tr>
+                <tr><td>✅ USABLE Capacity (${sys.battery.DoD}%)</td><td><strong>${sys.battery.usableKwh} kWh</strong> — Power you can use safely</td></tr>
+                <tr><td>⚠️ RESERVE — NEVER TOUCH! (${sys.battery.reservePercent}%)</td><td style="color:red; font-weight:bold;"><strong>${sys.battery.reservePercent}% MINIMUM — AUTO SHUTOFF HERE!</strong></td></tr>
+                <tr><td>Depth of Discharge Limit</td><td><strong>MAX ${sys.battery.DoD}%</strong> — NEVER EXCEED THIS!</td></tr>
+                <tr><td>Safety Margin (Aging/Heat)</td><td><strong>${sys.battery.safetyMargin}</strong> — extra allowance included</td></tr>
+                <tr><td>Temperature Allowance</td><td><strong>${sys.battery.tempAllowance}</strong> — for tropical heat >35°C</td></tr>
+                <tr><th colspan="2">📦 FINAL RECOMMENDED SIZE</th></tr>
+                <tr><td>Nominal Capacity</td><td class="wire-safe"><strong>${sys.battery.totalKwh} kWh</strong> TOTAL</td></tr>
                 <tr><td>Nominal Voltage</td><td><strong>${sys.battery.nominalVoltage} V</strong> DC</td></tr>
                 <tr><td>Recommended Ah</td><td><strong>${sys.battery.Ah} Ah</strong> @ ${sys.battery.nominalVoltage}V</td></tr>
             </table>
             <div class="warning-box">
-                <strong>⚠️ BATTERY PROTECTION RULES — FOLLOW TO PREVENT DAMAGE:</strong>
+                <strong>⚠️ CRITICAL RULES — AUTO SHUTOFF ENABLED</strong>
                 <ul style="margin:8px 0 0 20px;">
-                    <li>❌ NEVER discharge below <strong>${sys.battery.DoD===80?'20%':'50%'}</strong> remaining — permanent damage will occur!</li>
-                    <li>❌ NEVER place in direct sunlight or above 35°C — life reduces by 50% at 40°C!</li>
-                    <li>❌ NEVER charge faster than manufacturer's recommended rate</li>
-                    <li>✅ ALWAYS use BMS (Battery Management System) — protects against overcharge/discharge/short circuit</li>
-                    <li>✅ Install in cool, well-ventilated area — 20–30°C is ideal</li>
-                    <li>✅ Keep state of charge between 20%–80% for longest life</li>
+                    <li>🔋 <strong>100% Total Capacity</strong> → <strong>${sys.battery.DoD}% Usable</strong> → <strong>${sys.battery.reservePercent}% Reserve</strong></li>
+                    <li>⚠️ <strong>AT ${sys.battery.reservePercent}% REMAINING → INVERTER AUTO-SHUTS OFF!</strong> System stops to protect battery — cannot drain below this!</li>
+                    <li>🔄 <strong>TO USE AGAIN:</strong> Must recharge battery above ${sys.battery.reservePercent}% first — will NOT turn on until charged!</li>
+                    <li>❌ NEVER bypass the ${sys.battery.reservePercent}% shutoff — permanent damage will happen!</li>
+                    <li>❌ NEVER place in direct sunlight or above 35°C — life halves at 40°C!</li>
+                    <li>✅ Always keep between ${sys.battery.reservePercent}%–100% for longest life (6,000+ cycles)</li>
+                    <li>✅ Always use BMS — protects against overcharge/discharge/short circuit</li>
                 </ul>
             </div>
         `;
@@ -538,7 +538,7 @@ function generateAll() {
     ${sys.battery?`
     <rect x="200" y="160" width="120" height="70" rx="6" fill="${svgFill4}" stroke="#34D399" stroke-width="2"/>
     <text x="260" y="190" text-anchor="middle" font-size="13" font-weight="bold" fill="${svgText}">BATTERY</text>
-    <text x="260" y="210" text-anchor="middle" font-size="11" fill="${svgText}">${sys.battery.nominalKwh} kWh • ${sys.battery.nominalVoltage}V</text>
+    <text x="260" y="210" text-anchor="middle" font-size="11" fill="${svgText}">${sys.battery.totalKwh} kWh • ${sys.battery.nominalVoltage}V</text>
     <line x1="260" y1="160" x2="260" y2="140" stroke="${svgText}" stroke-width="2" marker-end="url(#arr)"/>
     `:''}
     
@@ -547,7 +547,8 @@ function generateAll() {
     <text x="45" y="300" font-size="11" fill="${svgText}">DC: ${sys.dcWire.l} PV1-F — ${sys.dcWire.amps}A, Drop: ${sys.dcWire.vDrop}V</text>
     <text x="45" y="320" font-size="11" fill="${svgText}">AC: ${sys.acWire.l} THHN — ${sys.acWire.amps}A, Drop: ${sys.acWire.vDrop}V</text>
     <text x="45" y="340" font-size="11" fill="${svgText}">Breaker: ${sys.breaker}A, 230V, 2-Pole — matched to wire capacity</text>
-    <text x="45" y="360" font-size="11" fill="${svgText}">Safety: 125% derating — prevents overheating & fire risk</text>
+    <text x="45" y="360" font-size="11" fill="${svgText}">Battery: ${sys.battery?sys.battery.totalKwh+' kWh, Auto-Shutoff @ '+sys.battery.reservePercent+'%':'N/A'}</text>
+    <text x="45" y="380" font-size="11" fill="${svgText}">Safety: 125% derating — prevents overheating & fire risk</text>
 </svg>
     `;
 
@@ -571,33 +572,4 @@ function generateAll() {
         <table>
             <tr><th colspan="2">AC SIDE — INVERTER TO DISTRIBUTION PANEL</th></tr>
             <tr><td>Cable Type & Size</td><td>Copper, ${sys.acWire.l}, THHN/THWN-2, 600V, 90°C</td></tr>
-            <tr><td>Main Circuit Breaker</td><td>${sys.breaker}A, 230V, 2-Pole, 10kA IC</td></tr>
-            <tr><td>Surge Protection</td><td>Type II SPD — AC side</td></tr>
-        </table>
-        ${sys.battery?`
-        <table>
-            <tr><th colspan="2">BATTERY SYSTEM — PROTECTED DESIGN</th></tr>
-            <tr><td>Battery Bank</td><td>${sys.battery.nominalKwh} kWh, ${sys.battery.nominalVoltage}V DC, ${sys.battery.battType}</td></tr>
-            <tr><td>DoD Limit</td><td>Max ${sys.battery.DoD}% — never exceed to prevent damage</td></tr>
-            <tr><td>Protection</td><td>Built-in BMS — overcharge, over-discharge, over-temp, short circuit</td></tr>
-        </table>
-        `:''}
-        <h3>🛡️ SAFETY & INSTALLATION REQUIREMENTS</h3>
-        <ul style="margin-left:20px;">
-            <li>All wiring sized with 125% continuous load derating — prevents overheating & fire risk</li>
-            <li>Minimum 1000V DC rated cable for PV side</li>
-            <li>Surge protection devices on both DC & AC sides</li>
-            <li>Proper grounding & bonding required</li>
-            <li>Installed by licensed electrical contractor</li>
-            <li>Compliant with PNEC 2017 & local building codes</li>
-        </ul>
-    `;
-
-    // CONTRACT TAB
-    document.getElementById('agreementContent').innerHTML = `
-        <div class="agreement-box">
-            <h2>CONTRACT AGREEMENT FOR SOLAR PV SYSTEM INSTALLATION</h2>
-            
-            <p><strong>Date:</strong> ${inputs.date}</p>
-            <p><strong>Client Name:</strong> ${inputs.clientName}</p>
-            <p><strong>Project Location:</strong>
+            <tr><td>Main Circuit Breaker</td><td>${sys.breaker}A, 230V, 2-Pole, 
