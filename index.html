@@ -16,7 +16,6 @@
             --header-grad: linear-gradient(90deg, #0F4C75, #136397);
             color-scheme: light;
         }
-
         html.dark-mode {
             --primary: #60A5FA; --secondary: #34D399; --accent: #60A5FA;
             --danger: #F87171; --warning: #FBBF24;
@@ -27,30 +26,23 @@
             --header-grad: linear-gradient(90deg, #1E40AF, #1E3A8A) !important;
             color-scheme: dark;
         }
-
         *{box-sizing:border-box; font-family: 'Segoe UI', sans-serif; margin:0; padding:0;}
         body{background:var(--bg-main); min-height:100vh; padding:16px; max-width:1200px; margin:0 auto; color:var(--text-main); line-height:1.6; transition: background 0.3s ease, color 0.3s ease !important;}
-        
         .theme-toggle{position:fixed; top:16px; right:16px; z-index:99999; background:var(--bg-card); border:2px solid var(--border); border-radius:50%; width:44px; height:44px; font-size:22px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px var(--shadow); transition:all 0.2s ease;}
         .theme-toggle:hover{transform:scale(1.15);}
-        
         .save-indicator{position:fixed; top:16px; right:70px; z-index:99998; font-size:12px; color:var(--secondary); background:var(--bg-card); padding:4px 8px; border-radius:6px; border:1px solid var(--border); opacity:0; transition:opacity 0.3s ease;}
         .save-indicator.show{opacity:1;}
-        
         .header-bar{background:var(--header-grad); color:white; padding:20px; border-radius:12px; margin-bottom:20px; box-shadow:0 6px 20px var(--shadow); position:relative;}
         .header-bar h1{font-size:20px; font-weight:700; margin-bottom:4px;}
         .header-bar p{opacity:0.9; font-size:13px;}
-        
         .card{background:var(--bg-card); border-radius:12px; padding:20px; margin-bottom:20px; box-shadow:0 4px 12px var(--shadow); border:1px solid var(--border); transition:background 0.3s ease !important;}
         .card h2{color:var(--primary); font-size:18px; font-weight:700; margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--border);}
         .card h3{color:var(--primary); font-size:15px; font-weight:600; margin:16px 0 8px;}
-        
         .grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:16px; margin-bottom:12px;}
         .form-group label{display:block; font-weight:600; margin-bottom:6px; color:var(--text-strong); font-size:14px;}
         input,select{width:100%; padding:10px 12px; border:1.5px solid var(--border); border-radius:8px; font-size:15px; background:var(--bg-alt); color:var(--text-main); transition:all 0.2s ease;}
         input:focus,select:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(59,130,246,0.15); background:var(--bg-card);}
         option{background:var(--bg-card); color:var(--text-main);}
-        
         .btn-group{display:flex; flex-wrap:wrap; gap:10px; margin-top:20px;}
         button{padding:12px 20px; border-radius:8px; font-size:15px; font-weight:600; cursor:pointer; border:none; transition:all 0.2s ease;}
         .btn-primary{background:linear-gradient(90deg, var(--secondary), #059669); color:white; box-shadow:0 4px 12px rgba(16,185,129,0.25);}
@@ -58,7 +50,6 @@
         .btn-secondary{background:var(--bg-card); color:var(--primary); border:2px solid var(--primary);}
         .btn-secondary:hover{background:var(--primary); color:white;}
         .btn-outline{background:transparent; color:var(--text-main); border:1.5px solid var(--border);}
-        
         .tabs{display:flex; flex-wrap:nowrap; overflow-x:auto; gap:4px; margin-bottom:20px; border-bottom:2px solid var(--border); padding-bottom:2px;}
         .tab{padding:10px 14px; border-radius:8px 8px 0 0; cursor:pointer; font-weight:600; font-size:13px; color:var(--text-main); border-bottom:3px solid transparent; white-space:nowrap; transition:all 0.2s ease;}
         .tab:hover{background:var(--bg-alt); color:var(--primary);}
@@ -67,7 +58,6 @@
         .tab-content{display:none; animation:fadeIn 0.3s ease;}
         .tab-content.active{display:block;}
         @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
-        
         .result-box{background:var(--bg-grad); border-left:5px solid var(--secondary); padding:16px; border-radius:10px; margin:16px 0;}
         .warning-box{background:linear-gradient(135deg, #FFFBEB, #FEF3C7); border-left:5px solid var(--warning); padding:14px 16px; border-radius:10px; margin:16px 0; color:#78350F;}
         .battery-note{background:linear-gradient(135deg, #EFF6FF, #DBEAFE); border-left:5px solid var(--accent); padding:14px 16px; border-radius:10px; margin:16px 0; color:#1E40AF;}
@@ -79,22 +69,18 @@
         html.dark-mode .wire-safe{color:#34D399;}
         .auto-price-note{color:#0284C7; font-style:italic; font-size:12px; margin-top:4px; display:block;}
         html.dark-mode .auto-price-note{color:#93C5FD;}
-        
         table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14px;}
         table th, table td{border:1px solid var(--border); padding:10px 12px; text-align:left; vertical-align:top;}
         table th{background:linear-gradient(180deg, #EFF6FF, #DBEAFE); color:var(--primary); font-weight:700;}
         html.dark-mode table th{background:linear-gradient(180deg, #1E3A8A, #1E40AF);}
         table tr:nth-child(even){background:var(--bg-alt);}
-        
         .agreement-box{border:2px solid var(--primary); border-radius:12px; padding:20px; background:var(--bg-card); line-height:1.8;}
         .agreement-box h2{text-align:center; text-decoration:underline; border-bottom:2px solid var(--primary); padding-bottom:12px; margin-bottom:20px;}
         .signature-section{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:30px;}
         .signature-line{border-bottom:1.5px solid var(--text-strong); margin-top:24px; margin-bottom:6px; min-height:24px;}
         .price-tag{font-size:18px; font-weight:700; color:var(--secondary);}
-        
-        .diagram-container{background:var(--bg-alt); border:2px solid var(--border); border-radius:12px; padding:12px; min-height:300px; overflow:auto;}
+        .diagram-container{background:var(--bg-alt); border:2px solid var(--border); border-radius:12px; padding:12px; min-height:450px; overflow:auto;}
         .divider{border:none; border-top:2px solid var(--border); margin:20px 0;}
-        
         @media print{
             *{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
             body{background:white !important; color:#000 !important;}
@@ -137,6 +123,7 @@
     <div class="tab" data-tab="agreement">📄 Contract</div>
 </div>
 
+<!-- ============== INPUT TAB ============== -->
 <div class="tab-content active card" id="input">
     <h2>Project Information</h2>
     <p style="margin-bottom:16px;">💾 <strong>Auto-Save ON:</strong> Everything you enter is automatically saved! If you close or exit the site, your data will still be here when you come back — no need to re-enter!</p>
@@ -233,56 +220,59 @@
     </div>
 </div>
 
+<!-- ============== BATTERY TAB ============== -->
 <div class="tab-content card" id="battery">
     <h2>🔋 Battery Sizing & Protection — Auto Shutoff @ 20%</h2>
     <p style="margin-bottom:16px;"><strong>Rules:</strong> 100% Total → 80% Usable → 20% Reserve. At 20% → Inverter auto-shuts off. Must recharge to use again.</p>
     <div id="batteryContent"></div>
 </div>
 
+<!-- ============== SUMMARY TAB ============== -->
 <div class="tab-content card" id="summary">
     <h2>📊 System Specifications & Wire Sizing</h2>
     <p style="margin-bottom:16px;">Wire sized with <strong>125% Safety Factor</strong> & <strong>≤3% Voltage Drop</strong> — PNEC 2017 Compliant, Fire-Safe.</p>
     <div id="summaryContent"></div>
 </div>
 
+<!-- ============== SLD DIAGRAM TAB ============== -->
 <div class="tab-content card" id="sld">
     <h2>⚡ Single Line Diagram</h2>
     <p style="margin-bottom:16px;">Permit-ready diagram — conductor sizing, protection ratings, PNEC 2017 compliant.</p>
     <div class="diagram-container" id="sldCanvas"></div>
 </div>
 
+<!-- ============== ELECTRICAL PLAN TAB ============== -->
 <div class="tab-content card" id="plan">
     <h2>📐 Electrical Plan & Technical Specifications</h2>
     <div id="planContent"></div>
 </div>
 
+<!-- ============== CONTRACT TAB ============== -->
 <div class="tab-content card" id="agreement">
     <h2>📄 Contract Agreement — Supply & Installation</h2>
     <div id="agreementContent"></div>
 </div>
 
-<!-- ✅ DARK MODE + 💾 AUTO-SAVE SYSTEM -->
+<!-- ================================================== -->
+<!-- ✅ AUTO-SAVE + DARK MODE SYSTEM -->
+<!-- ================================================== -->
 <script>
     const html = document.documentElement;
     const btn = document.getElementById('themeBtn');
     const saveIndicator = document.getElementById('saveIndicator');
     
-    // ==========================================
-    // 💾 AUTO-SAVE FUNCTIONS
-    // ==========================================
+    // Auto-save fields list
     const fieldsToSave = [
         'clientName', 'projAddress', 'sysType', 'monthlyKwh', 'projectPrice',
         'batteryType', 'autonomyHours', 'panelWp', 'dcLength', 'acLength',
         'peakSun', 'contractorName'
     ];
 
-    // Show "Saved" indicator
     function showSaved() {
         saveIndicator.classList.add('show');
         setTimeout(() => saveIndicator.classList.remove('show'), 1500);
     }
 
-    // Save single field to localStorage
     function saveField(id) {
         const el = document.getElementById(id);
         if (!el) return;
@@ -290,25 +280,20 @@
         showSaved();
     }
 
-    // Load ALL saved data on page open
     function loadAllData() {
         fieldsToSave.forEach(id => {
             const el = document.getElementById(id);
             const saved = localStorage.getItem('solarcalc_' + id);
-            if (el && saved !== null) {
-                el.value = saved;
-            }
+            if (el && saved !== null) el.value = saved;
         });
     }
 
-    // Clear ALL saved data (New Form)
     function clearAllData() {
         if (!confirm('Clear all data? This cannot be undone!')) return;
         fieldsToSave.forEach(id => localStorage.removeItem('solarcalc_' + id));
         location.reload();
     }
 
-    // Auto-save when user types/changes anything
     function setupAutoSave() {
         fieldsToSave.forEach(id => {
             const el = document.getElementById(id);
@@ -318,13 +303,10 @@
         });
     }
 
-    // ==========================================
-    // 🌙 DARK MODE
-    // ==========================================
+    // Dark Mode
     function loadTheme() {
         const saved = localStorage.getItem('darkMode');
         const sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        
         if (saved === 'true' || (saved === null && sysDark)) {
             html.classList.add('dark-mode');
             btn.textContent = '☀️';
@@ -340,18 +322,18 @@
         localStorage.setItem('darkMode', isDark);
     });
 
-    // ==========================================
-    // ✅ INITIALIZE EVERYTHING ON PAGE LOAD
-    // ==========================================
+    // Initialize
     document.addEventListener('DOMContentLoaded', () => {
-        loadTheme();        // Load dark mode preference
-        loadAllData();      // Load all saved form data
-        setupAutoSave();    // Start auto-save listeners
-        updateLiveCalc();   // Update calculation with loaded values
+        loadTheme();
+        loadAllData();
+        setupAutoSave();
+        updateLiveCalc();
     });
 </script>
 
+<!-- ================================================== -->
 <!-- TAB NAVIGATION -->
+<!-- ================================================== -->
 <script>
 document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', () => {
@@ -361,14 +343,19 @@ document.querySelectorAll('.tab').forEach(tab => {
         document.getElementById(tab.dataset.tab).classList.add('active');
     });
 });
+</script>
 
-// AUTO PRICING
+<!-- ================================================== -->
+<!-- CALCULATION ENGINE -->
+<!-- ================================================== -->
+<script>
+// Auto Pricing
 function calculatePrice(kwp, sysType) {
     const rates = {'Grid-tie':50000, 'Hybrid':70000, 'Off-grid':100000};
     return Math.round(kwp * (rates[sysType] || 50000));
 }
 
-// WIRE SIZING
+// Wire Sizing
 function getWireSizeDC(kw, voc, length) {
     const imp = kw * 1000 / voc;
     const amps = imp * 1.25;
@@ -382,6 +369,7 @@ function getWireSizeDC(kw, voc, length) {
     const vDrop = ((2 * length * 0.01724 * imp) / sel.a).toFixed(2);
     return {...sel, amps:amps.toFixed(1), vDrop, minArea:minArea.toFixed(1)};
 }
+
 function getWireSizeAC(kw, length) {
     const fla = (kw * 1000 / 230) / 0.95;
     const amps = fla * 1.25;
@@ -396,25 +384,23 @@ function getWireSizeAC(kw, length) {
     const vDrop = ((2 * length * 0.01724 * fla) / sel.a).toFixed(2);
     return {...sel, amps:amps.toFixed(1), vDrop, minArea:minArea.toFixed(1)};
 }
+
 function getBreaker(wire) {
     const map = {2.5:16,4:25,5.5:25,6:32,8:40,10:50,14:63,22:80,25:100};
     return map[wire.a] || 32;
 }
 
-// ✅ BATTERY SIZING — 100% → 80% USABLE → 20% RESERVE + AUTO SHUTOFF
+// Battery Sizing — 20% Auto-Shutoff
 function calculateBattery(dailyLoad, battType, autonomyHours) {
-    const DoD = battType === 'LiFePO4' ? 0.80 : 0.50; // LiFePO4: use 80%, leave 20% always
-    const minRemainingPercent = battType === 'LiFePO4' ? 20 : 50; // 20% MUST remain — auto shutoff point
-    const safetyMargin = 1.15; // +15% for aging & heat
-    const tempDerate = 1.10;   // +10% for tropical heat
-    
-    const usableCapacity = dailyLoad * autonomyHours / 24; // Energy needed for backup
+    const DoD = battType === 'LiFePO4' ? 0.80 : 0.50;
+    const minRemainingPercent = battType === 'LiFePO4' ? 20 : 50;
+    const safetyMargin = 1.15;
+    const tempDerate = 1.10;
+    const usableCapacity = dailyLoad * autonomyHours / 24;
     const requiredUsable = usableCapacity * safetyMargin * tempDerate;
-    const totalBatteryCapacity = requiredUsable / DoD; // Total battery size
-    
+    const totalBatteryCapacity = requiredUsable / DoD;
     const nominalVoltage = Math.ceil(Math.sqrt(totalBatteryCapacity) / 12) * 12 || 48;
     const Ah = Math.round((totalBatteryCapacity / nominalVoltage) * 10) / 10;
-    
     return {
         totalKwh: Math.round(totalBatteryCapacity * 10) / 10,
         usableKwh: Math.round(requiredUsable * 10) / 10,
@@ -428,7 +414,7 @@ function calculateBattery(dailyLoad, battType, autonomyHours) {
     };
 }
 
-// MAIN CALCULATION
+// Main System Calculation
 function calculateSystem(inputs) {
     const {monthlyKwh, panelWp, peakSun, dcLength, acLength, sysType, batteryType, autonomyHours, projectPrice} = inputs;
     const dailyLoad = monthlyKwh / 30;
@@ -456,11 +442,12 @@ function calculateSystem(inputs) {
     return {dailyLoad:Math.round(dailyLoad*10)/10, reqKwp, actualKwp:realKwp, panelCount, panelWp, invKw, monthlyProd, dcWire, acWire, breaker, voc, battery, finalPrice, isAutoPrice};
 }
 
-// LIVE CALCULATION — Update when any input changes
+// Live Calculation Update
 ['monthlyKwh','panelWp','peakSun','dcLength','acLength','sysType','batteryType','autonomyHours','projectPrice'].forEach(id=>{
     document.getElementById(id).addEventListener('input', updateLiveCalc);
     document.getElementById(id).addEventListener('change', updateLiveCalc);
 });
+
 function updateLiveCalc() {
     const inputs = {
         monthlyKwh:+document.getElementById('monthlyKwh').value||250,
@@ -479,8 +466,11 @@ function updateLiveCalc() {
     document.getElementById('calcOut').innerHTML = html;
 }
 
-// GENERATE ALL DOCUMENTS
+// ==================================================
+// 🚀 GENERATE ALL DOCUMENTS — NOW FULLY WORKING!
+// ==================================================
 function generateAll() {
+    console.log('Generating all documents...'); // Debug log
     const today = new Date().toLocaleDateString('en-PH', {year:'numeric', month:'long', day:'numeric'});
     const inputs = {
         clientName:document.getElementById('clientName').value||'Client',
@@ -499,7 +489,7 @@ function generateAll() {
     };
     const sys = calculateSystem(inputs);
 
-    // BATTERY TAB — Full rules display
+    // -------- BATTERY TAB --------
     if(sys.battery) {
         document.getElementById('batteryContent').innerHTML = `
             <table>
@@ -533,7 +523,7 @@ function generateAll() {
         document.getElementById('batteryContent').innerHTML = `<p>Select <strong>Hybrid</strong> or <strong>Off-grid</strong> system type to view battery sizing and protection calculations.</p>`;
     }
 
-    // SUMMARY TAB
+    // -------- SUMMARY TAB --------
     document.getElementById('summaryContent').innerHTML = `
         <table>
             <tr><th colspan="2">📊 SYSTEM SIZING</th></tr>
@@ -563,7 +553,7 @@ function generateAll() {
         <div class="warning-box"><strong>✅ Fire-Safe Design:</strong> All conductors sized with 125% continuous load derating per PNEC 2017 — prevents overheating and fire risk.</div>
     `;
 
-    // SLD DIAGRAM — Auto Dark Mode Colors
+    // -------- SLD DIAGRAM TAB --------
     const isDark = document.documentElement.classList.contains('dark-mode');
     const svgText = isDark ? '#F8FAFC' : '#0F172A';
     const svgFill1 = isDark ? '#1E3A8A' : '#E0F2FE';
@@ -612,4 +602,5 @@ function generateAll() {
     
     <rect x="30" y="250" width="500" height="140" rx="6" fill="${svgBg}" stroke="${svgBorder}"/>
     <text x="45" y="275" font-size="13" font-weight="bold" fill="${svgText}">LEGEND & SIZING — PNEC 2017 COMPLIANT</text>
-    <text x
+    <text x="45" y="300" font-size="11" fill="${svgText}">DC: ${sys.dcWire.l} PV1-F — ${sys.dcWire.amps}A, Drop: ${sys.dcWire.vDrop}V</text>
+    <text x="45" y="320" font-size="11" fill="${svgText}">AC:
