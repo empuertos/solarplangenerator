@@ -27,48 +27,41 @@
             color-scheme: dark;
         }
         *{box-sizing:border-box; font-family: 'Segoe UI', sans-serif; margin:0; padding:0;}
-        body{background:var(--bg-main); min-height:100vh; padding:16px; max-width:1200px; margin:0 auto; color:var(--text-main); line-height:1.6; transition: background 0.3s ease, color 0.3s ease !important;}
-        .theme-toggle{position:fixed; top:16px; right:16px; z-index:99999; background:var(--bg-card); border:2px solid var(--border); border-radius:50%; width:44px; height:44px; font-size:22px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px var(--shadow); transition:all 0.2s ease;}
-        .theme-toggle:hover{transform:scale(1.15);}
+        body{background:var(--bg-main); min-height:100vh; padding:16px; max-width:1200px; margin:0 auto; color:var(--text-main); line-height:1.6; transition:background 0.3s ease !important;}
+        .theme-toggle{position:fixed; top:16px; right:16px; z-index:99999; background:var(--bg-card); border:2px solid var(--border); border-radius:50%; width:44px; height:44px; font-size:22px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px var(--shadow);}
         .save-indicator{position:fixed; top:16px; right:70px; z-index:99998; font-size:12px; color:var(--secondary); background:var(--bg-card); padding:4px 8px; border-radius:6px; border:1px solid var(--border); opacity:0; transition:opacity 0.3s ease;}
         .save-indicator.show{opacity:1;}
         .header-bar{background:var(--header-grad); color:white; padding:20px; border-radius:12px; margin-bottom:20px; box-shadow:0 6px 20px var(--shadow); position:relative;}
         .header-bar h1{font-size:20px; font-weight:700; margin-bottom:4px;}
-        .header-bar p{opacity:0.9; font-size:13px;}
-        .card{background:var(--bg-card); border-radius:12px; padding:20px; margin-bottom:20px; box-shadow:0 4px 12px var(--shadow); border:1px solid var(--border); transition:background 0.3s ease !important;}
+        .card{background:var(--bg-card); border-radius:12px; padding:20px; margin-bottom:20px; box-shadow:0 4px 12px var(--shadow); border:1px solid var(--border);}
         .card h2{color:var(--primary); font-size:18px; font-weight:700; margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--border);}
-        .card h3{color:var(--primary); font-size:15px; font-weight:600; margin:16px 0 8px;}
         .grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:16px; margin-bottom:12px;}
         .form-group label{display:block; font-weight:600; margin-bottom:6px; color:var(--text-strong); font-size:14px;}
-        input,select{width:100%; padding:10px 12px; border:1.5px solid var(--border); border-radius:8px; font-size:15px; background:var(--bg-alt); color:var(--text-main); transition:all 0.2s ease;}
-        input:focus,select:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(59,130,246,0.15); background:var(--bg-card);}
-        option{background:var(--bg-card); color:var(--text-main);}
+        input,select{width:100%; padding:10px 12px; border:1.5px solid var(--border); border-radius:8px; font-size:15px; background:var(--bg-alt); color:var(--text-main);}
+        input:focus,select:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(59,130,246,0.15);}
         .btn-group{display:flex; flex-wrap:wrap; gap:10px; margin-top:20px;}
         button{padding:12px 20px; border-radius:8px; font-size:15px; font-weight:600; cursor:pointer; border:none; transition:all 0.2s ease;}
         .btn-primary{background:linear-gradient(90deg, var(--secondary), #059669); color:white; box-shadow:0 4px 12px rgba(16,185,129,0.25);}
-        .btn-primary:hover{transform:translateY(-2px); box-shadow:0 6px 18px rgba(16,185,129,0.35);}
+        .btn-primary:hover{transform:translateY(-2px);}
         .btn-secondary{background:var(--bg-card); color:var(--primary); border:2px solid var(--primary);}
         .btn-secondary:hover{background:var(--primary); color:white;}
         .btn-outline{background:transparent; color:var(--text-main); border:1.5px solid var(--border);}
         .tabs{display:flex; flex-wrap:nowrap; overflow-x:auto; gap:4px; margin-bottom:20px; border-bottom:2px solid var(--border); padding-bottom:2px;}
-        .tab{padding:10px 14px; border-radius:8px 8px 0 0; cursor:pointer; font-weight:600; font-size:13px; color:var(--text-main); border-bottom:3px solid transparent; white-space:nowrap; transition:all 0.2s ease;}
+        .tab{padding:10px 14px; border-radius:8px 8px 0 0; cursor:pointer; font-weight:600; font-size:13px; color:var(--text-main); border-bottom:3px solid transparent; white-space:nowrap;}
         .tab:hover{background:var(--bg-alt); color:var(--primary);}
         .tab.active{color:var(--primary); border-bottom:3px solid var(--secondary); background:rgba(16,185,129,0.06);}
-        html.dark-mode .tab.active{background:rgba(52,211,153,0.1);}
         .tab-content{display:none; animation:fadeIn 0.3s ease;}
         .tab-content.active{display:block;}
         @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
         .result-box{background:var(--bg-grad); border-left:5px solid var(--secondary); padding:16px; border-radius:10px; margin:16px 0;}
         .warning-box{background:linear-gradient(135deg, #FFFBEB, #FEF3C7); border-left:5px solid var(--warning); padding:14px 16px; border-radius:10px; margin:16px 0; color:#78350F;}
         .battery-note{background:linear-gradient(135deg, #EFF6FF, #DBEAFE); border-left:5px solid var(--accent); padding:14px 16px; border-radius:10px; margin:16px 0; color:#1E40AF;}
-        html.dark-mode .warning-box{background:linear-gradient(135deg, #423600, #5C4900); color:#FDE047; border-left-color:#FBBF24;}
-        html.dark-mode .battery-note{background:linear-gradient(135deg, #1E3A8A, #1E40AF); color:#BFDBFE; border-left-color:#60A5FA;}
-        .highlight{background:#FEF3C7; color:#92400E; padding:2px 8px; border-radius:4px; font-weight:600; display:inline-block; margin:2px 0;}
+        html.dark-mode .warning-box{background:linear-gradient(135deg, #423600, #5C4900); color:#FDE047;}
+        html.dark-mode .battery-note{background:linear-gradient(135deg, #1E3A8A, #1E40AF); color:#BFDBFE;}
+        .highlight{background:#FEF3C7; color:#92400E; padding:2px 8px; border-radius:4px; font-weight:600; display:inline-block;}
         html.dark-mode .highlight{background:#78350F; color:#FDE047;}
         .wire-safe{color:#059669; font-weight:700;}
         html.dark-mode .wire-safe{color:#34D399;}
-        .auto-price-note{color:#0284C7; font-style:italic; font-size:12px; margin-top:4px; display:block;}
-        html.dark-mode .auto-price-note{color:#93C5FD;}
         table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14px;}
         table th, table td{border:1px solid var(--border); padding:10px 12px; text-align:left; vertical-align:top;}
         table th{background:linear-gradient(180deg, #EFF6FF, #DBEAFE); color:var(--primary); font-weight:700;}
@@ -80,7 +73,6 @@
         .signature-line{border-bottom:1.5px solid var(--text-strong); margin-top:24px; margin-bottom:6px; min-height:24px;}
         .price-tag{font-size:18px; font-weight:700; color:var(--secondary);}
         .diagram-container{background:var(--bg-alt); border:2px solid var(--border); border-radius:12px; padding:12px; min-height:450px; overflow:auto;}
-        .divider{border:none; border-top:2px solid var(--border); margin:20px 0;}
         @media print{
             *{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
             body{background:white !important; color:#000 !important;}
@@ -91,16 +83,11 @@
         @media(max-width:768px){
             body{padding:12px;}
             .header-bar{padding:16px; padding-right:60px;}
-            .header-bar h1{font-size:17px;}
             .card{padding:16px;}
             .grid{grid-template-columns:1fr; gap:12px;}
             .btn-group{flex-direction:column;}
             button{width:100%;}
-            .signature-section{grid-template-columns:1fr; gap:20px;}
-            .tabs{gap:2px;}
-            .tab{padding:8px 10px; font-size:12px;}
-            .theme-toggle{top:12px; right:12px; width:40px; height:40px; font-size:20px;}
-            .save-indicator{right:60px; font-size:11px;}
+            .signature-section{grid-template-columns:1fr;}
         }
     </style>
 </head>
@@ -111,7 +98,7 @@
 
 <div class="header-bar no-print">
     <h1>☀️ SOLAR PV SYSTEM DESIGN & CONTRACT AGREEMENT</h1>
-    <p>💾 Auto-Save Enabled — Your data stays saved! • 🔋 Auto-Shutoff @ 20% Reserve • Dark Mode • Print Ready</p>
+    <p>💾 Auto-Save Enabled • 🔋 Auto-Shutoff @ 20% Reserve • Dark Mode • Print Ready</p>
 </div>
 
 <div class="tabs no-print">
@@ -123,10 +110,10 @@
     <div class="tab" data-tab="agreement">📄 Contract</div>
 </div>
 
-<!-- ============== INPUT TAB ============== -->
+<!-- INPUT TAB -->
 <div class="tab-content active card" id="input">
     <h2>Project Information</h2>
-    <p style="margin-bottom:16px;">💾 <strong>Auto-Save ON:</strong> Everything you enter is automatically saved! If you close or exit the site, your data will still be here when you come back — no need to re-enter!</p>
+    <p style="margin-bottom:16px;">💾 <strong>Auto-Save ON:</strong> Everything you enter is automatically saved!</p>
     
     <div class="grid">
         <div class="form-group">
@@ -147,7 +134,7 @@
         </div>
         <div class="form-group">
             <label>⚡ Monthly Electricity Consumption (kWh)</label>
-            <input type="number" id="monthlyKwh" value="250" placeholder="e.g. 250 kWh — from utility bill">
+            <input type="number" id="monthlyKwh" value="250" placeholder="e.g. 250 kWh">
         </div>
         <div class="form-group">
             <label>💰 Total Project Price (PHP) — Leave blank for AUTO</label>
@@ -200,11 +187,8 @@
         <ul style="margin:8px 0 0 20px; font-size:14px;">
             <li><strong>Total Capacity:</strong> 100% — Full charge</li>
             <li><strong>Usable Capacity:</strong> 80% — This is ALL you can safely use!</li>
-            <li><strong>⚠️ 20% RESERVE — AUTO SHUTOFF:</strong> When battery reaches <strong>20% remaining</strong> → Inverter automatically turns OFF! System stops to protect battery.</li>
-            <li><strong>🔄 To use again:</strong> Must recharge above 20% first — system will NOT turn on until recharged!</li>
-            <li><strong>DoD Limit:</strong> LiFePO4 = 80% max (20% always remains), Lead-Acid = 50% max</li>
-            <li><strong>Safety Margin:</strong> +15% extra — allowance for aging & heat</li>
-            <li><strong>Temperature Protection:</strong> Keep below 35°C — battery life halves at 40°C!</li>
+            <li><strong>⚠️ 20% RESERVE — AUTO SHUTOFF:</strong> When battery reaches <strong>20% remaining</strong> → Inverter automatically turns OFF!</li>
+            <li><strong>🔄 To use again:</strong> Must recharge above 20% first!</li>
         </ul>
     </div>
 
@@ -220,48 +204,47 @@
     </div>
 </div>
 
-<!-- ============== BATTERY TAB ============== -->
+<!-- BATTERY TAB -->
 <div class="tab-content card" id="battery">
     <h2>🔋 Battery Sizing & Protection — Auto Shutoff @ 20%</h2>
-    <p style="margin-bottom:16px;"><strong>Rules:</strong> 100% Total → 80% Usable → 20% Reserve. At 20% → Inverter auto-shuts off. Must recharge to use again.</p>
+    <p style="margin-bottom:16px;"><strong>Rules:</strong> 100% Total → 80% Usable → 20% Reserve. At 20% → Inverter auto-shuts off.</p>
     <div id="batteryContent"></div>
 </div>
 
-<!-- ============== SUMMARY TAB ============== -->
+<!-- SUMMARY TAB -->
 <div class="tab-content card" id="summary">
     <h2>📊 System Specifications & Wire Sizing</h2>
-    <p style="margin-bottom:16px;">Wire sized with <strong>125% Safety Factor</strong> & <strong>≤3% Voltage Drop</strong> — PNEC 2017 Compliant, Fire-Safe.</p>
+    <p style="margin-bottom:16px;">Wire sized with <strong>125% Safety Factor</strong> & <strong>≤3% Voltage Drop</strong> — PNEC 2017 Compliant.</p>
     <div id="summaryContent"></div>
 </div>
 
-<!-- ============== SLD DIAGRAM TAB ============== -->
+<!-- SLD DIAGRAM TAB -->
 <div class="tab-content card" id="sld">
     <h2>⚡ Single Line Diagram</h2>
-    <p style="margin-bottom:16px;">Permit-ready diagram — conductor sizing, protection ratings, PNEC 2017 compliant.</p>
+    <p style="margin-bottom:16px;">Permit-ready diagram — PNEC 2017 compliant.</p>
     <div class="diagram-container" id="sldCanvas"></div>
 </div>
 
-<!-- ============== ELECTRICAL PLAN TAB ============== -->
+<!-- ELECTRICAL PLAN TAB -->
 <div class="tab-content card" id="plan">
     <h2>📐 Electrical Plan & Technical Specifications</h2>
     <div id="planContent"></div>
 </div>
 
-<!-- ============== CONTRACT TAB ============== -->
+<!-- CONTRACT TAB -->
 <div class="tab-content card" id="agreement">
     <h2>📄 Contract Agreement — Supply & Installation</h2>
     <div id="agreementContent"></div>
 </div>
 
 <!-- ================================================== -->
-<!-- ✅ AUTO-SAVE + DARK MODE SYSTEM -->
+<!-- AUTO-SAVE + DARK MODE SYSTEM -->
 <!-- ================================================== -->
 <script>
     const html = document.documentElement;
     const btn = document.getElementById('themeBtn');
     const saveIndicator = document.getElementById('saveIndicator');
     
-    // Auto-save fields list
     const fieldsToSave = [
         'clientName', 'projAddress', 'sysType', 'monthlyKwh', 'projectPrice',
         'batteryType', 'autonomyHours', 'panelWp', 'dcLength', 'acLength',
@@ -322,7 +305,6 @@
         localStorage.setItem('darkMode', isDark);
     });
 
-    // Initialize
     document.addEventListener('DOMContentLoaded', () => {
         loadTheme();
         loadAllData();
@@ -331,9 +313,7 @@
     });
 </script>
 
-<!-- ================================================== -->
 <!-- TAB NAVIGATION -->
-<!-- ================================================== -->
 <script>
 document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', () => {
@@ -345,17 +325,13 @@ document.querySelectorAll('.tab').forEach(tab => {
 });
 </script>
 
-<!-- ================================================== -->
 <!-- CALCULATION ENGINE -->
-<!-- ================================================== -->
 <script>
-// Auto Pricing
 function calculatePrice(kwp, sysType) {
     const rates = {'Grid-tie':50000, 'Hybrid':70000, 'Off-grid':100000};
     return Math.round(kwp * (rates[sysType] || 50000));
 }
 
-// Wire Sizing
 function getWireSizeDC(kw, voc, length) {
     const imp = kw * 1000 / voc;
     const amps = imp * 1.25;
@@ -390,7 +366,6 @@ function getBreaker(wire) {
     return map[wire.a] || 32;
 }
 
-// Battery Sizing — 20% Auto-Shutoff
 function calculateBattery(dailyLoad, battType, autonomyHours) {
     const DoD = battType === 'LiFePO4' ? 0.80 : 0.50;
     const minRemainingPercent = battType === 'LiFePO4' ? 20 : 50;
@@ -414,7 +389,6 @@ function calculateBattery(dailyLoad, battType, autonomyHours) {
     };
 }
 
-// Main System Calculation
 function calculateSystem(inputs) {
     const {monthlyKwh, panelWp, peakSun, dcLength, acLength, sysType, batteryType, autonomyHours, projectPrice} = inputs;
     const dailyLoad = monthlyKwh / 30;
@@ -442,7 +416,6 @@ function calculateSystem(inputs) {
     return {dailyLoad:Math.round(dailyLoad*10)/10, reqKwp, actualKwp:realKwp, panelCount, panelWp, invKw, monthlyProd, dcWire, acWire, breaker, voc, battery, finalPrice, isAutoPrice};
 }
 
-// Live Calculation Update
 ['monthlyKwh','panelWp','peakSun','dcLength','acLength','sysType','batteryType','autonomyHours','projectPrice'].forEach(id=>{
     document.getElementById(id).addEventListener('input', updateLiveCalc);
     document.getElementById(id).addEventListener('change', updateLiveCalc);
@@ -467,10 +440,10 @@ function updateLiveCalc() {
 }
 
 // ==================================================
-// 🚀 GENERATE ALL DOCUMENTS — NOW FULLY WORKING!
+// 🚀 FULLY FIXED — GENERATE ALL DOCUMENTS
 // ==================================================
 function generateAll() {
-    console.log('Generating all documents...'); // Debug log
+    console.log('✅ Generating all documents...');
     const today = new Date().toLocaleDateString('en-PH', {year:'numeric', month:'long', day:'numeric'});
     const inputs = {
         clientName:document.getElementById('clientName').value||'Client',
@@ -548,7 +521,7 @@ function generateAll() {
         </table>
         <table>
             <tr><th colspan="2">💰 PROJECT PRICE</th></tr>
-            <tr><td>Total Contract Price ${sys.isAutoPrice?'<span class="auto-price-note">(Estimated: ₱50k/70k/100k per kWp based on system type)</span>':''}</td><td class="price-tag">₱ ${sys.finalPrice.toLocaleString('en-PH')}</td></tr>
+            <tr><td>Total Contract Price ${sys.isAutoPrice?'<span style="color:#0284C7; font-style:italic; font-size:12px;">(Estimated: ₱50k/70k/100k per kWp based on system type)</span>':''}</td><td class="price-tag">₱ ${sys.finalPrice.toLocaleString('en-PH')}</td></tr>
         </table>
         <div class="warning-box"><strong>✅ Fire-Safe Design:</strong> All conductors sized with 125% continuous load derating per PNEC 2017 — prevents overheating and fire risk.</div>
     `;
@@ -603,4 +576,40 @@ function generateAll() {
     <rect x="30" y="250" width="500" height="140" rx="6" fill="${svgBg}" stroke="${svgBorder}"/>
     <text x="45" y="275" font-size="13" font-weight="bold" fill="${svgText}">LEGEND & SIZING — PNEC 2017 COMPLIANT</text>
     <text x="45" y="300" font-size="11" fill="${svgText}">DC: ${sys.dcWire.l} PV1-F — ${sys.dcWire.amps}A, Drop: ${sys.dcWire.vDrop}V</text>
-    <text x="45" y="320" font-size="11" fill="${svgText}">AC:
+    <text x="45" y="320" font-size="11" fill="${svgText}">AC: ${sys.acWire.l} THHN — ${sys.acWire.amps}A, Drop: ${sys.acWire.vDrop}V</text>
+    <text x="45" y="340" font-size="11" fill="${svgText}">Breaker: ${sys.breaker}A 2-Pole • 230V, 60Hz</text>
+    <text x="45" y="360" font-size="11" fill="${svgText}">System: ${sys.actualKwp} kWp ${inputs.sysType} — ${inputs.date}</text>
+</svg>`;
+
+    // -------- ELECTRICAL PLAN TAB --------
+    document.getElementById('planContent').innerHTML = `
+        <h3>📐 GENERAL SPECIFICATIONS & TECHNICAL DATA</h3>
+        <table>
+            <tr><th colspan="2">PROJECT INFORMATION</th></tr>
+            <tr><td>Project Name / Client</td><td><strong>${inputs.clientName}</strong></td></tr>
+            <tr><td>Location / Address</td><td>${inputs.projAddress}</td></tr>
+            <tr><td>System Type</td><td>${inputs.sysType}</td></tr>
+            <tr><td>Date Prepared</td><td>${inputs.date}</td></tr>
+        </table>
+        <table>
+            <tr><th colspan="2">PV MODULE SPECIFICATIONS</th></tr>
+            <tr><td>Module Type</td><td>Monocrystalline Silicon — High Efficiency</td></tr>
+            <tr><td>Module Power</td><td>${inputs.panelWp} Wp per panel</td></tr>
+            <tr><td>Quantity</td><td>${sys.panelCount} units</td></tr>
+            <tr><td>Total Array Capacity</td><td><strong>${sys.actualKwp} kWp DC</strong></td></tr>
+            <tr><td>Module Efficiency</td><td>≥21%</td></tr>
+            <tr><td>System Voltage</td><td>${sys.voc} V DC Max</td></tr>
+        </table>
+        <table>
+            <tr><th colspan="2">INVERTER SPECIFICATIONS</th></tr>
+            <tr><td>Capacity / Size</td><td><strong>${sys.invKw} kW</strong></td></tr>
+            <tr><td>Input Voltage Range</td><td>120–${sys.voc} V DC</td></tr>
+            <tr><td>Output</td><td>230V AC, 60Hz, Single Phase</td></tr>
+            <tr><td>Efficiency</td><td>≥97.5% European Efficiency</td></tr>
+            <tr><td>Protection</td><td>Anti-Islanding, Over/Under Voltage, Over Temperature, Short Circuit</td></tr>
+        </table>
+        <table>
+            <tr><th colspan="2">CABLES & PROTECTION — PNEC 2017 COMPLIANT</th></tr>
+            <tr><td>DC Side — PV Cable</td><td>${sys.dcWire.l}, PV1-F, UV-Resistant, 1000V DC</td></tr>
+            <tr><td>AC Side — Inverter Output</td><td>${sys.acWire.l}, THHN/THWN-2, Copper, 600V, 90°C</td></tr>
+           
