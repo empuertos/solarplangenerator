@@ -263,7 +263,7 @@
 </div>
 
 <script>
-// ========== DARK MODE LOGIC — GUMAGANA NA! ==========
+// ========== ✅ DARK MODE — GUMAGANA NA! ==========
 const htmlEl = document.documentElement;
 const themeBtn = document.getElementById('themeBtn');
 
@@ -590,4 +590,9 @@ function generateAll() {
             <tr><th colspan="2">BATTERY SYSTEM — PROTECTED DESIGN</th></tr>
             <tr><td>Battery Bank</td><td>${sys.battery.nominalKwh} kWh, ${sys.battery.nominalVoltage}V DC, ${sys.battery.battType}</td></tr>
             <tr><td>DoD Limit</td><td>Max ${sys.battery.DoD}% — never exceed to prevent damage</td></tr>
-            <tr><td>Protection</td><td>Built-in BMS — overcharge, over-discharge, over
+            <tr><td>Protection</td><td>Built-in BMS — overcharge, over-discharge, over-temp, short circuit</td></tr>
+        </table>
+        `:''}
+        <h3>🛡️ SAFETY & INSTALLATION REQUIREMENTS</h3>
+        <ul style="margin-left:20px;">
+            <li>All wiring sized with 125% continuous load derating — prevents overheating
