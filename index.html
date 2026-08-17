@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PRO Solar PV Design & Contract Generator</title>
+    <title>Solar PV Design Tool | © Stevenson Empuerto 2026</title>
     <!-- THEME LOADS FIRST - PREVENTS FLASH -->
     <script>
         (function(){
@@ -65,6 +65,27 @@
             color: var(--text-main);
             line-height: 1.6;
             transition: background 0.25s ease, color 0.25s ease;
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
+        /* Anti-copy protection message */
+        body::after {
+            content: '';
+            position: fixed;
+            pointer-events: none;
+            z-index: 99998;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 200px,
+                rgba(15, 76, 117, 0.015) 200px,
+                rgba(15, 76, 117, 0.015) 400px
+            );
         }
 
         .theme-toggle {
@@ -123,19 +144,56 @@
             color: #FECACA;
         }
 
-        .header-bar {
-            background: var(--header-grad);
+        .company-header {
+            background: linear-gradient(135deg, #0F4C75 0%, #136397 50%, #0F4C75 100%);
             color: white;
-            padding: 20px;
+            padding: 24px;
             border-radius: 12px;
             margin-bottom: 20px;
-            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .header-bar h1 {
-            font-size: 20px;
+        html.dark-mode .company-header {
+            background: linear-gradient(135deg, #1E3A8A 0%, #1E40AF 50%, #1E3A8A 100%);
+        }
+
+        .company-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .company-header h1 {
+            font-size: 22px;
             font-weight: 700;
             margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .company-header .subtitle {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-bottom: 12px;
+        }
+
+        .company-header .meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 12px;
+            opacity: 0.85;
+        }
+
+        .company-header .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .card {
@@ -434,6 +492,170 @@
             transition: all 0.25s ease;
         }
 
+        /* PROFESSIONAL ENHANCEMENTS */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .dash-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 16px;
+            border-left: 4px solid var(--secondary);
+            box-shadow: 0 2px 8px var(--shadow);
+            transition: all 0.25s ease;
+        }
+
+        .dash-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px var(--shadow);
+        }
+
+        .dash-card .label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-main);
+            opacity: 0.7;
+            margin-bottom: 4px;
+        }
+
+        .dash-card .value {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .dash-card .unit {
+            font-size: 13px;
+            font-weight: 500;
+            opacity: 0.7;
+        }
+
+        .dash-card.accent {
+            border-left-color: var(--accent);
+        }
+
+        .dash-card.accent .value {
+            color: var(--accent);
+        }
+
+        .dash-card.warning {
+            border-left-color: var(--warning);
+        }
+
+        .dash-card.warning .value {
+            color: var(--warning);
+        }
+
+        .section-badge {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .doc-footer {
+            margin-top: 30px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+            font-size: 11px;
+            color: var(--text-main);
+            opacity: 0.7;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .confidential {
+            text-align: center;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.5;
+            margin-top: 8px;
+        }
+
+        .sign-blocks {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .sign-block {
+            text-align: center;
+        }
+
+        .sign-block .sign-line {
+            border-bottom: 1.5px solid var(--text-strong);
+            margin-top: 40px;
+            margin-bottom: 6px;
+        }
+
+        .sign-block .role {
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .sign-block .name-line {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .assumptions-box {
+            background: var(--bg-alt);
+            border: 1px dashed var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            margin: 16px 0;
+            font-size: 13px;
+        }
+
+        .assumptions-box h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .assumptions-box ul {
+            margin-left: 20px;
+            columns: 2;
+            gap: 10px;
+        }
+
+        /* COPYRIGHT FOOTER */
+        .copyright-footer {
+            text-align: center;
+            padding: 20px 10px 10px;
+            font-size: 12px;
+            color: var(--text-main);
+            opacity: 0.7;
+            border-top: 1px solid var(--border);
+            margin-top: 20px;
+            line-height: 1.6;
+        }
+
+        .copyright-footer .owner {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        @media (max-width: 600px) {
+            .assumptions-box ul {
+                columns: 1;
+            }
+        }
+
         @media print {
             * {
                 -webkit-print-color-adjust: exact;
@@ -447,6 +669,11 @@
             }
             .no-print, .theme-toggle, .save-indicator, .error-box, .tabs {
                 display: none !important;
+            }
+            .copyright-footer.no-print {
+                display: block !important;
+                border-top: 1px solid #999 !important;
+                page-break-after: avoid;
             }
             /* SHOW ALL TAB CONTENTS WHEN PRINTING */
             .tab-content {
@@ -505,13 +732,34 @@
             .price-tag {
                 color: #065f46 !important;
             }
+            .company-header {
+                background: #0F4C75 !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .dash-card {
+                border: 1px solid #ccc !important;
+                box-shadow: none !important;
+                page-break-inside: avoid;
+            }
+            .section-badge {
+                background: #0F4C75 !important;
+                color: white !important;
+            }
+            .assumptions-box {
+                border: 1px dashed #999 !important;
+            }
+            .doc-footer {
+                border-top: 1px solid #999 !important;
+            }
         }
 
         @media (max-width: 768px) {
             body {
                 padding: 12px;
             }
-            .header-bar {
+            .company-header {
                 padding: 16px;
                 padding-right: 60px;
             }
@@ -539,9 +787,15 @@
 <button class="theme-toggle no-print" id="themeBtn" title="Toggle Dark/Light Mode">🌙</button>
 <div class="save-indicator no-print" id="saveIndicator">Saved</div>
 
-<div class="header-bar no-print">
+<div class="company-header no-print" id="companyHeader">
     <h1>SOLAR PV SYSTEM DESIGN & CONTRACT AGREEMENT</h1>
-    <p>Auto-Save Enabled | Auto-Shutoff @ 20% Reserve | Dark Mode | Print Ready</p>
+    <div class="subtitle">Professional Engineering Design Tool | PNEC 2017 Compliant | Owned by Stevenson Empuerto © 2026</div>
+    <div class="meta-row">
+        <div class="meta-item">📄 <span id="projectIdDisplay">Project ID: AUTO-GENERATED</span></div>
+        <div class="meta-item">📅 <span id="dateDisplay">Date: --</span></div>
+        <div class="meta-item">🔄 Revision: <strong>01</strong></div>
+        <div class="meta-item">📊 Status: <strong style="color:#34D399;">DRAFT</strong></div>
+    </div>
 </div>
 
 <div class="tabs no-print" id="mainTabs">
@@ -630,7 +884,27 @@
         </div>
         <div class="form-group">
             <label>Contractor / Installer Name *</label>
-            <input type="text" id="contractorName" placeholder="Company Name / License No." required>
+            <input type="text" id="contractorName" placeholder="Company Name" required>
+        </div>
+        <div class="form-group">
+            <label>Company License / SEC No.</label>
+            <input type="text" id="companyLicense" placeholder="License / Registration Number">
+        </div>
+        <div class="form-group">
+            <label>Company Contact Number</label>
+            <input type="text" id="companyContact" placeholder="+63 XXX XXX XXXX">
+        </div>
+        <div class="form-group">
+            <label>Company Email</label>
+            <input type="email" id="companyEmail" placeholder="info@company.com">
+        </div>
+        <div class="form-group">
+            <label>Prepared By (Engineer/Designer)</label>
+            <input type="text" id="preparedBy" placeholder="Full Name">
+        </div>
+        <div class="form-group">
+            <label>Checked By / Supervisor</label>
+            <input type="text" id="checkedBy" placeholder="Full Name">
         </div>
     </div>
 
@@ -689,6 +963,12 @@
     <div id="agreementContent"></div>
 </div>
 
+<!-- COPYRIGHT FOOTER -->
+<div class="copyright-footer no-print">
+    <div>© 2026 <span class="owner">Stevenson Empuerto</span>. All Rights Reserved.</div>
+    <div style="font-size:11px; margin-top:4px;">Solar PV System Design & Contract Generator | Pagmamay-ari ni Stevenson Empuerto</div>
+</div>
+
 <script>
 // ============================================================
 // DARK MODE - FULLY FIXED
@@ -715,6 +995,65 @@ themeBtn.addEventListener('click', function(e) {
 updateThemeIcon();
 
 // ============================================================
+// CODE PROTECTION - Disable Right Click & Dev Tools
+// ============================================================
+// Disable right-click context menu
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    return false;
+});
+
+// Disable common keyboard shortcuts for viewing source / dev tools
+document.addEventListener('keydown', function(e) {
+    // F12 (Dev Tools)
+    if (e.key === 'F12') {
+        e.preventDefault();
+        return false;
+    }
+    // Ctrl+U (View Source)
+    if (e.ctrlKey && e.key === 'u') {
+        e.preventDefault();
+        return false;
+    }
+    // Ctrl+Shift+I / J / C (Dev Tools)
+    if (e.ctrlKey && e.shiftKey && ['i', 'I', 'j', 'J', 'c', 'C'].includes(e.key)) {
+        e.preventDefault();
+        return false;
+    }
+    // Ctrl+S (Save Page)
+    if (e.ctrlKey && e.key === 's') {
+        e.preventDefault();
+        return false;
+    }
+});
+
+// Disable text selection on long press (mobile)
+document.addEventListener('touchstart', function(e) {
+    // Allow touch functionality but prevent easy copy
+}, { passive: true });
+
+// ============================================================
+// PROJECT ID GENERATOR
+// ============================================================
+function generateProjectId() {
+    var saved = localStorage.getItem('solarcalc_projectId');
+    if (saved) return saved;
+    
+    var now = new Date();
+    var yr = now.getFullYear().toString().slice(-2);
+    var mo = String(now.getMonth() + 1).padStart(2, '0');
+    var rand = Math.floor(Math.random() * 9000 + 1000);
+    var id = 'SPV-' + yr + mo + '-' + rand;
+    localStorage.setItem('solarcalc_projectId', id);
+    return id;
+}
+
+function updateHeaderDisplay() {
+    document.getElementById('projectIdDisplay').textContent = 'Project ID: ' + generateProjectId();
+    document.getElementById('dateDisplay').textContent = 'Date: ' + new Date().toLocaleDateString('en-PH', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+// ============================================================
 // AUTO-SAVE
 // ============================================================
 var saveIndicator = document.getElementById('saveIndicator');
@@ -724,7 +1063,8 @@ var tabsContainer = document.getElementById('mainTabs');
 var fieldsToSave = [
     'clientName', 'projAddress', 'sysType', 'monthlyKwh', 'projectPrice',
     'batteryType', 'autonomyHours', 'panelWp', 'dcLength', 'acLength',
-    'battLength', 'peakSun', 'contractorName'
+    'battLength', 'peakSun', 'contractorName', 'companyLicense',
+    'companyContact', 'companyEmail', 'preparedBy', 'checkedBy'
 ];
 
 function showSaved() {
@@ -757,6 +1097,7 @@ function clearAllData() {
         localStorage.removeItem('solarcalc_' + id);
     });
     localStorage.removeItem('darkMode');
+    localStorage.removeItem('solarcalc_projectId');
     tabsContainer.classList.remove('show');
     htmlEl.classList.remove('dark-mode');
     lastSysData = null;
@@ -910,6 +1251,73 @@ function getBatteryWireSize(invKw, battVoltage, length) {
     };
 }
 
+// ============================================================
+// PV ARRAY CONFIGURATION - Series vs Parallel
+// ============================================================
+function getPVArrayConfig(panelWp, panelCount, voc) {
+    var specs = {
+        400: { voc: 41.5, isc: 10.5, vmp: 33.5, imp: 11.9 },
+        450: { voc: 42.5, isc: 11.3, vmp: 34.5, imp: 13.0 },
+        500: { voc: 43.5, isc: 12.1, vmp: 35.2, imp: 14.2 },
+        550: { voc: 49.5, isc: 11.8, vmp: 41.2, imp: 13.4 }
+    };
+    
+    var s = specs[panelWp] || specs[450];
+    var maxPerString = Math.floor(600 / (s.voc * 1.15));
+    var minPerString = Math.ceil(125 / s.vmp);
+    var numStrings = Math.ceil(panelCount / maxPerString);
+    var panelsPerString = Math.ceil(panelCount / numStrings);
+    
+    for (var testStrings = numStrings - 1; testStrings >= 1; testStrings--) {
+        var testPanelsPerString = Math.ceil(panelCount / testStrings);
+        if (testPanelsPerString <= maxPerString && testPanelsPerString >= minPerString) {
+            numStrings = testStrings;
+            panelsPerString = testPanelsPerString;
+        }
+    }
+    
+    var totalPanelsUsed = numStrings * panelsPerString;
+    var arrayVoc = panelsPerString * s.voc;
+    var arrayVmp = panelsPerString * s.vmp;
+    var arrayIsc = numStrings * s.isc;
+    var arrayImp = numStrings * s.imp;
+    
+    var mpptOk = arrayVmp >= 125 && arrayVoc <= 600;
+    var mpptNote = '';
+    if (!mpptOk) {
+        if (arrayVoc > 600) {
+            mpptNote = '⚠️ BABALA: Voc (' + arrayVoc.toFixed(1) + 'V) LAMPAS sa 600V limit! Bawasan ang panels per string.';
+        } else if (arrayVmp < 125) {
+            mpptNote = '⚠️ BABALA: Vmp (' + arrayVmp.toFixed(1) + 'V) MABABA sa MPPT range! Dagdagan ang panels per string.';
+        }
+    } else {
+        mpptNote = '✅ PASOK sa MPPT range at 600V limit';
+    }
+    
+    var connection = panelsPerString + ' panels in SERIES per string, ' + numStrings + ' strings in PARALLEL';
+    
+    return {
+        panelsPerString: panelsPerString,
+        numStrings: numStrings,
+        totalPanelsUsed: totalPanelsUsed,
+        extraPanels: totalPanelsUsed - panelCount,
+        panelVoc: s.voc,
+        panelIsc: s.isc,
+        panelVmp: s.vmp,
+        panelImp: s.imp,
+        arrayVoc: arrayVoc,
+        arrayVmp: arrayVmp,
+        arrayIsc: arrayIsc,
+        arrayImp: arrayImp,
+        maxPerString: maxPerString,
+        minPerString: minPerString,
+        mpptOk: mpptOk,
+        mpptNote: mpptNote,
+        connection: connection,
+        vocLimit: 600
+    };
+}
+
 function calculateBattery(dailyLoad, battType, autonomyHours) {
     var DoD = battType === 'LiFePO4' ? 0.80 : 0.50;
     var minRemainingPercent = battType === 'LiFePO4' ? 20 : 50;
@@ -953,6 +1361,7 @@ function calculateSystem(inputs) {
     var realKwp = Math.round(panelCount * panelWp / 1000 * 100) / 100;
     var invKw = Math.ceil(actualKwp * 1.3 * 10) / 10;
     var voc = Math.min(600, Math.floor(600 / 45) * 45);
+    var pvConfig = getPVArrayConfig(panelWp, panelCount, voc);
     var dcWire = getWireSizeDC(realKwp, voc, dcLength);
     var acWire = getWireSizeAC(invKw, acLength);
     var breaker = getBreaker(acWire);
@@ -986,6 +1395,7 @@ function calculateSystem(inputs) {
         acWire: acWire,
         breaker: breaker,
         voc: voc,
+        pvConfig: pvConfig,
         battery: battery,
         batteryWire: batteryWire,
         finalPrice: finalPrice,
@@ -1026,7 +1436,7 @@ function updateLiveCalc() {
     }
 
     var r = calculateSystem(inputs);
-    var html = 'Daily Load: <strong>' + r.dailyLoad + ' kWh</strong> | System: <span class="highlight">' + r.actualKwp + ' kWp</span> (' + r.panelCount + ' x ' + r.panelWp + 'Wp) | Inverter: ' + r.invKw + ' kW | DC: <span class="wire-safe">' + r.dcWire.l + '</span> | AC: <span class="wire-safe">' + r.acWire.l + '</span> | Breaker: ' + r.breaker + 'A | Price: <span class="highlight">\u20B1' + r.finalPrice.toLocaleString() + '</span>';
+    var html = 'Daily Load: <strong>' + r.dailyLoad + ' kWh</strong> | System: <span class="highlight">' + r.actualKwp + ' kWp</span> (' + r.panelCount + ' x ' + r.panelWp + 'Wp) | Array: <span class="wire-safe">' + r.pvConfig.panelsPerString + 'S x ' + r.pvConfig.numStrings + 'P</span> | Inverter: ' + r.invKw + ' kW | DC: <span class="wire-safe">' + r.dcWire.l + '</span> | AC: <span class="wire-safe">' + r.acWire.l + '</span> | Breaker: ' + r.breaker + 'A | Price: <span class="highlight">\u20B1' + r.finalPrice.toLocaleString() + '</span>';
     if (r.battery) {
         html += ' | Battery: <span class="highlight">' + r.battery.totalKwh + ' kWh | ' + r.battery.usableKwh + ' kWh Usable</span>';
         if (r.batteryWire) {
@@ -1144,9 +1554,10 @@ function renderSLD(sys) {
         '<text x="45" y="275" font-size="13" font-weight="bold" fill="' + svgText + '">LEGEND & SIZING - PNEC 2017 COMPLIANT</text>' +
         '<text x="45" y="300" font-size="11" fill="' + svgText + '">DC: ' + sys.dcWire.l + ' PV1-F | Current: ' + sys.dcWire.amps + 'A | Drop: ' + sys.dcWire.vDrop + 'V</text>' +
         '<text x="45" y="320" font-size="11" fill="' + svgText + '">AC: ' + sys.acWire.l + ' THHN | Current: ' + sys.acWire.amps + 'A | Drop: ' + sys.acWire.vDrop + 'V</text>' +
-        '<text x="45" y="340" font-size="11" fill="' + svgText + '">Main Breaker: ' + sys.breaker + 'A 2-Pole | System: ' + sys.actualKwp + ' kWp</text>' +
-        '<text x="45" y="360" font-size="11" fill="' + svgText + '">Safety Factor: 125% | Max Voltage Drop: 3% | Copper Conductors</text>' +
-        '<text x="45" y="380" font-size="10" fill="' + svgText + '">Date: ' + sys.inputs.date + ' | Project: ' + sys.inputs.clientName + '</text>' +
+        '<text x="45" y="340" font-size="11" fill="' + svgText + '">PV Array: ' + sys.pvConfig.panelsPerString + 'S x ' + sys.pvConfig.numStrings + 'P | Voc: ' + sys.pvConfig.arrayVoc.toFixed(0) + 'V</text>' +
+        '<text x="45" y="360" font-size="11" fill="' + svgText + '">Main Breaker: ' + sys.breaker + 'A 2-Pole | System: ' + sys.actualKwp + ' kWp</text>' +
+        '<text x="45" y="380" font-size="10" fill="' + svgText + '">Safety Factor: 125% | Max Voltage Drop: 3% | Copper Conductors</text>' +
+        '<text x="45" y="395" font-size="10" fill="' + svgText + '">Date: ' + sys.inputs.date + ' | Project: ' + sys.inputs.clientName + '</text>' +
         '</svg>';
 }
 
@@ -1154,9 +1565,20 @@ function renderSLD(sys) {
 // HELPER FUNCTIONS FOR CONTENT GENERATION
 // ============================================================
 function fillBatteryTab(sys, inputs) {
+    var projectId = generateProjectId();
     var batteryHtml = '';
     if (sys.battery) {
         batteryHtml =
+            // Professional header
+            '<div style="background:var(--bg-alt); padding:14px 18px; border-radius:10px; margin-bottom:18px; border-left:4px solid var(--secondary);">' +
+            '<table style="margin:0; border:none;">' +
+            '<tr><td style="border:none; padding:4px 12px 4px 0;"><strong>Project ID:</strong></td><td style="border:none; padding:4px;"><span class="section-badge" style="margin:0;">' + projectId + '</span></td>' +
+            '<td style="border:none; padding:4px 12px 4px 24px;"><strong>Project:</strong></td><td style="border:none; padding:4px; font-weight:600;">' + inputs.clientName + '</td></tr>' +
+            '<tr><td style="border:none; padding:4px 12px 4px 0;"><strong>Date:</strong></td><td style="border:none; padding:4px;">' + inputs.date + '</td>' +
+            '<td style="border:none; padding:4px 12px 4px 24px;"><strong>Battery Type:</strong></td><td style="border:none; padding:4px;">' + sys.battery.battType + '</td></tr>' +
+            '</table></div>' +
+            
+            '<span class="section-badge">01 — BATTERY SPECIFICATIONS</span>' +
             '<table>' +
             '<tr><th colspan="2">BATTERY SPECIFICATIONS - AUTO SHUTOFF @ ' + sys.battery.reservePercent + '%</th></tr>' +
             '<tr><td>Battery Type</td><td><strong>' + sys.battery.battType + '</strong> - ' + (sys.battery.battType === 'LiFePO4' ? 'Long Life (6,000+ cycles)' : 'Lower Cost (500 cycles)') + '</td></tr>' +
@@ -1172,6 +1594,7 @@ function fillBatteryTab(sys, inputs) {
             '<tr><td>Recommended Capacity</td><td><strong>' + sys.battery.Ah + ' Ah</strong> @ ' + sys.battery.nominalVoltage + 'V</td></tr>' +
             '</table>' +
             '<br>' +
+            '<span class="section-badge">02 — BATTERY CABLE SIZING</span>' +
             '<table>' +
             '<tr><th colspan="2">🔌 BATTERY CABLE SIZING (Battery → Inverter)</th></tr>' +
             '<tr><td>Recommended Wire Size</td><td class="wire-safe"><strong>' + sys.batteryWire.l + '</strong> - MINIMUM SIZE</td></tr>' +
@@ -1184,6 +1607,7 @@ function fillBatteryTab(sys, inputs) {
             '<tr><td>Minimum Required Area</td><td>' + sys.batteryWire.minArea + ' mm²</td></tr>' +
             '<tr><td>⚠️ IMPORTANT</td><td style="color:red; font-weight:bold;">Gumamit ng MAS MALAKING wire kung maaari para sa mas mababang init at mas mataas na efficiency!</td></tr>' +
             '</table>' +
+            '<span class="section-badge">03 — CRITICAL PROTECTION RULES</span>' +
             '<div class="warning-box">' +
             '<strong>CRITICAL PROTECTION RULES - MUST READ!</strong>' +
             '<ul style="margin:8px 0 0 20px;">' +
@@ -1194,7 +1618,13 @@ function fillBatteryTab(sys, inputs) {
             '<li>NEVER expose to direct sunlight or temperatures above 35\u00B0C - service life reduced by 50% at 40\u00B0C!</li>' +
             '<li>Always maintain between ' + sys.battery.reservePercent + '%-100% for maximum lifespan (6,000+ cycles)</li>' +
             '<li>Always use certified BMS - protects against overcharge, over-discharge, and short circuit</li>' +
-            '</ul></div>';
+            '</ul></div>' +
+            '<div class="doc-footer">' +
+            '<div>📄 ' + projectId + ' | Rev. 01 | Battery Sizing Report</div>' +
+            '<div>' + inputs.contractorName + '</div>' +
+            '<div>© 2026 Stevenson Empuerto. All Rights Reserved.</div>' +
+            '</div>' +
+            '<div class="confidential">CONFIDENTIAL</div>';
     } else {
         batteryHtml = '<p>Select <strong>Hybrid</strong> or <strong>Off-grid</strong> system type to view battery sizing and protection calculations.</p>';
     }
@@ -1202,7 +1632,31 @@ function fillBatteryTab(sys, inputs) {
 }
 
 function fillSummaryTab(sys, inputs) {
+    var projectId = generateProjectId();
     document.getElementById('summaryContent').innerHTML =
+        // PROJECT INFO HEADER
+        '<div style="background:var(--bg-alt); padding:14px 18px; border-radius:10px; margin-bottom:18px; border-left:4px solid var(--primary);">' +
+        '<table style="margin:0; border:none;">' +
+        '<tr><td style="border:none; padding:4px 12px 4px 0; width:140px;"><strong>Project ID:</strong></td><td style="border:none; padding:4px;"><span class="section-badge" style="margin:0;">' + projectId + '</span></td>' +
+        '<td style="border:none; padding:4px 12px 4px 24px; width:120px;"><strong>Date:</strong></td><td style="border:none; padding:4px;">' + inputs.date + '</td></tr>' +
+        '<tr><td style="border:none; padding:4px 12px 4px 0;"><strong>Project:</strong></td><td style="border:none; padding:4px; font-weight:600;">' + inputs.clientName + '</td>' +
+        '<td style="border:none; padding:4px 12px 4px 24px;"><strong>Location:</strong></td><td style="border:none; padding:4px;">' + inputs.projAddress + '</td></tr>' +
+        '<tr><td style="border:none; padding:4px 12px 4px 0;"><strong>System Type:</strong></td><td style="border:none; padding:4px;">' + inputs.sysType + '</td>' +
+        '<td style="border:none; padding:4px 12px 4px 24px;"><strong>Revision:</strong></td><td style="border:none; padding:4px;">01 - Initial Design</td></tr>' +
+        '</table></div>' +
+        
+        // DASHBOARD CARDS
+        '<div class="dashboard">' +
+        '<div class="dash-card"><div class="label">System Capacity</div><div class="value">' + sys.actualKwp + '<span class="unit"> kWp</span></div></div>' +
+        '<div class="dash-card accent"><div class="label">PV Modules</div><div class="value">' + sys.panelCount + '<span class="unit"> pcs × ' + inputs.panelWp + 'Wp</span></div></div>' +
+        '<div class="dash-card warning"><div class="label">Inverter</div><div class="value">' + sys.invKw + '<span class="unit"> kW</span></div></div>' +
+        '<div class="dash-card"><div class="label">Monthly Production</div><div class="value">' + sys.monthlyProd.toLocaleString() + '<span class="unit"> kWh</span></div></div>' +
+        '<div class="dash-card accent"><div class="label">Array Config</div><div class="value">' + sys.pvConfig.panelsPerString + 'S×' + sys.pvConfig.numStrings + 'P</div></div>' +
+        '<div class="dash-card warning"><div class="label">Contract Price</div><div class="value">\u20B1' + (sys.finalPrice/1000).toFixed(1) + '<span class="unit">K</span></div></div>' +
+        '</div>' +
+        
+        // SYSTEM SIZING TABLE
+        '<span class="section-badge">01 — SYSTEM SIZING</span>' +
         '<table>' +
         '<tr><th colspan="2">SYSTEM SIZING</th></tr>' +
         '<tr><td>Monthly Consumption</td><td><strong>' + inputs.monthlyKwh + ' kWh</strong></td></tr>' +
@@ -1211,12 +1665,28 @@ function fillSummaryTab(sys, inputs) {
         '<tr><td>Inverter Size</td><td>' + sys.invKw + ' kW - 230V AC, 60Hz</td></tr>' +
         '<tr><td>Est. Monthly Production</td><td><strong>' + sys.monthlyProd + ' kWh</strong></td></tr>' +
         '</table>' +
+        '<span class="section-badge">02 — PV ARRAY CONFIGURATION</span>' +
+        '<table>' +
+        '<tr><th colspan="2">🔗 PV ARRAY CONNECTION (Series vs Parallel)</th></tr>' +
+        '<tr><td>Connection Scheme</td><td class="wire-safe"><strong>' + sys.pvConfig.connection + '</strong></td></tr>' +
+        '<tr><td>Panels per String (SERIES)</td><td><strong>' + sys.pvConfig.panelsPerString + ' panels</strong> - Voltage adds up</td></tr>' +
+        '<tr><td>Number of Strings (PARALLEL)</td><td><strong>' + sys.pvConfig.numStrings + ' strings</strong> - Current adds up</td></tr>' +
+        '<tr><td>Per Panel: Voc / Vmp</td><td>' + sys.pvConfig.panelVoc + ' V / ' + sys.pvConfig.panelVmp + ' V</td></tr>' +
+        '<tr><td>Per Panel: Isc / Imp</td><td>' + sys.pvConfig.panelIsc + ' A / ' + sys.pvConfig.panelImp + ' A</td></tr>' +
+        '<tr><td>ARRAY: Voc (Open Circuit)</td><td><strong>' + sys.pvConfig.arrayVoc.toFixed(1) + ' V DC</strong> (Max limit: ' + sys.pvConfig.vocLimit + 'V)</td></tr>' +
+        '<tr><td>ARRAY: Vmp (Operating)</td><td><strong>' + sys.pvConfig.arrayVmp.toFixed(1) + ' V DC</strong> (MPPT range: 125V-500V)</td></tr>' +
+        '<tr><td>ARRAY: Isc / Imp</td><td>' + sys.pvConfig.arrayIsc.toFixed(1) + ' A / ' + sys.pvConfig.arrayImp.toFixed(1) + ' A</td></tr>' +
+        '<tr><td>Max Panels per String (600V limit)</td><td>' + sys.pvConfig.maxPerString + ' panels (with cold temp factor 1.15)</td></tr>' +
+        '<tr><td>Status</td><td class="' + (sys.pvConfig.mpptOk ? 'wire-safe' : '') + '" style="' + (sys.pvConfig.mpptOk ? '' : 'color:red; font-weight:bold;') + '">' + sys.pvConfig.mpptNote + '</td></tr>' +
+        '</table>' +
+        '<span class="section-badge">03 — DC SIDE</span>' +
         '<table>' +
         '<tr><th colspan="2">DC SIDE - PV ARRAY TO INVERTER</th></tr>' +
         '<tr><td>Cable Specification</td><td class="wire-safe"><strong>' + sys.dcWire.l + ' - PV1-F Solar Cable, UV-Resistant, 1000V DC</strong></td></tr>' +
         '<tr><td>Design Current (125% Safety)</td><td>' + sys.dcWire.amps + ' A</td></tr>' +
         '<tr><td>Voltage Drop</td><td>' + sys.dcWire.vDrop + 'V - within 3% acceptable limit</td></tr>' +
         '</table>' +
+        '<span class="section-badge">04 — AC SIDE</span>' +
         '<table>' +
         '<tr><th colspan="2">AC SIDE - INVERTER TO DISTRIBUTION PANEL</th></tr>' +
         '<tr><td>Cable Specification</td><td class="wire-safe"><strong>' + sys.acWire.l + ' - THHN/THWN-2 Copper, 600V, 90\u00B0C</strong></td></tr>' +
@@ -1225,27 +1695,75 @@ function fillSummaryTab(sys, inputs) {
         '<tr><td>Main Circuit Breaker</td><td class="wire-safe"><strong>' + sys.breaker + 'A, 230V, 2-Pole</strong> - Matched to wire ampacity</td></tr>' +
         '</table>' +
         (sys.batteryWire ? 
+            '<span class="section-badge">05 — BATTERY SIDE</span>' +
             '<table>' +
             '<tr><th colspan="2">🔌 BATTERY SIDE - BATTERY TO INVERTER</th></tr>' +
             '<tr><td>Cable Specification</td><td class="wire-safe"><strong>' + sys.batteryWire.l + ' - ' + sys.batteryWire.recommended + '</strong></td></tr>' +
             '<tr><td>Design Current (125% Safety)</td><td>' + sys.batteryWire.designCurrent + ' A</td></tr>' +
             '<tr><td>Voltage Drop</td><td>' + sys.batteryWire.vDrop + ' V (' + sys.batteryWire.vDropPercent + '%) - ≤1% limit</td></tr>' +
             '</table>' : '') +
+        '<span class="section-badge">06 — PROJECT PRICE</span>' +
         '<table>' +
         '<tr><th colspan="2">PROJECT PRICE</th></tr>' +
         '<tr><td>Total Contract Price ' + (sys.isAutoPrice ? '<span style="color:#0284C7; font-style:italic; font-size:12px;">(Estimated: \u20B150k/70k/100k per kWp based on system type)</span>' : '') + '</td><td class="price-tag">\u20B1 ' + sys.finalPrice.toLocaleString('en-PH') + '</td></tr>' +
         '</table>' +
-        '<div class="warning-box"><strong>Fire-Safe Design:</strong> All conductors sized with 125% continuous load derating per PNEC 2017 - prevents overheating and fire risk.</div>';
+        '<div class="warning-box"><strong>Fire-Safe Design:</strong> All conductors sized with 125% continuous load derating per PNEC 2017 - prevents overheating and fire risk.</div>' +
+        
+        // TECHNICAL ASSUMPTIONS
+        '<span class="section-badge">07 — TECHNICAL ASSUMPTIONS</span>' +
+        '<div class="assumptions-box">' +
+        '<h4>📋 Engineering Assumptions Used in Calculations</h4>' +
+        '<ul>' +
+        '<li>System Efficiency: 75% (inverter, wiring, temperature, mismatch losses)</li>' +
+        '<li>Peak Sun Hours: ' + inputs.peakSun + ' hrs/day (location-specific)</li>' +
+        '<li>AC Voltage: 230V, 60Hz (Philippine Standard)</li>' +
+        '<li>Inverter Power Factor: 0.95</li>' +
+        '<li>DC Voltage Drop Limit: ≤ 3%</li>' +
+        '<li>AC Voltage Drop Limit: ≤ 3%</li>' +
+        '<li>Battery Voltage Drop Limit: ≤ 1% (stricter)</li>' +
+        '<li>Wire Safety Factor: 125% (PNEC 2017)</li>' +
+        '<li>Max System Voltage: 600V DC</li>' +
+        '<li>Copper conductor resistivity: 0.01724 Ω·mm²/m</li>' +
+        '<li>Cold temperature voltage factor: 1.15</li>' +
+        '<li>Battery DoD: LiFePO4=80%, Lead-Acid=50%</li>' +
+        '<li>Battery aging margin: 15%</li>' +
+        '<li>Tropical temperature derating: 10% (>35°C)</li>' +
+        '<li>Inverter oversizing: 1.3 × PV array</li>' +
+        '<li>30 days per month for production estimate</li>' +
+        '</ul></div>' +
+        
+        // SIGNATURE BLOCKS
+        '<span class="section-badge">08 — APPROVAL & SIGN-OFF</span>' +
+        '<div class="sign-blocks">' +
+        '<div class="sign-block"><div class="sign-line"></div><div class="role">Prepared By</div><div class="name-line">' + (inputs.preparedBy || '________________________') + '</div><div style="font-size:11px; opacity:0.7;">Design Engineer / Technician</div></div>' +
+        '<div class="sign-block"><div class="sign-line"></div><div class="role">Checked By</div><div class="name-line">' + (inputs.checkedBy || '________________________') + '</div><div style="font-size:11px; opacity:0.7;">Supervisor / Senior Engineer</div></div>' +
+        '<div class="sign-block"><div class="sign-line"></div><div class="role">Approved By</div><div class="name-line">' + inputs.contractorName + '</div><div style="font-size:11px; opacity:0.7;">Contractor / Principal</div></div>' +
+        '</div>' +
+        
+        // DOCUMENT FOOTER
+        '<div class="doc-footer">' +
+        '<div>📄 ' + projectId + ' | Rev. 01 | ' + inputs.date + '</div>' +
+        '<div>© ' + inputs.contractorName + (inputs.companyLicense ? ' | License: ' + inputs.companyLicense : '') + '</div>' +
+        '<div>' + (inputs.companyContact || '') + (inputs.companyEmail ? ' | ' + inputs.companyEmail : '') + '</div>' +
+        '<div style="margin-top:4px; font-weight:600;">© 2026 Stevenson Empuerto. All Rights Reserved.</div>' +
+        '</div>' +
+        '<div class="confidential">CONFIDENTIAL & PROPRIETARY — FOR CLIENT APPROVAL ONLY</div>';
 }
 
 function fillPlanTab(sys, inputs) {
+    var projectId = generateProjectId();
     document.getElementById('planContent').innerHTML =
         '<div class="agreement-box">' +
-        '<h2>ELECTRICAL PLAN & TECHNICAL SPECIFICATIONS</h2>' +
+        '<div style="text-align:center; border-bottom:2px solid var(--primary); padding-bottom:15px; margin-bottom:20px;">' +
+        '<h2 style="border:none; margin:0; padding:0; text-decoration:none;">ELECTRICAL PLAN & TECHNICAL SPECIFICATIONS</h2>' +
+        '<div style="margin-top:8px; font-size:13px;">' +
+        '<strong>Project ID:</strong> <span class="section-badge" style="margin:0 4px;">' + projectId + '</span>' +
+        ' | <strong>Date:</strong> ' + inputs.date + ' | <strong>Rev:</strong> 01' +
+        '</div></div>' +
         '<p><strong>Project Name:</strong> ' + inputs.clientName + '</p>' +
         '<p><strong>Location:</strong> ' + inputs.projAddress + '</p>' +
-        '<p><strong>Date:</strong> ' + inputs.date + '</p>' +
         '<p><strong>System Type:</strong> ' + inputs.sysType + '</p>' +
+        '<p><strong>Prepared by:</strong> ' + (inputs.preparedBy || inputs.contractorName) + (inputs.companyLicense ? ' | <strong>License:</strong> ' + inputs.companyLicense : '') + '</p>' +
         '<br><hr><br>' +
         '<h3 style="color:var(--primary);">A. PV MODULES</h3>' +
         '<table>' +
@@ -1254,7 +1772,14 @@ function fillPlanTab(sys, inputs) {
         '<tr><td>Module Power</td><td>' + inputs.panelWp + ' Wp</td></tr>' +
         '<tr><td>Quantity</td><td>' + sys.panelCount + ' pieces</td></tr>' +
         '<tr><td>Total Array Power</td><td><strong>' + sys.actualKwp + ' kWp</strong></td></tr>' +
-        '<tr><td>Array Configuration</td><td>Series-parallel arrangement for optimal voltage</td></tr>' +
+        '<tr><td>Array Connection</td><td><strong>' + sys.pvConfig.connection + '</strong></td></tr>' +
+        '<tr><td>Panels per String (Series)</td><td>' + sys.pvConfig.panelsPerString + ' panels</td></tr>' +
+        '<tr><td>Number of Strings (Parallel)</td><td>' + sys.pvConfig.numStrings + ' strings</td></tr>' +
+        '<tr><td>Per Panel Voc / Vmp</td><td>' + sys.pvConfig.panelVoc + ' V / ' + sys.pvConfig.panelVmp + ' V</td></tr>' +
+        '<tr><td>Per Panel Isc / Imp</td><td>' + sys.pvConfig.panelIsc + ' A / ' + sys.pvConfig.panelImp + ' A</td></tr>' +
+        '<tr><td>Array Voc (Max)</td><td><strong>' + sys.pvConfig.arrayVoc.toFixed(1) + ' V DC</strong> (Limit: 600V)</td></tr>' +
+        '<tr><td>Array Vmp (Operating)</td><td>' + sys.pvConfig.arrayVmp.toFixed(1) + ' V DC</td></tr>' +
+        '<tr><td>Array Isc / Imp</td><td>' + sys.pvConfig.arrayIsc.toFixed(1) + ' A / ' + sys.pvConfig.arrayImp.toFixed(1) + ' A</td></tr>' +
         '<tr><td>Max System Voltage</td><td>' + sys.voc + ' V DC</td></tr>' +
         '</table>' +
         '<br>' +
@@ -1313,18 +1838,34 @@ function fillPlanTab(sys, inputs) {
         '<li>System labeling per PNEC requirements</li>' +
         '<li>Commissioning test and handover documentation included</li>' +
         '</ul>' +
+        '<div class="doc-footer" style="margin-top:24px;">' +
+        '<div>📄 ' + projectId + ' | Rev. 01 | Electrical Plan</div>' +
+        '<div>' + inputs.contractorName + (inputs.companyLicense ? ' | License: ' + inputs.companyLicense : '') + '</div>' +
+        '<div>' + (inputs.companyContact || '') + (inputs.companyEmail ? ' | ' + inputs.companyEmail : '') + '</div>' +
+        '<div style="margin-top:4px; font-weight:600;">© 2026 Stevenson Empuerto. All Rights Reserved.</div>' +
+        '</div>' +
+        '<div class="confidential">FOR PERMIT APPROVAL — CONFIDENTIAL</div>' +
         '</div>';
 }
 
 function fillAgreementTab(sys, inputs) {
+    var projectId = generateProjectId();
     document.getElementById('agreementContent').innerHTML =
         '<div class="agreement-box">' +
-        '<h2>CONTRACT AGREEMENT FOR SUPPLY AND INSTALLATION OF SOLAR PV SYSTEM</h2>' +
+        '<div style="text-align:center; border-bottom:3px double var(--primary); padding-bottom:15px; margin-bottom:20px;">' +
+        '<h2 style="border:none; margin:0; padding:0; text-decoration:none; font-size:20px;">CONTRACT AGREEMENT</h2>' +
+        '<p style="margin:8px 0 0 0; font-size:13px;">FOR SUPPLY AND INSTALLATION OF SOLAR PV SYSTEM</p>' +
+        '<div style="margin-top:10px; font-size:12px; opacity:0.8;">' +
+        '<strong>Contract No.:</strong> ' + projectId + ' | <strong>Date:</strong> ' + inputs.date +
+        '</div></div>' +
         '<p><strong>KNOW ALL MEN BY THESE PRESENTS:</strong></p>' +
         '<p>This Agreement is made and entered into this <strong>' + inputs.date + '</strong>, by and between:</p>' +
         '<br>' +
         '<p><strong>THE CONTRACTOR:</strong><br>' +
         'Name: ' + inputs.contractorName + '<br>' +
+        (inputs.companyLicense ? 'License/SEC No.: ' + inputs.companyLicense + '<br>' : '') +
+        (inputs.companyContact ? 'Contact: ' + inputs.companyContact + '<br>' : '') +
+        (inputs.companyEmail ? 'Email: ' + inputs.companyEmail + '<br>' : '') +
         '(Hereinafter referred to as the "CONTRACTOR")</p>' +
         '<br>' +
         '<p><strong>THE CLIENT:</strong><br>' +
@@ -1433,6 +1974,12 @@ function fillAgreementTab(sys, inputs) {
         '<p>Witness 2</p>' +
         '</div>' +
         '</div>' +
+        '<div class="doc-footer" style="margin-top:30px;">' +
+        '<div>📄 Contract No.: ' + projectId + ' | Date: ' + inputs.date + '</div>' +
+        '<div>' + inputs.contractorName + (inputs.companyLicense ? ' | License: ' + inputs.companyLicense : '') + '</div>' +
+        '<div>' + (inputs.companyContact || '') + (inputs.companyEmail ? ' | ' + inputs.companyEmail : '') + '</div>' +
+        '<div style="margin-top:4px; font-weight:600;">© 2026 Stevenson Empuerto. All Rights Reserved.</div>' +
+        '</div>' +
         '</div>';
 }
 
@@ -1460,6 +2007,11 @@ function printAllPages() {
             batteryType: document.getElementById('batteryType').value,
             autonomyHours: parseFloat(document.getElementById('autonomyHours').value),
             contractorName: document.getElementById('contractorName').value.trim(),
+            companyLicense: document.getElementById('companyLicense').value.trim(),
+            companyContact: document.getElementById('companyContact').value.trim(),
+            companyEmail: document.getElementById('companyEmail').value.trim(),
+            preparedBy: document.getElementById('preparedBy').value.trim(),
+            checkedBy: document.getElementById('checkedBy').value.trim(),
             date: today
         };
         var sys = calculateSystem(inputs);
@@ -1479,9 +2031,7 @@ function printAllPages() {
     }, 300);
 }
 
-// ============================================================
-// GENERATE ALL - MAIN FUNCTION
-// ============================================================
+// Also update generateAll to use these helper functions
 function generateAll() {
     if (!validateForm()) return;
     tabsContainer.classList.add('show');
@@ -1501,6 +2051,11 @@ function generateAll() {
         batteryType: document.getElementById('batteryType').value,
         autonomyHours: parseFloat(document.getElementById('autonomyHours').value),
         contractorName: document.getElementById('contractorName').value.trim(),
+        companyLicense: document.getElementById('companyLicense').value.trim(),
+        companyContact: document.getElementById('companyContact').value.trim(),
+        companyEmail: document.getElementById('companyEmail').value.trim(),
+        preparedBy: document.getElementById('preparedBy').value.trim(),
+        checkedBy: document.getElementById('checkedBy').value.trim(),
         date: today
     };
 
@@ -1527,6 +2082,7 @@ document.getElementById('generateBtn').addEventListener('click', generateAll);
 loadAllData();
 setupAutoSave();
 updateLiveCalc();
+updateHeaderDisplay();
 </script>
 
 </body>
