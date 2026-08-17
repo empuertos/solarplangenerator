@@ -694,7 +694,57 @@
             }
         }
 
-        /* COPYRIGHT FOOTER */
+        /* PROJECT INFO HEADER */
+        .project-info {
+            background: var(--bg-alt);
+            padding: 14px 18px;
+            border-radius: 10px;
+            margin-bottom: 18px;
+            border-left: 4px solid var(--primary);
+            display: grid;
+            grid-template-columns: auto 1fr auto 1fr;
+            gap: 8px 16px;
+            align-items: center;
+            word-wrap: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .project-info .label {
+            font-weight: 700;
+            color: var(--text-strong);
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .project-info .value {
+            font-size: 13px;
+            color: var(--text-main);
+            word-wrap: break-word;
+            overflow-wrap: anywhere;
+            min-width: 0;
+        }
+
+        .project-info .value.badge {
+            display: inline-block;
+        }
+
+        .project-info .value strong {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .project-info {
+                grid-template-columns: auto 1fr;
+                gap: 6px 12px;
+                padding: 12px;
+            }
+            .project-info .label {
+                font-size: 12px;
+            }
+            .project-info .value {
+                font-size: 12px;
+            }
+        }
         .copyright-footer {
             text-align: center;
             padding: 20px 10px 10px;
@@ -2213,15 +2263,14 @@ function fillSummaryTab(sys, inputs) {
     var projectId = generateProjectId();
     document.getElementById('summaryContent').innerHTML =
         // PROJECT INFO HEADER
-        '<div style="background:var(--bg-alt); padding:14px 18px; border-radius:10px; margin-bottom:18px; border-left:4px solid var(--primary);">' +
-        '<table style="margin:0; border:none;">' +
-        '<tr><td style="border:none; padding:4px 12px 4px 0; width:140px;"><strong>Project ID:</strong></td><td style="border:none; padding:4px;"><span class="section-badge" style="margin:0;">' + projectId + '</span></td>' +
-        '<td style="border:none; padding:4px 12px 4px 24px; width:120px;"><strong>Date:</strong></td><td style="border:none; padding:4px;">' + inputs.date + '</td></tr>' +
-        '<tr><td style="border:none; padding:4px 12px 4px 0;"><strong>Project:</strong></td><td style="border:none; padding:4px; font-weight:600;">' + inputs.clientName + '</td>' +
-        '<td style="border:none; padding:4px 12px 4px 24px;"><strong>Location:</strong></td><td style="border:none; padding:4px;">' + inputs.projAddress + '</td></tr>' +
-        '<tr><td style="border:none; padding:4px 12px 4px 0;"><strong>System Type:</strong></td><td style="border:none; padding:4px;">' + inputs.sysType + '</td>' +
-        '<td style="border:none; padding:4px 12px 4px 24px;"><strong>Scale:</strong></td><td style="border:none; padding:4px; font-weight:600;">' + sys.sysScale + ' (' + (sys.is3Phase ? '3-Phase' : '1-Phase') + ')</td></tr>' +
-        '</table></div>' +
+        '<div class="project-info">' +
+        '<div class="label">Project ID:</div><div class="value badge"><span class="section-badge" style="margin:0;">' + projectId + '</span></div>' +
+        '<div class="label">Date:</div><div class="value">' + inputs.date + '</div>' +
+        '<div class="label">Project:</div><div class="value"><strong>' + inputs.clientName + '</strong></div>' +
+        '<div class="label">Location:</div><div class="value">' + inputs.projAddress + '</div>' +
+        '<div class="label">System Type:</div><div class="value">' + inputs.sysType + '</div>' +
+        '<div class="label">Scale:</div><div class="value"><strong>' + sys.sysScale + '</strong> (' + (sys.is3Phase ? '3-Phase ' + sys.acVoltage + 'V' : '1-Phase 230V') + ')</div>' +
+        '</div>' +
         
         // DASHBOARD CARDS
         '<div class="dashboard">' +
