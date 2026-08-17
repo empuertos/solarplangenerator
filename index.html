@@ -450,7 +450,7 @@
             border: 2px solid var(--border);
             border-radius: 12px;
             padding: 12px;
-            min-height: 450px;
+            min-height: 500px;
             overflow: auto;
             transition: all 0.25s ease;
         }
@@ -1594,7 +1594,7 @@ function renderSLD(sys) {
     }
 
     document.getElementById('sldCanvas').innerHTML =
-        '<svg width="100%" height="450" viewBox="0 0 850 450" xmlns="http://www.w3.org/2000/svg">' +
+        '<svg width="100%" height="480" viewBox="0 0 850 480" xmlns="http://www.w3.org/2000/svg">' +
         '<defs><marker id="arr" viewBox="0 0 10 6" refX="9" refY="3" markerWidth="8" markerHeight="6" orient="auto"><polygon points="0,0 10,3 0,6" fill="' + svgText + '"/></marker></defs>' +
         '<rect x="0" y="0" width="850" height="40" fill="' + svgBg + '" rx="4"/>' +
         '<text x="425" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="' + svgText + '">SINGLE LINE DIAGRAM - ' + sys.actualKwp + ' kWp ' + sys.inputs.sysType + '</text>' +
@@ -1616,7 +1616,7 @@ function renderSLD(sys) {
         
         '<rect x="380" y="55" width="100" height="75" rx="6" fill="' + svgFill3 + '" stroke="#A855F7" stroke-width="2"/>' +
         '<text x="430" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="' + svgText + '">PANEL</text>' +
-        '<text x="430" y="105" text-anchor="middle" font-size="11" fill="' + svgText + '">' + sys.breaker.amps + 'A ' + sys.breaker.poles + ' Breaker</text>' +
+        '<text x="430" y="105" text-anchor="middle" font-size="11" fill="' + svgText + '">' + sys.breaker.amps + 'A ' + sys.breaker.poles + '</text>' +
         
         '<line x1="480" y1="92" x2="540" y2="92" stroke="' + svgText + '" stroke-width="2" marker-end="url(#arr)"/>' +
         
@@ -1630,9 +1630,9 @@ function renderSLD(sys) {
         '<text x="45" y="300" font-size="11" fill="' + svgText + '">DC: ' + sys.dcWire.l + ' PV1-F | Current: ' + sys.dcWire.amps + 'A | Drop: ' + sys.dcWire.vDrop + 'V</text>' +
         '<text x="45" y="320" font-size="11" fill="' + svgText + '">AC: ' + sys.acWire.l + ' THHN | Current: ' + sys.acWire.amps + 'A | Drop: ' + sys.acWire.vDrop + 'V</text>' +
         '<text x="45" y="340" font-size="11" fill="' + svgText + '">PV Array: ' + sys.pvConfig.panelsPerString + 'S x ' + sys.pvConfig.numStrings + 'P | Voc: ' + sys.pvConfig.arrayVoc.toFixed(0) + 'V</text>' +
-        '<text x="45" y="360" font-size="11" fill="' + svgText + '">Main Breaker: ' + sys.breaker.amps + 'A ' + sys.breaker.poles + ' | System: ' + sys.actualKwp + ' kWp</text>' +
+        '<text x="45" y="360" font-size="11" fill="' + svgText + '">Main Breaker: ' + sys.breaker.amps + 'A ' + sys.breaker.poles + ' Breaker' + ' | System: ' + sys.actualKwp + ' kWp</text>' +
         '<text x="45" y="380" font-size="10" fill="' + svgText + '">Safety Factor: 125% | Max Voltage Drop: 3% | Copper Conductors</text>' +
-        '<text x="45" y="380" font-size="10" fill="' + svgText + '">Date: ' + sys.inputs.date + ' | Project: ' + sys.inputs.clientName + '</text>' +
+        '<text x="45" y="400" font-size="10" fill="' + svgText + '">Date: ' + sys.inputs.date + ' | Project: ' + sys.inputs.clientName + '</text>' +
         '</svg>';
 }
 
@@ -1736,7 +1736,7 @@ function generateAll() {
         '<tr><td>Cable Specification</td><td class="wire-safe"><strong>' + sys.acWire.l + ' - THHN/THWN-2 Copper, 600V, 90\u00B0C</strong></td></tr>' +
         '<tr><td>Design Current (125% Safety)</td><td>' + sys.acWire.amps + ' A</td></tr>' +
         '<tr><td>Voltage Drop</td><td>' + sys.acWire.vDrop + 'V - within 3% acceptable limit</td></tr>' +
-        '<tr><td>Main Circuit Breaker</td><td class="wire-safe"><strong>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles + '</strong> - Matched to wire ampacity</td></tr>' +
+        '<tr><td>Main Circuit Breaker</td><td class="wire-safe"><strong>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles + ' Breaker' + '</strong> - Matched to wire ampacity</td></tr>' +
         '</table>' +
         '<table>' +
         '<tr><th colspan="2">PROJECT PRICE</th></tr>' +
@@ -1800,7 +1800,7 @@ function generateAll() {
         '<tr><td>DC Cable Length</td><td>' + inputs.dcLength + ' meters</td></tr>' +
         '<tr><td>AC Cable (Inverter to Panel)</td><td>' + sys.acWire.l + ' THHN/THWN-2 Copper, 600V</td></tr>' +
         '<tr><td>AC Cable Length</td><td>' + inputs.acLength + ' meters</td></tr>' +
-        '<tr><td>Main Circuit Breaker</td><td>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles + '</td></tr>' +
+        '<tr><td>Main Circuit Breaker</td><td>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles + ' Breaker' + '</td></tr>' +
         '<tr><td>DC Disconnect</td><td>IP65 Rated DC Isolator Switch</td></tr>' +
         '<tr><td>Surge Protection</td><td>Type II SPD (DC and AC sides)</td></tr>' +
         '<tr><td>Grounding</td><td>Equipment grounding per PNEC 2017 Article 250</td></tr>' +
@@ -1888,7 +1888,7 @@ function generateAll() {
         '<tr><td>Total PV Array Capacity</td><td><strong>' + sys.actualKwp + ' kWp</strong></td></tr>' +
         '<tr><td>PV Modules</td><td>' + sys.panelCount + ' pieces x ' + inputs.panelWp + ' Wp Monocrystalline</td></tr>' +
         '<tr><td>Inverter</td><td>' + sys.invKw + ' kW ' + inputs.sysType + ' Inverter</td></tr>' +
-        '<tr><td>Main Breaker</td><td>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles + '</td></tr>' +
+        '<tr><td>Main Breaker</td><td>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles + ' Breaker' + '</td></tr>' +
         '<tr><td>Estimated Monthly Production</td><td>' + sys.monthlyProd + ' kWh</td></tr>' +
         (sys.battery ? '<tr><td>Battery System</td><td>' + sys.battery.totalKwh + ' kWh ' + sys.battery.battType + ' @ ' + sys.battery.nominalVoltage + 'V</td></tr>' : '') +
         '</table>' +
@@ -2179,7 +2179,7 @@ function fillSummaryTab(sys, inputs) {
         '<tr><td>Cable Specification</td><td class="wire-safe"><strong>' + sys.acWire.l + ' - THHN/THWN-2 Copper, 600V, 90\u00B0C</strong></td></tr>' +
         '<tr><td>Design Current (125% Safety)</td><td>' + sys.acWire.amps + ' A</td></tr>' +
         '<tr><td>Voltage Drop</td><td>' + sys.acWire.vDrop + 'V - within 3% acceptable limit</td></tr>' +
-        '<tr><td>Main Circuit Breaker</td><td class="wire-safe"><strong>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles + '</strong> - Matched to wire ampacity</td></tr>' +
+        '<tr><td>Main Circuit Breaker</td><td class="wire-safe"><strong>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles + ' Breaker' + '</strong> - Matched to wire ampacity</td></tr>' +
         '<tr><td>Inverter Type</td><td><strong>' + sys.inverterType + '</strong></td></tr>' +
         '</table>' +
         (sys.combinerBox ? 
@@ -2300,7 +2300,7 @@ function fillPlanTab(sys, inputs) {
         '<tr><td>DC Cable Length</td><td>' + inputs.dcLength + ' meters</td></tr>' +
         '<tr><td>AC Cable (Inverter to Panel)</td><td>' + sys.acWire.l + ' THHN/THWN-2 Copper, 600V</td></tr>' +
         '<tr><td>AC Cable Length</td><td>' + inputs.acLength + ' meters</td></tr>' +
-        '<tr><td>Main Circuit Breaker</td><td>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles + '</td></tr>' +
+        '<tr><td>Main Circuit Breaker</td><td>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles + ' Breaker' + '</td></tr>' +
         '<tr><td>DC Disconnect</td><td>IP65 Rated DC Isolator Switch</td></tr>' +
         '<tr><td>Surge Protection</td><td>Type II SPD (DC and AC sides)</td></tr>' +
         '<tr><td>Grounding</td><td>Equipment grounding per PNEC 2017 Article 250</td></tr>' +
@@ -2402,7 +2402,7 @@ function fillAgreementTab(sys, inputs) {
         '<tr><td>Total PV Array Capacity</td><td><strong>' + sys.actualKwp + ' kWp</strong></td></tr>' +
         '<tr><td>PV Modules</td><td>' + sys.panelCount + ' pieces x ' + inputs.panelWp + ' Wp Monocrystalline</td></tr>' +
         '<tr><td>Inverter</td><td>' + sys.invKw + ' kW ' + inputs.sysType + ' Inverter</td></tr>' +
-        '<tr><td>Main Breaker</td><td>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles + '</td></tr>' +
+        '<tr><td>Main Breaker</td><td>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles + ' Breaker' + '</td></tr>' +
         '<tr><td>Estimated Monthly Production</td><td>' + sys.monthlyProd + ' kWh</td></tr>' +
         (sys.battery ? '<tr><td>Battery System</td><td>' + sys.battery.totalKwh + ' kWh ' + sys.battery.battType + ' @ ' + sys.battery.nominalVoltage + 'V</td></tr>' : '') +
         '</table>' +
