@@ -1616,7 +1616,7 @@ function renderSLD(sys) {
         
         '<rect x="380" y="55" width="100" height="75" rx="6" fill="' + svgFill3 + '" stroke="#A855F7" stroke-width="2"/>' +
         '<text x="430" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="' + svgText + '">PANEL</text>' +
-        '<text x="430" y="105" text-anchor="middle" font-size="11" fill="' + svgText + '">' + sys.breaker + 'A Breaker</text>' +
+        '<text x="430" y="105" text-anchor="middle" font-size="11" fill="' + svgText + '">' + sys.breaker.amps + 'A ' + sys.breaker.poles + ' Breaker</text>' +
         
         '<line x1="480" y1="92" x2="540" y2="92" stroke="' + svgText + '" stroke-width="2" marker-end="url(#arr)"/>' +
         
@@ -1736,7 +1736,7 @@ function generateAll() {
         '<tr><td>Cable Specification</td><td class="wire-safe"><strong>' + sys.acWire.l + ' - THHN/THWN-2 Copper, 600V, 90\u00B0C</strong></td></tr>' +
         '<tr><td>Design Current (125% Safety)</td><td>' + sys.acWire.amps + ' A</td></tr>' +
         '<tr><td>Voltage Drop</td><td>' + sys.acWire.vDrop + 'V - within 3% acceptable limit</td></tr>' +
-        '<tr><td>Main Circuit Breaker</td><td class="wire-safe"><strong>' + sys.breaker + 'A, 230V, 2-Pole</strong> - Matched to wire ampacity</td></tr>' +
+        '<tr><td>Main Circuit Breaker</td><td class="wire-safe"><strong>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles</strong> - Matched to wire ampacity</td></tr>' +
         '</table>' +
         '<table>' +
         '<tr><th colspan="2">PROJECT PRICE</th></tr>' +
@@ -1888,7 +1888,7 @@ function generateAll() {
         '<tr><td>Total PV Array Capacity</td><td><strong>' + sys.actualKwp + ' kWp</strong></td></tr>' +
         '<tr><td>PV Modules</td><td>' + sys.panelCount + ' pieces x ' + inputs.panelWp + ' Wp Monocrystalline</td></tr>' +
         '<tr><td>Inverter</td><td>' + sys.invKw + ' kW ' + inputs.sysType + ' Inverter</td></tr>' +
-        '<tr><td>Main Breaker</td><td>' + sys.breaker + 'A, 230V, 2-Pole</td></tr>' +
+        '<tr><td>Main Breaker</td><td>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles</td></tr>' +
         '<tr><td>Estimated Monthly Production</td><td>' + sys.monthlyProd + ' kWh</td></tr>' +
         (sys.battery ? '<tr><td>Battery System</td><td>' + sys.battery.totalKwh + ' kWh ' + sys.battery.battType + ' @ ' + sys.battery.nominalVoltage + 'V</td></tr>' : '') +
         '</table>' +
@@ -2402,7 +2402,7 @@ function fillAgreementTab(sys, inputs) {
         '<tr><td>Total PV Array Capacity</td><td><strong>' + sys.actualKwp + ' kWp</strong></td></tr>' +
         '<tr><td>PV Modules</td><td>' + sys.panelCount + ' pieces x ' + inputs.panelWp + ' Wp Monocrystalline</td></tr>' +
         '<tr><td>Inverter</td><td>' + sys.invKw + ' kW ' + inputs.sysType + ' Inverter</td></tr>' +
-        '<tr><td>Main Breaker</td><td>' + sys.breaker + 'A, 230V, 2-Pole</td></tr>' +
+        '<tr><td>Main Breaker</td><td>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles</td></tr>' +
         '<tr><td>Estimated Monthly Production</td><td>' + sys.monthlyProd + ' kWh</td></tr>' +
         (sys.battery ? '<tr><td>Battery System</td><td>' + sys.battery.totalKwh + ' kWh ' + sys.battery.battType + ' @ ' + sys.battery.nominalVoltage + 'V</td></tr>' : '') +
         '</table>' +
