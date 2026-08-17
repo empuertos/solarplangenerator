@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solar PV Design Tool | © Stevenson Empuerto 2026</title>
-    <!-- THEME LOADS FIRST - PREVENTS FLASH -->
-    <script>
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solar PV Design Tool | © Stevenson Empuerto 2026</title>
+  <!-- THEME LOADS FIRST - PREVENTS FLASH -->
+  <script>
         (function(){
             var s = localStorage.getItem('darkMode');
             var d = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -14,7 +14,7 @@
             }
         })();
     </script>
-    <style>
+  <style>
         :root {
             --primary: #0F4C75;
             --secondary: #10B981;
@@ -144,56 +144,19 @@
             color: #FECACA;
         }
 
-        .company-header {
-            background: linear-gradient(135deg, #0F4C75 0%, #136397 50%, #0F4C75 100%);
+        .header-bar {
+            background: var(--header-grad);
             color: white;
-            padding: 24px;
+            padding: 20px;
             border-radius: 12px;
             margin-bottom: 20px;
-            position: relative;
-            overflow: hidden;
+            transition: all 0.25s ease;
         }
 
-        html.dark-mode .company-header {
-            background: linear-gradient(135deg, #1E3A8A 0%, #1E40AF 50%, #1E3A8A 100%);
-        }
-
-        .company-header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .company-header h1 {
-            font-size: 22px;
+        .header-bar h1 {
+            font-size: 20px;
             font-weight: 700;
             margin-bottom: 4px;
-            letter-spacing: 0.5px;
-        }
-
-        .company-header .subtitle {
-            font-size: 13px;
-            opacity: 0.9;
-            margin-bottom: 12px;
-        }
-
-        .company-header .meta-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            font-size: 12px;
-            opacity: 0.85;
-        }
-
-        .company-header .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
         .card {
@@ -493,6 +456,58 @@
         }
 
         /* PROFESSIONAL ENHANCEMENTS */
+        .company-header {
+            background: linear-gradient(135deg, #0F4C75 0%, #136397 50%, #0F4C75 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        html.dark-mode .company-header {
+            background: linear-gradient(135deg, #1E3A8A 0%, #1E40AF 50%, #1E3A8A 100%);
+        }
+
+        .company-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .company-header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .company-header .subtitle {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-bottom: 12px;
+        }
+
+        .company-header .meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 12px;
+            opacity: 0.85;
+        }
+
+        .company-header .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
         .dashboard {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -633,6 +648,12 @@
             gap: 10px;
         }
 
+        @media (max-width: 600px) {
+            .assumptions-box ul {
+                columns: 1;
+            }
+        }
+
         /* COPYRIGHT FOOTER */
         .copyright-footer {
             text-align: center;
@@ -648,12 +669,6 @@
         .copyright-footer .owner {
             font-weight: 600;
             color: var(--primary);
-        }
-
-        @media (max-width: 600px) {
-            .assumptions-box ul {
-                columns: 1;
-            }
         }
 
         @media print {
@@ -759,7 +774,7 @@
             body {
                 padding: 12px;
             }
-            .company-header {
+            .header-bar {
                 padding: 16px;
                 padding-right: 60px;
             }
@@ -781,195 +796,155 @@
             }
         }
     </style>
-</head>
-<body>
-
-<button class="theme-toggle no-print" id="themeBtn" title="Toggle Dark/Light Mode">🌙</button>
-<div class="save-indicator no-print" id="saveIndicator">Saved</div>
-
-<div class="company-header no-print" id="companyHeader">
-    <h1>SOLAR PV SYSTEM DESIGN & CONTRACT AGREEMENT</h1>
-    <div class="subtitle">Professional Engineering Design Tool | PNEC 2017 Compliant | Owned by Stevenson Empuerto © 2026</div>
-    <div class="meta-row">
-        <div class="meta-item">📄 <span id="projectIdDisplay">Project ID: AUTO-GENERATED</span></div>
-        <div class="meta-item">📅 <span id="dateDisplay">Date: --</span></div>
-        <div class="meta-item">🔄 Revision: <strong>01</strong></div>
-        <div class="meta-item">📊 Status: <strong style="color:#34D399;">DRAFT</strong></div>
+ </head>
+ <body>
+  <button class="theme-toggle no-print" id="themeBtn" title="Toggle Dark/Light Mode">🌙</button>
+  <div class="save-indicator no-print" id="saveIndicator">Saved</div>
+  <div class="company-header no-print" id="companyHeader">
+   <h1>SOLAR PV SYSTEM DESIGN &amp; CONTRACT AGREEMENT</h1>
+   <div class="subtitle">Professional Engineering Design Tool | PNEC 2017 Compliant | Owned by Stevenson Empuerto © 2026</div>
+   <div class="meta-row">
+    <div class="meta-item">
+     📄 <span id="projectIdDisplay">Project ID: AUTO-GENERATED</span>
     </div>
-</div>
-
-<div class="tabs no-print" id="mainTabs">
-    <div class="tab active" data-tab="input">Project Details</div>
-    <div class="tab" data-tab="summary">Specs & Wire</div>
-    <div class="tab" data-tab="battery">Battery Sizing</div>
-    <div class="tab" data-tab="sld">SLD Diagram</div>
-    <div class="tab" data-tab="plan">Electrical Plan</div>
-    <div class="tab" data-tab="agreement">Contract</div>
-</div>
-
-<!-- INPUT TAB -->
-<div class="tab-content active card" id="input">
-    <h2>Project Information</h2>
-    <p style="margin-bottom:16px;"><strong>Auto-Save ON:</strong> Everything you enter is automatically saved!</p>
-    <div id="errorContainer"></div>
-    
-    <div class="grid">
-        <div class="form-group">
-            <label>Client / Project Name *</label>
-            <input type="text" id="clientName" placeholder="e.g. Juan Dela Cruz Residence" required>
-        </div>
-        <div class="form-group">
-            <label>Location / Address *</label>
-            <input type="text" id="projAddress" placeholder="City, Province" required>
-        </div>
-        <div class="form-group">
-            <label>System Type *</label>
-            <select id="sysType" required>
-                <option value="">-- Select System Type --</option>
-                <option value="Grid-tie">Grid-tie (On-Grid / Net Metering)</option>
-                <option value="Hybrid">Hybrid (Grid + Battery Backup)</option>
-                <option value="Off-grid">Off-grid (Stand-alone, No Utility)</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Monthly Electricity Consumption (kWh) *</label>
-            <input type="number" id="monthlyKwh" placeholder="e.g. 250 kWh" min="1" required>
-        </div>
-        <div class="form-group">
-            <label>Total Project Price (PHP) - Leave blank for AUTO</label>
-            <input type="number" id="projectPrice" placeholder="Custom price or leave blank" min="0">
-        </div>
-        <div class="form-group">
-            <label>Battery Type (Hybrid/Off-grid) *</label>
-            <select id="batteryType" required>
-                <option value="">-- Select Battery Type --</option>
-                <option value="LiFePO4">LiFePO4 (Lithium) - Recommended</option>
-                <option value="Lead-Acid">Lead-Acid / AGM / Gel</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Backup Autonomy (Hours) *</label>
-            <input type="number" id="autonomyHours" placeholder="Hours of backup power needed" min="1" required>
-        </div>
-        <div class="form-group">
-            <label>PV Module Power (Wp) *</label>
-            <select id="panelWp" required>
-                <option value="">-- Select Panel Power --</option>
-                <option value="400">400 Wp</option>
-                <option value="450">450 Wp - Most Common</option>
-                <option value="500">500 Wp</option>
-                <option value="550">550 Wp</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>DC Cable Length (meters) *</label>
-            <input type="number" id="dcLength" placeholder="Panels to Inverter distance" min="1" required>
-        </div>
-        <div class="form-group">
-            <label>AC Cable Length (meters) *</label>
-            <input type="number" id="acLength" placeholder="Inverter to Distribution Panel" min="1" required>
-        </div>
-        <div class="form-group">
-            <label>Battery Cable Length (meters) *</label>
-            <input type="number" id="battLength" placeholder="Battery to Inverter distance" min="1" required>
-        </div>
-        <div class="form-group">
-            <label>Peak Sun Hours *</label>
-            <select id="peakSun" required>
-                <option value="">-- Select Peak Sun Hours --</option>
-                <option value="4.0">4.0 hrs - Mindanao</option>
-                <option value="4.5">4.5 hrs - Central Visayas (Cebu)</option>
-                <option value="5.0">5.0 hrs - Luzon / Manila</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Contractor / Installer Name *</label>
-            <input type="text" id="contractorName" placeholder="Company Name" required>
-        </div>
-        <div class="form-group">
-            <label>Company License / SEC No.</label>
-            <input type="text" id="companyLicense" placeholder="License / Registration Number">
-        </div>
-        <div class="form-group">
-            <label>Company Contact Number</label>
-            <input type="text" id="companyContact" placeholder="+63 XXX XXX XXXX">
-        </div>
-        <div class="form-group">
-            <label>Company Email</label>
-            <input type="email" id="companyEmail" placeholder="info@company.com">
-        </div>
-        <div class="form-group">
-            <label>Prepared By (Engineer/Designer)</label>
-            <input type="text" id="preparedBy" placeholder="Full Name">
-        </div>
-        <div class="form-group">
-            <label>Checked By / Supervisor</label>
-            <input type="text" id="checkedBy" placeholder="Full Name">
-        </div>
+    <div class="meta-item">
+     📅 <span id="dateDisplay">Date: --</span>
     </div>
-
-    <div class="battery-note no-print">
-        <strong>BATTERY RULES - AUTO SHUTOFF ENABLED @ 20%</strong>
-        <ul style="margin:8px 0 0 20px; font-size:14px;">
-            <li><strong>Total Capacity:</strong> 100% - Full charge</li>
-            <li><strong>Usable Capacity:</strong> 80% - This is ALL you can safely use!</li>
-            <li><strong>20% RESERVE - AUTO SHUTOFF:</strong> When battery reaches <strong>20% remaining</strong> - Inverter automatically turns OFF!</li>
-            <li><strong>To use again:</strong> Must recharge above 20% first!</li>
-        </ul>
+    <div class="meta-item">
+     🔄 Revision: <strong>01</strong>
     </div>
-
-    <div class="result-box">
-        <strong>Live Calculation:</strong>
-        <p id="calcOut" style="margin-top:6px; font-size:14px;">Enter values above - real-time results appear here.</p>
+    <div class="meta-item">
+     📊 Status: <strong style="color:#34D399;">DRAFT</strong>
     </div>
-
-    <div class="btn-group no-print">
-        <button class="btn-primary" id="generateBtn">GENERATE ALL DOCUMENTS</button>
-        <button class="btn-secondary" onclick="printAllPages()">Print / Save PDF (All Pages)</button>
-        <button class="btn-outline" onclick="clearAllData()">Clear All / New Form</button>
+   </div>
+  </div>
+  <div class="tabs no-print" id="mainTabs">
+   <div class="tab active" data-tab="input">Project Details</div>
+   <div class="tab" data-tab="summary">Specs &amp; Wire</div>
+   <div class="tab" data-tab="battery">Battery Sizing</div>
+   <div class="tab" data-tab="sld">SLD Diagram</div>
+   <div class="tab" data-tab="plan">Electrical Plan</div>
+   <div class="tab" data-tab="agreement">Contract</div>
+  </div>
+  <!-- INPUT TAB -->
+  <div class="tab-content active card" id="input">
+   <h2>Project Information</h2>
+   <p style="margin-bottom:16px;"><strong>Auto-Save ON:</strong> Everything you enter is automatically saved!</p>
+   <div id="errorContainer"></div>
+   <div class="grid">
+    <div class="form-group">
+     <label>Client / Project Name *</label> <input type="text" id="clientName" placeholder="e.g. Juan Dela Cruz Residence" required>
     </div>
-</div>
-
-<!-- BATTERY TAB -->
-<div class="tab-content card" id="battery">
-    <h2>Battery Sizing & Protection - Auto Shutoff @ 20%</h2>
-    <p style="margin-bottom:16px;"><strong>Rules:</strong> 100% Total - 80% Usable - 20% Reserve. At 20% - Inverter auto-shuts off.</p>
-    <div id="batteryContent"></div>
-</div>
-
-<!-- SUMMARY TAB -->
-<div class="tab-content card" id="summary">
-    <h2>System Specifications & Wire Sizing</h2>
-    <p style="margin-bottom:16px;">Wire sized with <strong>125% Safety Factor</strong> & <strong>3% Voltage Drop</strong> - PNEC 2017 Compliant.</p>
-    <div id="summaryContent"></div>
-</div>
-
-<!-- SLD TAB -->
-<div class="tab-content card" id="sld">
-    <h2>Single Line Diagram</h2>
-    <p style="margin-bottom:16px;">Permit-ready diagram - PNEC 2017 compliant.</p>
-    <div class="diagram-container" id="sldCanvas"></div>
-</div>
-
-<!-- PLAN TAB -->
-<div class="tab-content card" id="plan">
-    <h2>Electrical Plan & Technical Specifications</h2>
-    <div id="planContent"></div>
-</div>
-
-<!-- AGREEMENT TAB -->
-<div class="tab-content card" id="agreement">
-    <h2>Contract Agreement - Supply & Installation</h2>
-    <div id="agreementContent"></div>
-</div>
-
-<!-- COPYRIGHT FOOTER -->
-<div class="copyright-footer no-print">
-    <div>© 2026 <span class="owner">Stevenson Empuerto</span>. All Rights Reserved.</div>
-    <div style="font-size:11px; margin-top:4px;">Solar PV System Design & Contract Generator | Pagmamay-ari ni Stevenson Empuerto</div>
-</div>
-
-<script>
+    <div class="form-group">
+     <label>Location / Address *</label> <input type="text" id="projAddress" placeholder="City, Province" required>
+    </div>
+    <div class="form-group">
+     <label>System Type *</label> <select id="sysType" required> <option value="">-- Select System Type --</option> <option value="Grid-tie">Grid-tie (On-Grid / Net Metering)</option> <option value="Hybrid">Hybrid (Grid + Battery Backup)</option> <option value="Off-grid">Off-grid (Stand-alone, No Utility)</option> </select>
+    </div>
+    <div class="form-group">
+     <label>System Scale *</label> <select id="sysScale" required> <option value="">-- Select System Scale --</option> <option value="Residential">🏠 Residential (Bahay, 230V Single-Phase)</option> <option value="Commercial">🏢 Commercial Building (400V 3-Phase)</option> <option value="Mall">🏬 Mall / Large Retail (400V 3-Phase)</option> <option value="Industrial">🏭 Industrial / Factory (400V 3-Phase)</option> </select>
+    </div>
+    <div class="form-group">
+     <label>Monthly Electricity Consumption (kWh) *</label> <input type="number" id="monthlyKwh" placeholder="e.g. 250 kWh" min="1" required>
+    </div>
+    <div class="form-group">
+     <label>Total Project Price (PHP) - Leave blank for AUTO</label> <input type="number" id="projectPrice" placeholder="Custom price or leave blank" min="0">
+    </div>
+    <div class="form-group">
+     <label>Battery Type (Hybrid/Off-grid) *</label> <select id="batteryType" required> <option value="">-- Select Battery Type --</option> <option value="LiFePO4">LiFePO4 (Lithium) - Recommended</option> <option value="Lead-Acid">Lead-Acid / AGM / Gel</option> </select>
+    </div>
+    <div class="form-group">
+     <label>Backup Autonomy (Hours) *</label> <input type="number" id="autonomyHours" placeholder="Hours of backup power needed" min="1" required>
+    </div>
+    <div class="form-group">
+     <label>PV Module Power (Wp) *</label> <select id="panelWp" required> <option value="">-- Select Panel Power --</option> <option value="400">400 Wp</option> <option value="450">450 Wp - Most Common</option> <option value="500">500 Wp</option> <option value="550">550 Wp</option> </select>
+    </div>
+    <div class="form-group">
+     <label>DC Cable Length (meters) *</label> <input type="number" id="dcLength" placeholder="Panels to Inverter distance" min="1" required>
+    </div>
+    <div class="form-group">
+     <label>AC Cable Length (meters) *</label> <input type="number" id="acLength" placeholder="Inverter to Distribution Panel" min="1" required>
+    </div>
+    <div class="form-group">
+     <label>Battery Cable Length (meters) *</label> <input type="number" id="battLength" placeholder="Battery to Inverter distance" min="1" required>
+    </div>
+    <div class="form-group">
+     <label>Peak Sun Hours *</label> <select id="peakSun" required> <option value="">-- Select Peak Sun Hours --</option> <option value="4.0">4.0 hrs - Mindanao</option> <option value="4.5">4.5 hrs - Central Visayas (Cebu)</option> <option value="5.0">5.0 hrs - Luzon / Manila</option> </select>
+    </div>
+    <div class="form-group">
+     <label>Contractor / Installer Name *</label> <input type="text" id="contractorName" placeholder="Company Name" required>
+    </div>
+    <div class="form-group">
+     <label>Company License / SEC No.</label> <input type="text" id="companyLicense" placeholder="License / Registration Number">
+    </div>
+    <div class="form-group">
+     <label>Company Contact Number</label> <input type="text" id="companyContact" placeholder="+63 XXX XXX XXXX">
+    </div>
+    <div class="form-group">
+     <label>Company Email</label> <input type="email" id="companyEmail" placeholder="info@company.com">
+    </div>
+    <div class="form-group">
+     <label>Prepared By (Engineer/Designer)</label> <input type="text" id="preparedBy" placeholder="Full Name">
+    </div>
+    <div class="form-group">
+     <label>Checked By / Supervisor</label> <input type="text" id="checkedBy" placeholder="Full Name">
+    </div>
+   </div>
+   <div class="battery-note no-print">
+    <strong>BATTERY RULES - AUTO SHUTOFF ENABLED @ 20%</strong>
+    <ul style="margin:8px 0 0 20px; font-size:14px;">
+     <li><strong>Total Capacity:</strong> 100% - Full charge</li>
+     <li><strong>Usable Capacity:</strong> 80% - This is ALL you can safely use!</li>
+     <li><strong>20% RESERVE - AUTO SHUTOFF:</strong> When battery reaches <strong>20% remaining</strong> - Inverter automatically turns OFF!</li>
+     <li><strong>To use again:</strong> Must recharge above 20% first!</li>
+    </ul>
+   </div>
+   <div class="result-box">
+    <strong>Live Calculation:</strong>
+    <p id="calcOut" style="margin-top:6px; font-size:14px;">Enter values above - real-time results appear here.</p>
+   </div>
+   <div class="btn-group no-print">
+    <button class="btn-primary" id="generateBtn">GENERATE ALL DOCUMENTS</button>
+    <button class="btn-secondary" onclick="printAllPages()">Print / Save PDF (All Pages)</button>
+    <button class="btn-outline" onclick="clearAllData()">Clear All / New Form</button>
+   </div>
+  </div>
+  <!-- BATTERY TAB -->
+  <div class="tab-content card" id="battery">
+   <h2>Battery Sizing &amp; Protection - Auto Shutoff @ 20%</h2>
+   <p style="margin-bottom:16px;"><strong>Rules:</strong> 100% Total - 80% Usable - 20% Reserve. At 20% - Inverter auto-shuts off.</p>
+   <div id="batteryContent"></div>
+  </div>
+  <!-- SUMMARY TAB -->
+  <div class="tab-content card" id="summary">
+   <h2>System Specifications &amp; Wire Sizing</h2>
+   <p style="margin-bottom:16px;">Wire sized with <strong>125% Safety Factor</strong> &amp; <strong>3% Voltage Drop</strong> - PNEC 2017 Compliant.</p>
+   <div id="summaryContent"></div>
+  </div>
+  <!-- SLD TAB -->
+  <div class="tab-content card" id="sld">
+   <h2>Single Line Diagram</h2>
+   <p style="margin-bottom:16px;">Permit-ready diagram - PNEC 2017 compliant.</p>
+   <div class="diagram-container" id="sldCanvas"></div>
+  </div>
+  <!-- PLAN TAB -->
+  <div class="tab-content card" id="plan">
+   <h2>Electrical Plan &amp; Technical Specifications</h2>
+   <div id="planContent"></div>
+  </div>
+  <!-- AGREEMENT TAB -->
+  <div class="tab-content card" id="agreement">
+   <h2>Contract Agreement - Supply &amp; Installation</h2>
+   <div id="agreementContent"></div>
+  </div>
+  <!-- COPYRIGHT FOOTER -->
+  <div class="copyright-footer no-print">
+   <div>
+    © 2026 <span class="owner">Stevenson Empuerto</span>. All Rights Reserved.
+   </div>
+   <div style="font-size:11px; margin-top:4px;">Solar PV System Design &amp; Contract Generator | Pagmamay-ari ni Stevenson Empuerto</div>
+  </div>
+  <script>
 // ============================================================
 // DARK MODE - FULLY FIXED
 // ============================================================
@@ -1025,6 +1000,7 @@ document.addEventListener('keydown', function(e) {
         e.preventDefault();
         return false;
     }
+    // Ctrl+P (Print) - allow this one since it's a feature
 });
 
 // Disable text selection on long press (mobile)
@@ -1061,7 +1037,7 @@ var errorContainer = document.getElementById('errorContainer');
 var tabsContainer = document.getElementById('mainTabs');
 
 var fieldsToSave = [
-    'clientName', 'projAddress', 'sysType', 'monthlyKwh', 'projectPrice',
+    'clientName', 'projAddress', 'sysType', 'sysScale', 'monthlyKwh', 'projectPrice',
     'batteryType', 'autonomyHours', 'panelWp', 'dcLength', 'acLength',
     'battLength', 'peakSun', 'contractorName', 'companyLicense',
     'companyContact', 'companyEmail', 'preparedBy', 'checkedBy'
@@ -1133,8 +1109,19 @@ document.querySelectorAll('.tab').forEach(function(tab) {
 // ============================================================
 // CALCULATION ENGINE
 // ============================================================
-function calculatePrice(kwp, sysType) {
+function calculatePrice(kwp, sysType, sysScale) {
+    // Residential rates
     var rates = { 'Grid-tie': 50000, 'Hybrid': 70000, 'Off-grid': 100000 };
+    
+    // Commercial/Mall/Industrial get volume discounts
+    if (sysScale === 'Commercial') {
+        rates = { 'Grid-tie': 42000, 'Hybrid': 62000, 'Off-grid': 88000 };
+    } else if (sysScale === 'Mall') {
+        rates = { 'Grid-tie': 38000, 'Hybrid': 58000, 'Off-grid': 82000 };
+    } else if (sysScale === 'Industrial') {
+        rates = { 'Grid-tie': 35000, 'Hybrid': 55000, 'Off-grid': 78000 };
+    }
+    
     return Math.round(kwp * (rates[sysType] || 50000));
 }
 
@@ -1169,18 +1156,42 @@ function getWireSizeDC(kw, voc, length) {
     };
 }
 
-function getWireSizeAC(kw, length) {
-    var fla = (kw * 1000 / 230) / 0.95;
+function getWireSizeAC(kw, length, sysScale) {
+    var is3Phase = sysScale !== 'Residential';
+    var acVoltage = is3Phase ? 400 : 230;
+    var pf = 0.95;
+    
+    // 3-phase: I = kW × 1000 / (√3 × V × PF)
+    // Single-phase: I = kW × 1000 / (V × PF)
+    var fla = is3Phase 
+        ? (kw * 1000) / (1.732 * acVoltage * pf)
+        : (kw * 1000) / (acVoltage * pf);
+    
     var amps = fla * 1.25;
-    var minArea = (2 * length * 0.01724 * fla) / 6.9;
+    // 3-phase voltage drop formula is different, simplified here
+    var maxVDrop = is3Phase ? 12 : 6.9;
+    var minArea = (2 * length * 0.01724 * fla) / maxVDrop;
+    
+    // Larger wire sizes for commercial/industrial
     var sizes = [
         { a: 2.5, l: '2.5 mm\u00B2 (14 AWG)', m: 20 },
         { a: 4, l: '4 mm\u00B2 (12 AWG)', m: 25 },
         { a: 5.5, l: '5.5 mm\u00B2 (12 AWG)', m: 30 },
         { a: 8, l: '8 mm\u00B2 (10 AWG)', m: 40 },
         { a: 14, l: '14 mm\u00B2 (8 AWG)', m: 55 },
-        { a: 22, l: '22 mm\u00B2 (6 AWG)', m: 75 }
+        { a: 22, l: '22 mm\u00B2 (6 AWG)', m: 75 },
+        { a: 30, l: '30 mm\u00B2 (4 AWG)', m: 100 },
+        { a: 38, l: '38 mm\u00B2 (2 AWG)', m: 125 },
+        { a: 50, l: '50 mm\u00B2 (1/0 AWG)', m: 150 },
+        { a: 60, l: '60 mm\u00B2 (2/0 AWG)', m: 175 },
+        { a: 70, l: '70 mm\u00B2 (3/0 AWG)', m: 210 },
+        { a: 95, l: '95 mm\u00B2 (4/0 AWG)', m: 250 },
+        { a: 120, l: '120 mm\u00B2 (250 MCM)', m: 290 },
+        { a: 150, l: '150 mm\u00B2 (300 MCM)', m: 330 },
+        { a: 185, l: '185 mm\u00B2 (350 MCM)', m: 380 },
+        { a: 240, l: '240 mm\u00B2 (500 MCM)', m: 450 }
     ];
+    
     var sel = sizes[1];
     for (var i = 0; i < sizes.length; i++) {
         var s = sizes[i];
@@ -1189,6 +1200,7 @@ function getWireSizeAC(kw, length) {
             break;
         }
     }
+    
     var vDrop = ((2 * length * 0.01724 * fla) / sel.a).toFixed(2);
     return {
         a: sel.a,
@@ -1196,22 +1208,37 @@ function getWireSizeAC(kw, length) {
         m: sel.m,
         amps: amps.toFixed(1),
         vDrop: vDrop,
-        minArea: minArea.toFixed(1)
+        minArea: minArea.toFixed(1),
+        is3Phase: is3Phase,
+        acVoltage: acVoltage,
+        fla: fla.toFixed(1)
     };
 }
 
-function getBreaker(wire) {
-    var map = { 2.5: 16, 4: 25, 5.5: 25, 6: 32, 8: 40, 10: 50, 14: 63, 22: 80, 25: 100 };
-    return map[wire.a] || 32;
+function getBreaker(wire, sysScale) {
+    var is3Phase = sysScale !== 'Residential';
+    var poles = is3Phase ? '3-Pole' : '2-Pole';
+    var map = {
+        2.5: 16, 4: 25, 5.5: 25, 6: 32, 8: 40, 10: 50, 14: 63, 22: 80,
+        25: 100, 30: 125, 38: 150, 50: 175, 60: 200, 70: 225, 95: 250,
+        120: 300, 150: 350, 185: 400, 240: 400
+    };
+    var amps = map[wire.a] || 32;
+    return { amps: amps, poles: poles };
 }
 
 // ============================================================
 // BATTERY WIRE SIZING - Battery to Inverter
 // ============================================================
 function getBatteryWireSize(invKw, battVoltage, length) {
+    // Battery max discharge current (inverter power / battery voltage / efficiency)
     var maxCurrent = (invKw * 1000) / (battVoltage * 0.95);
-    var designCurrent = maxCurrent * 1.25;
+    var designCurrent = maxCurrent * 1.25; // 125% safety factor
+    
+    // Voltage drop limit: 1% of battery voltage (stricter for batteries)
     var maxVoltageDrop = battVoltage * 0.01;
+    
+    // Minimum wire area formula
     var minArea = (2 * length * 0.01724 * maxCurrent) / maxVoltageDrop;
     
     var sizes = [
@@ -1347,14 +1374,22 @@ function calculateSystem(inputs) {
     var peakSun = inputs.peakSun;
     var dcLength = inputs.dcLength;
     var acLength = inputs.acLength;
-    var battLength = inputs.battLength || dcLength;
+    var battLength = inputs.battLength || dcLength; // default to DC length if not provided
     var sysType = inputs.sysType;
+    var sysScale = inputs.sysScale || 'Residential';
     var batteryType = inputs.batteryType;
     var autonomyHours = inputs.autonomyHours;
     var projectPrice = inputs.projectPrice;
 
+    // System efficiency varies by scale
+    var loss = sysScale === 'Residential' ? 0.75 : 
+               sysScale === 'Commercial' ? 0.77 :
+               sysScale === 'Mall' ? 0.78 : 0.80; // Industrial highest efficiency
+    
+    var is3Phase = sysScale !== 'Residential';
+    var acVoltage = is3Phase ? 400 : 230;
+    
     var dailyLoad = monthlyKwh / 30;
-    var loss = 0.75;
     var reqKwp = dailyLoad / (peakSun * loss);
     var actualKwp = Math.ceil(reqKwp * 10) / 10;
     var panelCount = Math.ceil(actualKwp * 1000 / panelWp);
@@ -1363,8 +1398,8 @@ function calculateSystem(inputs) {
     var voc = Math.min(600, Math.floor(600 / 45) * 45);
     var pvConfig = getPVArrayConfig(panelWp, panelCount, voc);
     var dcWire = getWireSizeDC(realKwp, voc, dcLength);
-    var acWire = getWireSizeAC(invKw, acLength);
-    var breaker = getBreaker(acWire);
+    var acWire = getWireSizeAC(invKw, acLength, sysScale);
+    var breaker = getBreaker(acWire, sysScale);
     var monthlyProd = Math.round(realKwp * peakSun * 30 * loss);
     var battery = null;
     var batteryWire = null;
@@ -1376,11 +1411,41 @@ function calculateSystem(inputs) {
 
     var finalPrice, isAutoPrice;
     if (!projectPrice || projectPrice === '' || projectPrice === 0) {
-        finalPrice = calculatePrice(realKwp, sysType);
+        finalPrice = calculatePrice(realKwp, sysType, sysScale);
         isAutoPrice = true;
     } else {
         finalPrice = projectPrice;
         isAutoPrice = false;
+    }
+    
+    // Commercial recommendations
+    var inverterType = 'String Inverter';
+    if (sysScale === 'Mall' && realKwp >= 100) inverterType = 'Multiple String Inverters';
+    if (sysScale === 'Industrial' && realKwp >= 250) inverterType = 'Central Inverter System';
+    
+    // Combiner box recommendation
+    var combinerBox = null;
+    if (pvConfig.numStrings >= 4) {
+        combinerBox = {
+            needed: true,
+            type: pvConfig.numStrings <= 6 ? '6-String DC Combiner Box' :
+                  pvConfig.numStrings <= 12 ? '12-String DC Combiner Box' :
+                  pvConfig.numStrings <= 24 ? '24-String DC Combiner Box' :
+                  'Multiple Combiner Boxes',
+            fuses: 'Each string with ' + Math.ceil(pvConfig.panelIsc * 1.5) + 'A DC fuse',
+            count: Math.ceil(pvConfig.numStrings / 24)
+        };
+    }
+    
+    // Transformer recommendation for very large systems
+    var transformer = null;
+    if (sysScale === 'Industrial' && realKwp >= 500) {
+        transformer = {
+            needed: true,
+            size: Math.ceil(realKwp * 1.2) + ' kVA',
+            type: 'Pad-mounted / Dry-type Step-up Transformer',
+            voltage: '400V → Required Distribution Voltage'
+        };
     }
 
     return {
@@ -1400,14 +1465,21 @@ function calculateSystem(inputs) {
         batteryWire: batteryWire,
         finalPrice: finalPrice,
         isAutoPrice: isAutoPrice,
-        inputs: inputs
+        inputs: inputs,
+        sysScale: sysScale,
+        is3Phase: is3Phase,
+        acVoltage: acVoltage,
+        systemEfficiency: loss * 100,
+        inverterType: inverterType,
+        combinerBox: combinerBox,
+        transformer: transformer
     };
 }
 
 // ============================================================
 // LIVE CALCULATION
 // ============================================================
-var liveFields = ['monthlyKwh', 'panelWp', 'peakSun', 'dcLength', 'acLength', 'battLength', 'sysType', 'batteryType', 'autonomyHours', 'projectPrice'];
+var liveFields = ['monthlyKwh', 'panelWp', 'peakSun', 'dcLength', 'acLength', 'battLength', 'sysType', 'sysScale', 'batteryType', 'autonomyHours', 'projectPrice'];
 liveFields.forEach(function(id) {
     var el = document.getElementById(id);
     if (el) {
@@ -1425,6 +1497,7 @@ function updateLiveCalc() {
         acLength: parseFloat(document.getElementById('acLength').value) || 0,
         battLength: parseFloat(document.getElementById('battLength').value) || 0,
         sysType: document.getElementById('sysType').value,
+        sysScale: document.getElementById('sysScale').value,
         batteryType: document.getElementById('batteryType').value,
         autonomyHours: parseFloat(document.getElementById('autonomyHours').value) || 0,
         projectPrice: parseFloat(document.getElementById('projectPrice').value) || 0
@@ -1436,7 +1509,8 @@ function updateLiveCalc() {
     }
 
     var r = calculateSystem(inputs);
-    var html = 'Daily Load: <strong>' + r.dailyLoad + ' kWh</strong> | System: <span class="highlight">' + r.actualKwp + ' kWp</span> (' + r.panelCount + ' x ' + r.panelWp + 'Wp) | Array: <span class="wire-safe">' + r.pvConfig.panelsPerString + 'S x ' + r.pvConfig.numStrings + 'P</span> | Inverter: ' + r.invKw + ' kW | DC: <span class="wire-safe">' + r.dcWire.l + '</span> | AC: <span class="wire-safe">' + r.acWire.l + '</span> | Breaker: ' + r.breaker + 'A | Price: <span class="highlight">\u20B1' + r.finalPrice.toLocaleString() + '</span>';
+    var phaseInfo = r.is3Phase ? ' | <span class="highlight">3-Phase ' + r.acVoltage + 'V</span>' : ' | Single-Phase 230V';
+    var html = 'Daily Load: <strong>' + r.dailyLoad + ' kWh</strong> | System: <span class="highlight">' + r.actualKwp + ' kWp</span> (' + r.panelCount + ' x ' + r.panelWp + 'Wp) | Array: <span class="wire-safe">' + r.pvConfig.panelsPerString + 'S x ' + r.pvConfig.numStrings + 'P</span> | Inverter: ' + r.invKw + ' kW (' + r.inverterType + ')' + phaseInfo + ' | DC: <span class="wire-safe">' + r.dcWire.l + '</span> | AC: <span class="wire-safe">' + r.acWire.l + '</span> | Breaker: ' + r.breaker.amps + 'A ' + r.breaker.poles + ' | Price: <span class="highlight">\u20B1' + r.finalPrice.toLocaleString() + '</span>';
     if (r.battery) {
         html += ' | Battery: <span class="highlight">' + r.battery.totalKwh + ' kWh | ' + r.battery.usableKwh + ' kWh Usable</span>';
         if (r.batteryWire) {
@@ -1462,6 +1536,7 @@ function validateForm() {
         { id: 'clientName', label: 'Client / Project Name' },
         { id: 'projAddress', label: 'Location / Address' },
         { id: 'sysType', label: 'System Type' },
+        { id: 'sysScale', label: 'System Scale' },
         { id: 'monthlyKwh', label: 'Monthly Electricity Consumption' },
         { id: 'batteryType', label: 'Battery Type' },
         { id: 'autonomyHours', label: 'Backup Autonomy Hours' },
@@ -1534,7 +1609,7 @@ function renderSLD(sys) {
         '<rect x="200" y="45" width="120" height="95" rx="8" fill="' + svgFill2 + '" stroke="#3B82F6" stroke-width="2"/>' +
         '<text x="260" y="80" text-anchor="middle" font-size="14" font-weight="bold" fill="' + svgText + '">INVERTER</text>' +
         '<text x="260" y="100" text-anchor="middle" font-size="12" fill="' + svgText + '">' + sys.invKw + ' kW</text>' +
-        '<text x="260" y="120" text-anchor="middle" font-size="10" fill="' + svgText + '">230V AC | 60Hz</text>' +
+        '<text x="260" y="120" text-anchor="middle" font-size="10" fill="' + svgText + '">' + sys.acVoltage + 'V AC | ' + (sys.is3Phase ? '3-Phase' : '1-Phase') + '</text>' +
         
         '<line x1="320" y1="92" x2="380" y2="92" stroke="' + svgText + '" stroke-width="2" marker-end="url(#arr)"/>' +
         '<text x="350" y="82" text-anchor="middle" font-size="10" fill="#F87171">AC ' + sys.acWire.l + '</text>' +
@@ -1555,15 +1630,421 @@ function renderSLD(sys) {
         '<text x="45" y="300" font-size="11" fill="' + svgText + '">DC: ' + sys.dcWire.l + ' PV1-F | Current: ' + sys.dcWire.amps + 'A | Drop: ' + sys.dcWire.vDrop + 'V</text>' +
         '<text x="45" y="320" font-size="11" fill="' + svgText + '">AC: ' + sys.acWire.l + ' THHN | Current: ' + sys.acWire.amps + 'A | Drop: ' + sys.acWire.vDrop + 'V</text>' +
         '<text x="45" y="340" font-size="11" fill="' + svgText + '">PV Array: ' + sys.pvConfig.panelsPerString + 'S x ' + sys.pvConfig.numStrings + 'P | Voc: ' + sys.pvConfig.arrayVoc.toFixed(0) + 'V</text>' +
-        '<text x="45" y="360" font-size="11" fill="' + svgText + '">Main Breaker: ' + sys.breaker + 'A 2-Pole | System: ' + sys.actualKwp + ' kWp</text>' +
+        '<text x="45" y="360" font-size="11" fill="' + svgText + '">Main Breaker: ' + sys.breaker.amps + 'A ' + sys.breaker.poles + ' | System: ' + sys.actualKwp + ' kWp</text>' +
         '<text x="45" y="380" font-size="10" fill="' + svgText + '">Safety Factor: 125% | Max Voltage Drop: 3% | Copper Conductors</text>' +
-        '<text x="45" y="395" font-size="10" fill="' + svgText + '">Date: ' + sys.inputs.date + ' | Project: ' + sys.inputs.clientName + '</text>' +
+        '<text x="45" y="380" font-size="10" fill="' + svgText + '">Date: ' + sys.inputs.date + ' | Project: ' + sys.inputs.clientName + '</text>' +
         '</svg>';
 }
 
 // ============================================================
-// HELPER FUNCTIONS FOR CONTENT GENERATION
+// GENERATE ALL - MAIN FUNCTION
 // ============================================================
+function generateAll() {
+    if (!validateForm()) return;
+    tabsContainer.classList.add('show');
+
+    var today = new Date().toLocaleDateString('en-PH', { year: 'numeric', month: 'long', day: 'numeric' });
+    var inputs = {
+        clientName: document.getElementById('clientName').value.trim(),
+        projAddress: document.getElementById('projAddress').value.trim(),
+        sysType: document.getElementById('sysType').value,
+        monthlyKwh: parseFloat(document.getElementById('monthlyKwh').value),
+        projectPrice: document.getElementById('projectPrice').value ? parseFloat(document.getElementById('projectPrice').value) : 0,
+        panelWp: parseFloat(document.getElementById('panelWp').value),
+        peakSun: parseFloat(document.getElementById('peakSun').value),
+        dcLength: parseFloat(document.getElementById('dcLength').value),
+        acLength: parseFloat(document.getElementById('acLength').value),
+        batteryType: document.getElementById('batteryType').value,
+        autonomyHours: parseFloat(document.getElementById('autonomyHours').value),
+        contractorName: document.getElementById('contractorName').value.trim(),
+        date: today
+    };
+
+    var sys = calculateSystem(inputs);
+    lastSysData = sys;
+
+    // BATTERY TAB
+    var batteryHtml = '';
+    if (sys.battery) {
+        batteryHtml =
+            '<table>' +
+            '<tr><th colspan="2">BATTERY SPECIFICATIONS - AUTO SHUTOFF @ ' + sys.battery.reservePercent + '%</th></tr>' +
+            '<tr><td>Battery Type</td><td><strong>' + sys.battery.battType + '</strong> - ' + (sys.battery.battType === 'LiFePO4' ? 'Long Life (6,000+ cycles)' : 'Lower Cost (500 cycles)') + '</td></tr>' +
+            '<tr><td>TOTAL Capacity (100%)</td><td class="wire-safe"><strong>' + sys.battery.totalKwh + ' kWh</strong> - Full charge</td></tr>' +
+            '<tr><td>USABLE Capacity (' + sys.battery.DoD + '%)</td><td><strong>' + sys.battery.usableKwh + ' kWh</strong> - Safe operating capacity</td></tr>' +
+            '<tr><td>RESERVE - NEVER DISCHARGE BELOW! (' + sys.battery.reservePercent + '%)</td><td style="color:red; font-weight:bold;"><strong>' + sys.battery.reservePercent + '% MINIMUM - INVERTER AUTO-SHUTS OFF HERE!</strong></td></tr>' +
+            '<tr><td>Maximum Depth of Discharge</td><td><strong>MAX ' + sys.battery.DoD + '%</strong> - NEVER EXCEED THIS LIMIT!</td></tr>' +
+            '<tr><td>Safety Margin (Aging & Heat)</td><td><strong>' + sys.battery.safetyMargin + '</strong> - Extra capacity included</td></tr>' +
+            '<tr><td>Temperature Allowance</td><td><strong>' + sys.battery.tempAllowance + '</strong> - For tropical climate >35\u00B0C</td></tr>' +
+            '<tr><th colspan="2">FINAL RECOMMENDED SIZE</th></tr>' +
+            '<tr><td>Nominal Capacity</td><td class="wire-safe"><strong>' + sys.battery.totalKwh + ' kWh</strong> TOTAL</td></tr>' +
+            '<tr><td>Nominal Voltage</td><td><strong>' + sys.battery.nominalVoltage + ' V</strong> DC</td></tr>' +
+            '<tr><td>Recommended Capacity</td><td><strong>' + sys.battery.Ah + ' Ah</strong> @ ' + sys.battery.nominalVoltage + 'V</td></tr>' +
+            '</table>' +
+            '<div class="warning-box">' +
+            '<strong>CRITICAL PROTECTION RULES - MUST READ!</strong>' +
+            '<ul style="margin:8px 0 0 20px;">' +
+            '<li><strong>100% Total -> ' + sys.battery.DoD + '% Usable -> ' + sys.battery.reservePercent + '% Reserve Always Remains</strong></li>' +
+            '<li><strong>AT ' + sys.battery.reservePercent + '% REMAINING -> INVERTER AUTO-SHUTS OFF!</strong> System stops automatically to protect battery from damage.</li>' +
+            '<li><strong>TO RESUME OPERATION:</strong> Must recharge battery above ' + sys.battery.reservePercent + '% first - system will NOT turn on until recharged!</li>' +
+            '<li>NEVER bypass the ' + sys.battery.reservePercent + '% shutoff setting - permanent battery damage will occur!</li>' +
+            '<li>NEVER expose to direct sunlight or temperatures above 35\u00B0C - service life reduced by 50% at 40\u00B0C!</li>' +
+            '<li>Always maintain between ' + sys.battery.reservePercent + '%-100% for maximum lifespan (6,000+ cycles)</li>' +
+            '<li>Always use certified BMS - protects against overcharge, over-discharge, and short circuit</li>' +
+            '</ul></div>';
+    } else {
+        batteryHtml = '<p>Select <strong>Hybrid</strong> or <strong>Off-grid</strong> system type to view battery sizing and protection calculations.</p>';
+    }
+    document.getElementById('batteryContent').innerHTML = batteryHtml;
+
+    // SUMMARY TAB
+    document.getElementById('summaryContent').innerHTML =
+        '<table>' +
+        '<tr><th colspan="2">SYSTEM SIZING</th></tr>' +
+        '<tr><td>Monthly Consumption</td><td><strong>' + inputs.monthlyKwh + ' kWh</strong></td></tr>' +
+        '<tr><td>Daily Load</td><td>' + sys.dailyLoad + ' kWh</td></tr>' +
+        '<tr><td>System Capacity</td><td><strong>' + sys.actualKwp + ' kWp</strong> - ' + sys.panelCount + ' x ' + inputs.panelWp + 'Wp Monocrystalline Panels</td></tr>' +
+        '<tr><td>Inverter Size</td><td>' + sys.invKw + ' kW - 230V AC, 60Hz</td></tr>' +
+        '<tr><td>Est. Monthly Production</td><td><strong>' + sys.monthlyProd + ' kWh</strong></td></tr>' +
+        '</table>' +
+        '<span class="section-badge">02 — PV ARRAY CONFIGURATION</span>' +
+        '<table>' +
+        '<tr><th colspan="2">🔗 PV ARRAY CONNECTION (Series vs Parallel)</th></tr>' +
+        '<tr><td>Connection Scheme</td><td class="wire-safe"><strong>' + sys.pvConfig.connection + '</strong></td></tr>' +
+        '<tr><td>Panels per String (SERIES)</td><td><strong>' + sys.pvConfig.panelsPerString + ' panels</strong> - Voltage adds up</td></tr>' +
+        '<tr><td>Number of Strings (PARALLEL)</td><td><strong>' + sys.pvConfig.numStrings + ' strings</strong> - Current adds up</td></tr>' +
+        '<tr><td>Per Panel: Voc / Vmp</td><td>' + sys.pvConfig.panelVoc + ' V / ' + sys.pvConfig.panelVmp + ' V</td></tr>' +
+        '<tr><td>Per Panel: Isc / Imp</td><td>' + sys.pvConfig.panelIsc + ' A / ' + sys.pvConfig.panelImp + ' A</td></tr>' +
+        '<tr><td>ARRAY: Voc (Open Circuit)</td><td><strong>' + sys.pvConfig.arrayVoc.toFixed(1) + ' V DC</strong> (Max limit: ' + sys.pvConfig.vocLimit + 'V)</td></tr>' +
+        '<tr><td>ARRAY: Vmp (Operating)</td><td><strong>' + sys.pvConfig.arrayVmp.toFixed(1) + ' V DC</strong> (MPPT range: 125V-500V)</td></tr>' +
+        '<tr><td>ARRAY: Isc / Imp</td><td>' + sys.pvConfig.arrayIsc.toFixed(1) + ' A / ' + sys.pvConfig.arrayImp.toFixed(1) + ' A</td></tr>' +
+        '<tr><td>Max Panels per String (600V limit)</td><td>' + sys.pvConfig.maxPerString + ' panels (with cold temp factor 1.15)</td></tr>' +
+        '<tr><td>Status</td><td class="' + (sys.pvConfig.mpptOk ? 'wire-safe' : '') + '" style="' + (sys.pvConfig.mpptOk ? '' : 'color:red; font-weight:bold;') + '">' + sys.pvConfig.mpptNote + '</td></tr>' +
+        '</table>' +
+        '<span class="section-badge">03 — DC SIDE</span>' +
+        '<table>' +
+        '<tr><th colspan="2">DC SIDE - PV ARRAY TO INVERTER</th></tr>' +
+        '<tr><td>Cable Specification</td><td class="wire-safe"><strong>' + sys.dcWire.l + ' - PV1-F Solar Cable, UV-Resistant, 1000V DC</strong></td></tr>' +
+        '<tr><td>Design Current (125% Safety)</td><td>' + sys.dcWire.amps + ' A</td></tr>' +
+        '<tr><td>Voltage Drop</td><td>' + sys.dcWire.vDrop + 'V - within 3% acceptable limit</td></tr>' +
+        '</table>' +
+        '<span class="section-badge">04 — AC SIDE</span>' +
+        '<table>' +
+        '<tr><th colspan="2">AC SIDE - INVERTER TO DISTRIBUTION PANEL</th></tr>' +
+        '<tr><td>System Configuration</td><td><strong>' + (sys.is3Phase ? '3-Phase, ' + sys.acVoltage + 'V AC, 60Hz' : 'Single-Phase, 230V AC, 60Hz') + '</strong></td></tr>' +
+        '<tr><td>Full Load Current (FLA)</td><td>' + sys.acWire.fla + ' A</td></tr>' +
+        '<tr><td>Cable Specification</td><td class="wire-safe"><strong>' + sys.acWire.l + ' - THHN/THWN-2 Copper, 600V, 90\u00B0C</strong></td></tr>' +
+        '<tr><td>Design Current (125% Safety)</td><td>' + sys.acWire.amps + ' A</td></tr>' +
+        '<tr><td>Voltage Drop</td><td>' + sys.acWire.vDrop + 'V - within 3% acceptable limit</td></tr>' +
+        '<tr><td>Main Circuit Breaker</td><td class="wire-safe"><strong>' + sys.breaker + 'A, 230V, 2-Pole</strong> - Matched to wire ampacity</td></tr>' +
+        '</table>' +
+        '<table>' +
+        '<tr><th colspan="2">PROJECT PRICE</th></tr>' +
+        '<tr><td>Total Contract Price ' + (sys.isAutoPrice ? '<span style="color:#0284C7; font-style:italic; font-size:12px;">(Estimated: \u20B150k/70k/100k per kWp based on system type)</span>' : '') + '</td><td class="price-tag">\u20B1 ' + sys.finalPrice.toLocaleString('en-PH') + '</td></tr>' +
+        '</table>' +
+        (sys.batteryWire ? 
+            '<span class="section-badge">05 — BATTERY SIDE</span>' +
+            '<table>' +
+            '<tr><th colspan="2">🔌 BATTERY SIDE - BATTERY TO INVERTER</th></tr>' +
+            '<tr><td>Cable Specification</td><td class="wire-safe"><strong>' + sys.batteryWire.l + ' - ' + sys.batteryWire.recommended + '</strong></td></tr>' +
+            '<tr><td>Design Current (125% Safety)</td><td>' + sys.batteryWire.designCurrent + ' A</td></tr>' +
+            '<tr><td>Voltage Drop</td><td>' + sys.batteryWire.vDrop + ' V (' + sys.batteryWire.vDropPercent + '%) - ≤1% limit</td></tr>' +
+            '</table>' : '') +
+        '<div class="warning-box"><strong>Fire-Safe Design:</strong> All conductors sized with 125% continuous load derating per PNEC 2017 - prevents overheating and fire risk.</div>';
+
+    // SLD DIAGRAM
+    renderSLD(sys);
+
+    // ELECTRICAL PLAN
+    document.getElementById('planContent').innerHTML =
+        '<div class="agreement-box">' +
+        '<h2>ELECTRICAL PLAN & TECHNICAL SPECIFICATIONS</h2>' +
+        '<p><strong>Project Name:</strong> ' + inputs.clientName + '</p>' +
+        '<p><strong>Location:</strong> ' + inputs.projAddress + '</p>' +
+        '<p><strong>Date:</strong> ' + inputs.date + '</p>' +
+        '<p><strong>System Type:</strong> ' + inputs.sysType + '</p>' +
+        '<br><hr><br>' +
+        '<h3 style="color:var(--primary);">A. PV MODULES</h3>' +
+        '<table>' +
+        '<tr><th>Parameter</th><th>Specification</th></tr>' +
+        '<tr><td>Module Type</td><td>Monocrystalline Silicon PV Module</td></tr>' +
+        '<tr><td>Module Power</td><td>' + inputs.panelWp + ' Wp</td></tr>' +
+        '<tr><td>Quantity</td><td>' + sys.panelCount + ' pieces</td></tr>' +
+        '<tr><td>Total Array Power</td><td><strong>' + sys.actualKwp + ' kWp</strong></td></tr>' +
+        '<tr><td>Array Connection</td><td><strong>' + sys.pvConfig.connection + '</strong></td></tr>' +
+        '<tr><td>Panels per String (Series)</td><td>' + sys.pvConfig.panelsPerString + ' panels</td></tr>' +
+        '<tr><td>Number of Strings (Parallel)</td><td>' + sys.pvConfig.numStrings + ' strings</td></tr>' +
+        '<tr><td>Per Panel Voc / Vmp</td><td>' + sys.pvConfig.panelVoc + ' V / ' + sys.pvConfig.panelVmp + ' V</td></tr>' +
+        '<tr><td>Per Panel Isc / Imp</td><td>' + sys.pvConfig.panelIsc + ' A / ' + sys.pvConfig.panelImp + ' A</td></tr>' +
+        '<tr><td>Array Voc (Max)</td><td><strong>' + sys.pvConfig.arrayVoc.toFixed(1) + ' V DC</strong> (Limit: 600V)</td></tr>' +
+        '<tr><td>Array Vmp (Operating)</td><td>' + sys.pvConfig.arrayVmp.toFixed(1) + ' V DC</td></tr>' +
+        '<tr><td>Array Isc / Imp</td><td>' + sys.pvConfig.arrayIsc.toFixed(1) + ' A / ' + sys.pvConfig.arrayImp.toFixed(1) + ' A</td></tr>' +
+        '<tr><td>Max System Voltage</td><td>' + sys.voc + ' V DC</td></tr>' +
+        '</table>' +
+        '<br>' +
+        '<h3 style="color:var(--primary);">B. INVERTER</h3>' +
+        '<table>' +
+        '<tr><th>Parameter</th><th>Specification</th></tr>' +
+        '<tr><td>Rated Power</td><td>' + sys.invKw + ' kW</td></tr>' +
+        '<tr><td>Type</td><td>' + inputs.sysType + ' Inverter - ' + sys.inverterType + '</td></tr>' +
+        '<tr><td>Input Voltage</td><td>' + sys.voc + ' V DC Max</td></tr>' +
+        '<tr><td>Output Voltage</td><td>' + sys.acVoltage + ' V AC, 60 Hz, ' + (sys.is3Phase ? '3-Phase' : 'Single Phase') + '</td></tr>' +
+        '<tr><td>Efficiency</td><td>97.5% Euro Efficiency</td></tr>' +
+        '<tr><td>Protection</td><td>IP65 Rated, Anti-islanding, Over/Under voltage</td></tr>' +
+        '</table>' +
+        '<br>' +
+        '<h3 style="color:var(--primary);">C. CABLING & PROTECTION</h3>' +
+        '<table>' +
+        '<tr><th>Component</th><th>Specification</th></tr>' +
+        '<tr><td>DC Cable (PV to Inverter)</td><td>' + sys.dcWire.l + ' PV1-F, TUV certified, UV resistant, 1000V DC</td></tr>' +
+        '<tr><td>DC Cable Length</td><td>' + inputs.dcLength + ' meters</td></tr>' +
+        '<tr><td>AC Cable (Inverter to Panel)</td><td>' + sys.acWire.l + ' THHN/THWN-2 Copper, 600V</td></tr>' +
+        '<tr><td>AC Cable Length</td><td>' + inputs.acLength + ' meters</td></tr>' +
+        '<tr><td>Main Circuit Breaker</td><td>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles + '</td></tr>' +
+        '<tr><td>DC Disconnect</td><td>IP65 Rated DC Isolator Switch</td></tr>' +
+        '<tr><td>Surge Protection</td><td>Type II SPD (DC and AC sides)</td></tr>' +
+        '<tr><td>Grounding</td><td>Equipment grounding per PNEC 2017 Article 250</td></tr>' +
+        '</table>' +
+        (sys.combinerBox ? 
+        '<br>' +
+        '<h3 style="color:var(--primary);">C1. DC COMBINER BOXES</h3>' +
+        '<table>' +
+        '<tr><th>Parameter</th><th>Specification</th></tr>' +
+        '<tr><td>Type</td><td><strong>' + sys.combinerBox.type + '</strong></td></tr>' +
+        '<tr><td>Quantity</td><td>' + sys.combinerBox.count + ' unit(s)</td></tr>' +
+        '<tr><td>String Fuses</td><td>' + sys.combinerBox.fuses + '</td></tr>' +
+        '<tr><td>Enclosure Rating</td><td>IP65, Weatherproof</td></tr>' +
+        '<tr><td>Features</td><td>DC disconnect, SPD, monitoring port</td></tr>' +
+        '</table>' : '') +
+        (sys.transformer ? 
+        '<br>' +
+        '<h3 style="color:var(--primary);">C2. STEP-UP TRANSFORMER</h3>' +
+        '<table>' +
+        '<tr><th>Parameter</th><th>Specification</th></tr>' +
+        '<tr><td>Rating</td><td><strong>' + sys.transformer.size + '</strong></td></tr>' +
+        '<tr><td>Type</td><td>' + sys.transformer.type + '</td></tr>' +
+        '<tr><td>Voltage</td><td>' + sys.transformer.voltage + '</td></tr>' +
+        '<tr><td>Impedance</td><td>4-6% typical</td></tr>' +
+        '<tr><td>Insulation Class</td><td>Class A or F</td></tr>' +
+        '</table>' : '') +
+        (sys.batteryWire ? 
+        '<br>' +
+        '<h3 style="color:var(--primary);">D. BATTERY CABLING (Hybrid/Off-grid)</h3>' +
+        '<table>' +
+        '<tr><th>Component</th><th>Specification</th></tr>' +
+        '<tr><td>Battery Cable (Battery to Inverter)</td><td><strong>' + sys.batteryWire.l + '</strong> - ' + sys.batteryWire.recommended + '</td></tr>' +
+        '<tr><td>Cable Length</td><td>' + (inputs.battLength || inputs.dcLength) + ' meters</td></tr>' +
+        '<tr><td>Maximum Discharge Current</td><td>' + sys.batteryWire.maxCurrent + ' A</td></tr>' +
+        '<tr><td>Design Current (125% Safety)</td><td>' + sys.batteryWire.designCurrent + ' A</td></tr>' +
+        '<tr><td>Voltage Drop</td><td>' + sys.batteryWire.vDrop + ' V (' + sys.batteryWire.vDropPercent + '%)</td></tr>' +
+        '<tr><td>Battery Fuse/Breaker</td><td>Size per battery manufacturer recommendation (typically ' + Math.round(parseFloat(sys.batteryWire.designCurrent) * 1.1) + 'A-'+ Math.round(parseFloat(sys.batteryWire.designCurrent) * 1.25) + 'A)</td></tr>' +
+        '</table>' : '') +
+        '<br>' +
+        '<h3 style="color:var(--primary);">' + (sys.batteryWire ? 'E' : 'D') + '. COMPLIANCE & STANDARDS</h3>' +
+        '<ul style="margin-left:20px;">' +
+        '<li>Philippine Electrical Code (PNEC) 2017</li>' +
+        '<li>Philippine Grid Code (for Grid-tie systems)</li>' +
+        '<li>IEC 62548 - PV Array Safety Requirements</li>' +
+        '<li>IEC 61683 - Inverter Safety</li>' +
+        '<li>All materials tested and certified by TUV, CE, or equivalent</li>' +
+        '<li>Fire safety compliant with 125% conductor derating</li>' +
+        '</ul>' +
+        '<br>' +
+        '<h3 style="color:var(--primary);">' + (sys.batteryWire ? 'F' : 'E') + '. INSTALLATION NOTES</h3>' +
+        '<ul style="margin-left:20px;">' +
+        '<li>Modules to be mounted on galvanized steel racking structure</li>' +
+        '<li>Tilt angle optimized for latitude of installation site</li>' +
+        '<li>Minimum 0.6m clearance from roof edges per safety standards</li>' +
+        '<li>All connections to be properly torqued and insulated</li>' +
+        '<li>System labeling per PNEC requirements</li>' +
+        '<li>Commissioning test and handover documentation included</li>' +
+        '</ul>' +
+        '</div>';
+
+    // CONTRACT AGREEMENT
+    document.getElementById('agreementContent').innerHTML =
+        '<div class="agreement-box">' +
+        '<h2>CONTRACT AGREEMENT FOR SUPPLY AND INSTALLATION OF SOLAR PV SYSTEM</h2>' +
+        '<p><strong>KNOW ALL MEN BY THESE PRESENTS:</strong></p>' +
+        '<p>This Agreement is made and entered into this <strong>' + inputs.date + '</strong>, by and between:</p>' +
+        '<br>' +
+        '<p><strong>THE CONTRACTOR:</strong><br>' +
+        'Name: ' + inputs.contractorName + '<br>' +
+        (inputs.companyLicense ? 'License/SEC No.: ' + inputs.companyLicense + '<br>' : '') +
+        (inputs.companyContact ? 'Contact: ' + inputs.companyContact + '<br>' : '') +
+        (inputs.companyEmail ? 'Email: ' + inputs.companyEmail + '<br>' : '') +
+        '(Hereinafter referred to as the "CONTRACTOR")</p>' +
+        '<br>' +
+        '<p><strong>THE CLIENT:</strong><br>' +
+        'Name: ' + inputs.clientName + '<br>' +
+        'Address: ' + inputs.projAddress + '<br>' +
+        '(Hereinafter referred to as the "CLIENT")</p>' +
+        '<br><hr><br>' +
+        '<h3 style="color:var(--primary);">ARTICLE I: SCOPE OF WORK</h3>' +
+        '<p>The CONTRACTOR agrees to supply, deliver, install, test, and commission a Grid-Connected/Hybrid/Off-Grid Solar Photovoltaic (PV) System with the following specifications:</p>' +
+        '<table>' +
+        '<tr><th>Description</th><th>Specification</th></tr>' +
+        '<tr><td>System Type</td><td>' + inputs.sysType + '</td></tr>' +
+        '<tr><td>Total PV Array Capacity</td><td><strong>' + sys.actualKwp + ' kWp</strong></td></tr>' +
+        '<tr><td>PV Modules</td><td>' + sys.panelCount + ' pieces x ' + inputs.panelWp + ' Wp Monocrystalline</td></tr>' +
+        '<tr><td>Inverter</td><td>' + sys.invKw + ' kW ' + inputs.sysType + ' Inverter</td></tr>' +
+        '<tr><td>Main Breaker</td><td>' + sys.breaker + 'A, 230V, 2-Pole</td></tr>' +
+        '<tr><td>Estimated Monthly Production</td><td>' + sys.monthlyProd + ' kWh</td></tr>' +
+        (sys.battery ? '<tr><td>Battery System</td><td>' + sys.battery.totalKwh + ' kWh ' + sys.battery.battType + ' @ ' + sys.battery.nominalVoltage + 'V</td></tr>' : '') +
+        '</table>' +
+        '<br>' +
+        '<h3 style="color:var(--primary);">ARTICLE II: CONTRACT PRICE</h3>' +
+        '<p>The total contract price for the entire project is the sum of <strong class="price-tag">\u20B1 ' + sys.finalPrice.toLocaleString('en-PH') + '</strong> (Philippine Pesos).</p>' +
+        '<p><strong>Payment Terms:</strong></p>' +
+        '<ul style="margin-left:20px;">' +
+        '<li><strong>50% Down Payment</strong> - Upon signing of this agreement, to cover material procurement</li>' +
+        '<li><strong>40% Progress Payment</strong> - Upon delivery of materials to site</li>' +
+        '<li><strong>10% Final Payment</strong> - Upon successful commissioning and acceptance testing</li>' +
+        '</ul>' +
+        '<br>' +
+        '<h3 style="color:var(--primary);">ARTICLE III: PROJECT TIMELINE</h3>' +
+        '<ul style="margin-left:20px;">' +
+        '<li><strong>Material Procurement:</strong> 2-3 weeks from receipt of down payment</li>' +
+        '<li><strong>Installation Period:</strong> 5-7 working days from material delivery</li>' +
+        '<li><strong>Testing & Commissioning:</strong> 1-2 days</li>' +
+        '<li><strong>Total Estimated Duration:</strong> Approximately 4-5 weeks</li>' +
+        '</ul>' +
+        '<br>' +
+        '<h3 style="color:var(--primary);">ARTICLE IV: WARRANTIES</h3>' +
+        '<ul style="margin-left:20px;">' +
+        '<li><strong>PV Modules:</strong> 10-year product warranty, 25-year performance warranty (80% minimum output)</li>' +
+        '<li><strong>Inverter:</strong> 5-year warranty (extendable to 10 years)</li>' +
+        '<li><strong>Battery (if applicable):</strong> 3-year warranty</li>' +
+        '<li><strong>Installation Workmanship:</strong> 1-year warranty</li>' +
+        '<li><strong>Free Maintenance:</strong> 2 preventive maintenance visits within first year</li>' +
+        '</ul>' +
+        '<br>' +
+        '<h3 style="color:var(--primary);">ARTICLE V: CLIENT RESPONSIBILITIES</h3>' +
+        '<ul style="margin-left:20px;">' +
+        '<li>Provide safe and unobstructed access to the installation site</li>' +
+        '<li>Ensure structural integrity of roof/mounting surface</li>' +
+        '<li>Provide necessary electrical service entrance and metering point</li>' +
+        '<li>Secure all necessary permits and approvals from local authorities and utility company (assistance available)</li>' +
+        '<li>Make payments according to the agreed schedule</li>' +
+        '</ul>' +
+        '<br>' +
+        '<h3 style="color:var(--primary);">ARTICLE VI: CONTRACTOR RESPONSIBILITIES</h3>' +
+        '<ul style="margin-left:20px;">' +
+        '<li>Provide all materials, labor, tools, and equipment necessary for complete installation</li>' +
+        '<li>Ensure all work complies with PNEC 2017 and applicable standards</li>' +
+        '<li>Provide qualified and trained installation personnel</li>' +
+        '<li>Perform testing and commissioning of the complete system</li>' +
+        '<li>Provide as-built drawings and operation manual upon completion</li>' +
+        '<li>Train the CLIENT on basic system operation and monitoring</li>' +
+        '</ul>' +
+        '<br>' +
+        '<h3 style="color:var(--primary);">ARTICLE VII: TERMINATION</h3>' +
+        '<p>Either party may terminate this agreement upon 15 days written notice for material breach. In case of termination by the CLIENT without cause, the CLIENT shall pay for work actually performed plus reasonable termination costs.</p>' +
+        '<br>' +
+        '<h3 style="color:var(--primary);">ARTICLE VIII: DISPUTE RESOLUTION</h3>' +
+        '<p>Any dispute arising from this agreement shall first be settled amicably through negotiation. If unresolved, the dispute shall be submitted to arbitration in accordance with Philippine law.</p>' +
+        '<br>' +
+        '<h3 style="color:var(--primary);">ARTICLE IX: GENERAL PROVISIONS</h3>' +
+        '<ul style="margin-left:20px;">' +
+        '<li>This agreement constitutes the entire understanding between the parties</li>' +
+        '<li>Any modifications must be in writing and signed by both parties</li>' +
+        '<li>The CONTRACTOR may assign subcontractors but remains fully responsible for all work</li>' +
+        '<li>Force majeure events shall extend the project timeline accordingly</li>' +
+        '<li>This agreement shall be governed by the laws of the Republic of the Philippines</li>' +
+        '</ul>' +
+        '<br><hr><br>' +
+        '<p><strong>IN WITNESS WHEREOF</strong>, the parties have executed this agreement as of the date first above written.</p>' +
+        '<div class="signature-section">' +
+        '<div>' +
+        '<p><strong>FOR THE CONTRACTOR:</strong></p>' +
+        '<div class="signature-line"></div>' +
+        '<p>Authorized Representative</p>' +
+        '<p>' + inputs.contractorName + '</p>' +
+        '</div>' +
+        '<div>' +
+        '<p><strong>FOR THE CLIENT:</strong></p>' +
+        '<div class="signature-line"></div>' +
+        '<p>Client Signature</p>' +
+        '<p>' + inputs.clientName + '</p>' +
+        '</div>' +
+        '</div>' +
+        '<br><br>' +
+        '<div class="signature-section">' +
+        '<div>' +
+        '<p><strong>ACKNOWLEDGED IN THE PRESENCE OF:</strong></p>' +
+        '<div class="signature-line"></div>' +
+        '<p>Witness 1</p>' +
+        '</div>' +
+        '<div>' +
+        '<p><strong>&nbsp;</strong></p>' +
+        '<div class="signature-line"></div>' +
+        '<p>Witness 2</p>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
+
+    // Switch to summary tab after generation
+    document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+    document.querySelector('.tab[data-tab="summary"]').classList.add('active');
+    document.getElementById('summary').classList.add('active');
+}
+
+// ============================================================
+// PRINT ALL PAGES - AUTO GENERATE FIRST
+// ============================================================
+function printAllPages() {
+    // If tabs are not yet generated, auto-generate everything first
+    if (!tabsContainer.classList.contains('show')) {
+        // Validate first
+        if (!validateForm()) {
+            alert('Please fill in all required fields first (*) before printing.');
+            return;
+        }
+        // Generate all documents silently
+        var today = new Date().toLocaleDateString('en-PH', { year: 'numeric', month: 'long', day: 'numeric' });
+        var inputs = {
+            clientName: document.getElementById('clientName').value.trim(),
+            projAddress: document.getElementById('projAddress').value.trim(),
+            sysType: document.getElementById('sysType').value,
+            sysScale: document.getElementById('sysScale').value,
+            monthlyKwh: parseFloat(document.getElementById('monthlyKwh').value),
+            projectPrice: document.getElementById('projectPrice').value ? parseFloat(document.getElementById('projectPrice').value) : 0,
+            panelWp: parseFloat(document.getElementById('panelWp').value),
+            peakSun: parseFloat(document.getElementById('peakSun').value),
+            dcLength: parseFloat(document.getElementById('dcLength').value),
+            acLength: parseFloat(document.getElementById('acLength').value),
+            battLength: parseFloat(document.getElementById('battLength').value),
+            batteryType: document.getElementById('batteryType').value,
+            autonomyHours: parseFloat(document.getElementById('autonomyHours').value),
+            contractorName: document.getElementById('contractorName').value.trim(),
+            companyLicense: document.getElementById('companyLicense').value.trim(),
+            companyContact: document.getElementById('companyContact').value.trim(),
+            companyEmail: document.getElementById('companyEmail').value.trim(),
+            preparedBy: document.getElementById('preparedBy').value.trim(),
+            checkedBy: document.getElementById('checkedBy').value.trim(),
+            date: today
+        };
+        var sys = calculateSystem(inputs);
+        lastSysData = sys;
+        
+        // Fill all tabs
+        fillBatteryTab(sys, inputs);
+        fillSummaryTab(sys, inputs);
+        renderSLD(sys);
+        fillPlanTab(sys, inputs);
+        fillAgreementTab(sys, inputs);
+        
+        tabsContainer.classList.add('show');
+    }
+    
+    // Small delay to ensure everything renders, then print
+    setTimeout(function() {
+        window.print();
+    }, 300);
+}
+
+// Helper functions extracted from generateAll for printAllPages
 function fillBatteryTab(sys, inputs) {
     var projectId = generateProjectId();
     var batteryHtml = '';
@@ -1642,7 +2123,7 @@ function fillSummaryTab(sys, inputs) {
         '<tr><td style="border:none; padding:4px 12px 4px 0;"><strong>Project:</strong></td><td style="border:none; padding:4px; font-weight:600;">' + inputs.clientName + '</td>' +
         '<td style="border:none; padding:4px 12px 4px 24px;"><strong>Location:</strong></td><td style="border:none; padding:4px;">' + inputs.projAddress + '</td></tr>' +
         '<tr><td style="border:none; padding:4px 12px 4px 0;"><strong>System Type:</strong></td><td style="border:none; padding:4px;">' + inputs.sysType + '</td>' +
-        '<td style="border:none; padding:4px 12px 4px 24px;"><strong>Revision:</strong></td><td style="border:none; padding:4px;">01 - Initial Design</td></tr>' +
+        '<td style="border:none; padding:4px 12px 4px 24px;"><strong>Scale:</strong></td><td style="border:none; padding:4px; font-weight:600;">' + sys.sysScale + ' (' + (sys.is3Phase ? '3-Phase' : '1-Phase') + ')</td></tr>' +
         '</table></div>' +
         
         // DASHBOARD CARDS
@@ -1661,6 +2142,10 @@ function fillSummaryTab(sys, inputs) {
         '<tr><th colspan="2">SYSTEM SIZING</th></tr>' +
         '<tr><td>Monthly Consumption</td><td><strong>' + inputs.monthlyKwh + ' kWh</strong></td></tr>' +
         '<tr><td>Daily Load</td><td>' + sys.dailyLoad + ' kWh</td></tr>' +
+        '<tr><td>System Capacity</td><td><strong>' + sys.actualKwp + ' kWp</strong> - ' + sys.panelCount + ' x ' + inputs.panelWp + 'Wp Monocrystalline Panels</td></tr>' +
+        '<tr><td>Inverter Size</td><td>' + sys.invKw + ' kW - 230V AC, 60Hz</td></tr>' +
+        '<tr><td>Est. Monthly Production</td><td><strong>' + sys.monthlyProd + ' kWh</strong></td></tr>' +
+        '</table>' +
         '<tr><td>System Capacity</td><td><strong>' + sys.actualKwp + ' kWp</strong> - ' + sys.panelCount + ' x ' + inputs.panelWp + 'Wp Monocrystalline Panels</td></tr>' +
         '<tr><td>Inverter Size</td><td>' + sys.invKw + ' kW - 230V AC, 60Hz</td></tr>' +
         '<tr><td>Est. Monthly Production</td><td><strong>' + sys.monthlyProd + ' kWh</strong></td></tr>' +
@@ -1689,18 +2174,32 @@ function fillSummaryTab(sys, inputs) {
         '<span class="section-badge">04 — AC SIDE</span>' +
         '<table>' +
         '<tr><th colspan="2">AC SIDE - INVERTER TO DISTRIBUTION PANEL</th></tr>' +
+        '<tr><td>System Configuration</td><td><strong>' + (sys.is3Phase ? '3-Phase, ' + sys.acVoltage + 'V AC, 60Hz' : 'Single-Phase, 230V AC, 60Hz') + '</strong></td></tr>' +
+        '<tr><td>Full Load Current (FLA)</td><td>' + sys.acWire.fla + ' A</td></tr>' +
         '<tr><td>Cable Specification</td><td class="wire-safe"><strong>' + sys.acWire.l + ' - THHN/THWN-2 Copper, 600V, 90\u00B0C</strong></td></tr>' +
         '<tr><td>Design Current (125% Safety)</td><td>' + sys.acWire.amps + ' A</td></tr>' +
         '<tr><td>Voltage Drop</td><td>' + sys.acWire.vDrop + 'V - within 3% acceptable limit</td></tr>' +
-        '<tr><td>Main Circuit Breaker</td><td class="wire-safe"><strong>' + sys.breaker + 'A, 230V, 2-Pole</strong> - Matched to wire ampacity</td></tr>' +
+        '<tr><td>Main Circuit Breaker</td><td class="wire-safe"><strong>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles + '</strong> - Matched to wire ampacity</td></tr>' +
+        '<tr><td>Inverter Type</td><td><strong>' + sys.inverterType + '</strong></td></tr>' +
         '</table>' +
-        (sys.batteryWire ? 
-            '<span class="section-badge">05 — BATTERY SIDE</span>' +
+        (sys.combinerBox ? 
+            '<span class="section-badge">04B — DC COMBINER BOXES</span>' +
             '<table>' +
-            '<tr><th colspan="2">🔌 BATTERY SIDE - BATTERY TO INVERTER</th></tr>' +
-            '<tr><td>Cable Specification</td><td class="wire-safe"><strong>' + sys.batteryWire.l + ' - ' + sys.batteryWire.recommended + '</strong></td></tr>' +
-            '<tr><td>Design Current (125% Safety)</td><td>' + sys.batteryWire.designCurrent + ' A</td></tr>' +
-            '<tr><td>Voltage Drop</td><td>' + sys.batteryWire.vDrop + ' V (' + sys.batteryWire.vDropPercent + '%) - ≤1% limit</td></tr>' +
+            '<tr><th colspan="2">🔌 DC COMBINER BOX REQUIREMENTS</th></tr>' +
+            '<tr><td>Combiner Box Type</td><td class="wire-safe"><strong>' + sys.combinerBox.type + '</strong></td></tr>' +
+            '<tr><td>Quantity Needed</td><td><strong>' + sys.combinerBox.count + '</strong> unit(s)</td></tr>' +
+            '<tr><td>String Fuses</td><td>' + sys.combinerBox.fuses + '</td></tr>' +
+            '<tr><td>Enclosure</td><td>IP65 Rated, Outdoor Suitable</td></tr>' +
+            '<tr><td>Features</td><td>Surge protection, DC disconnect, monitoring optional</td></tr>' +
+            '</table>' : '') +
+        (sys.transformer ?
+            '<span class="section-badge">04C — TRANSFORMER</span>' +
+            '<table>' +
+            '<tr><th colspan="2">⚡ STEP-UP TRANSFORMER (Large System)</th></tr>' +
+            '<tr><td>Transformer Size</td><td class="wire-safe"><strong>' + sys.transformer.size + '</strong></td></tr>' +
+            '<tr><td>Type</td><td>' + sys.transformer.type + '</td></tr>' +
+            '<tr><td>Voltage Conversion</td><td>' + sys.transformer.voltage + '</td></tr>' +
+            '<tr><td>Impedance</td><td>Typically 4-6% for solar applications</td></tr>' +
             '</table>' : '') +
         '<span class="section-badge">06 — PROJECT PRICE</span>' +
         '<table>' +
@@ -1714,7 +2213,7 @@ function fillSummaryTab(sys, inputs) {
         '<div class="assumptions-box">' +
         '<h4>📋 Engineering Assumptions Used in Calculations</h4>' +
         '<ul>' +
-        '<li>System Efficiency: 75% (inverter, wiring, temperature, mismatch losses)</li>' +
+        '<li>System Efficiency: ' + sys.systemEfficiency.toFixed(0) + '% (' + sys.sysScale + ' - inverter, wiring, temperature, mismatch losses)</li>' +
         '<li>Peak Sun Hours: ' + inputs.peakSun + ' hrs/day (location-specific)</li>' +
         '<li>AC Voltage: 230V, 60Hz (Philippine Standard)</li>' +
         '<li>Inverter Power Factor: 0.95</li>' +
@@ -1787,9 +2286,9 @@ function fillPlanTab(sys, inputs) {
         '<table>' +
         '<tr><th>Parameter</th><th>Specification</th></tr>' +
         '<tr><td>Rated Power</td><td>' + sys.invKw + ' kW</td></tr>' +
-        '<tr><td>Type</td><td>' + inputs.sysType + ' Inverter (Transformerless)</td></tr>' +
+        '<tr><td>Type</td><td>' + inputs.sysType + ' Inverter - ' + sys.inverterType + '</td></tr>' +
         '<tr><td>Input Voltage</td><td>' + sys.voc + ' V DC Max</td></tr>' +
-        '<tr><td>Output Voltage</td><td>230 V AC, 60 Hz, Single Phase</td></tr>' +
+        '<tr><td>Output Voltage</td><td>' + sys.acVoltage + ' V AC, 60 Hz, ' + (sys.is3Phase ? '3-Phase' : 'Single Phase') + '</td></tr>' +
         '<tr><td>Efficiency</td><td>97.5% Euro Efficiency</td></tr>' +
         '<tr><td>Protection</td><td>IP65 Rated, Anti-islanding, Over/Under voltage</td></tr>' +
         '</table>' +
@@ -1801,11 +2300,33 @@ function fillPlanTab(sys, inputs) {
         '<tr><td>DC Cable Length</td><td>' + inputs.dcLength + ' meters</td></tr>' +
         '<tr><td>AC Cable (Inverter to Panel)</td><td>' + sys.acWire.l + ' THHN/THWN-2 Copper, 600V</td></tr>' +
         '<tr><td>AC Cable Length</td><td>' + inputs.acLength + ' meters</td></tr>' +
-        '<tr><td>Main Circuit Breaker</td><td>' + sys.breaker + 'A, 230V, 2-Pole</td></tr>' +
+        '<tr><td>Main Circuit Breaker</td><td>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles + '</td></tr>' +
         '<tr><td>DC Disconnect</td><td>IP65 Rated DC Isolator Switch</td></tr>' +
         '<tr><td>Surge Protection</td><td>Type II SPD (DC and AC sides)</td></tr>' +
         '<tr><td>Grounding</td><td>Equipment grounding per PNEC 2017 Article 250</td></tr>' +
         '</table>' +
+        (sys.combinerBox ? 
+        '<br>' +
+        '<h3 style="color:var(--primary);">C1. DC COMBINER BOXES</h3>' +
+        '<table>' +
+        '<tr><th>Parameter</th><th>Specification</th></tr>' +
+        '<tr><td>Type</td><td><strong>' + sys.combinerBox.type + '</strong></td></tr>' +
+        '<tr><td>Quantity</td><td>' + sys.combinerBox.count + ' unit(s)</td></tr>' +
+        '<tr><td>String Fuses</td><td>' + sys.combinerBox.fuses + '</td></tr>' +
+        '<tr><td>Enclosure Rating</td><td>IP65, Weatherproof</td></tr>' +
+        '<tr><td>Features</td><td>DC disconnect, SPD, monitoring port</td></tr>' +
+        '</table>' : '') +
+        (sys.transformer ? 
+        '<br>' +
+        '<h3 style="color:var(--primary);">C2. STEP-UP TRANSFORMER</h3>' +
+        '<table>' +
+        '<tr><th>Parameter</th><th>Specification</th></tr>' +
+        '<tr><td>Rating</td><td><strong>' + sys.transformer.size + '</strong></td></tr>' +
+        '<tr><td>Type</td><td>' + sys.transformer.type + '</td></tr>' +
+        '<tr><td>Voltage</td><td>' + sys.transformer.voltage + '</td></tr>' +
+        '<tr><td>Impedance</td><td>4-6% typical</td></tr>' +
+        '<tr><td>Insulation Class</td><td>Class A or F</td></tr>' +
+        '</table>' : '') +
         (sys.batteryWire ? 
         '<br>' +
         '<h3 style="color:var(--primary);">D. BATTERY CABLING (Hybrid/Off-grid)</h3>' +
@@ -1983,54 +2504,6 @@ function fillAgreementTab(sys, inputs) {
         '</div>';
 }
 
-// ============================================================
-// PRINT ALL PAGES - AUTO GENERATE FIRST
-// ============================================================
-function printAllPages() {
-    if (!tabsContainer.classList.contains('show')) {
-        if (!validateForm()) {
-            alert('Please fill in all required fields first (*) before printing.');
-            return;
-        }
-        var today = new Date().toLocaleDateString('en-PH', { year: 'numeric', month: 'long', day: 'numeric' });
-        var inputs = {
-            clientName: document.getElementById('clientName').value.trim(),
-            projAddress: document.getElementById('projAddress').value.trim(),
-            sysType: document.getElementById('sysType').value,
-            monthlyKwh: parseFloat(document.getElementById('monthlyKwh').value),
-            projectPrice: document.getElementById('projectPrice').value ? parseFloat(document.getElementById('projectPrice').value) : 0,
-            panelWp: parseFloat(document.getElementById('panelWp').value),
-            peakSun: parseFloat(document.getElementById('peakSun').value),
-            dcLength: parseFloat(document.getElementById('dcLength').value),
-            acLength: parseFloat(document.getElementById('acLength').value),
-            battLength: parseFloat(document.getElementById('battLength').value),
-            batteryType: document.getElementById('batteryType').value,
-            autonomyHours: parseFloat(document.getElementById('autonomyHours').value),
-            contractorName: document.getElementById('contractorName').value.trim(),
-            companyLicense: document.getElementById('companyLicense').value.trim(),
-            companyContact: document.getElementById('companyContact').value.trim(),
-            companyEmail: document.getElementById('companyEmail').value.trim(),
-            preparedBy: document.getElementById('preparedBy').value.trim(),
-            checkedBy: document.getElementById('checkedBy').value.trim(),
-            date: today
-        };
-        var sys = calculateSystem(inputs);
-        lastSysData = sys;
-        
-        fillBatteryTab(sys, inputs);
-        fillSummaryTab(sys, inputs);
-        renderSLD(sys);
-        fillPlanTab(sys, inputs);
-        fillAgreementTab(sys, inputs);
-        
-        tabsContainer.classList.add('show');
-    }
-    
-    setTimeout(function() {
-        window.print();
-    }, 300);
-}
-
 // Also update generateAll to use these helper functions
 function generateAll() {
     if (!validateForm()) return;
@@ -2047,7 +2520,6 @@ function generateAll() {
         peakSun: parseFloat(document.getElementById('peakSun').value),
         dcLength: parseFloat(document.getElementById('dcLength').value),
         acLength: parseFloat(document.getElementById('acLength').value),
-        battLength: parseFloat(document.getElementById('battLength').value),
         batteryType: document.getElementById('batteryType').value,
         autonomyHours: parseFloat(document.getElementById('autonomyHours').value),
         contractorName: document.getElementById('contractorName').value.trim(),
@@ -2084,6 +2556,5 @@ setupAutoSave();
 updateLiveCalc();
 updateHeaderDisplay();
 </script>
-
-</body>
+ </body>
 </html>
