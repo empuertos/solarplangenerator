@@ -54,6 +54,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -384,7 +385,7 @@
             border-collapse: collapse;
             width: 100%;
             max-width: 100%;
-            margin: 16px 0;
+            margin: 10px 0 16px 0;
             font-size: 14px;
             table-layout: fixed;
             word-wrap: break-word;
@@ -392,6 +393,8 @@
             word-break: break-word;
             -webkit-hyphens: auto;
             hyphens: auto;
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         table th, table td {
@@ -403,7 +406,7 @@
             word-wrap: break-word;
             overflow-wrap: anywhere;
             word-break: break-word;
-            max-width: 0;
+            line-height: 1.5;
         }
 
         table th {
@@ -411,6 +414,15 @@
             color: var(--primary);
             font-weight: 700;
             width: 40%;
+            font-size: 13px;
+        }
+
+        table tr:nth-child(even) {
+            background: var(--bg-alt);
+        }
+
+        table tr:hover {
+            background: rgba(59, 130, 246, 0.05);
         }
 
         html.dark-mode table th {
@@ -526,18 +538,24 @@
 
         .dashboard {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 14px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
             margin-bottom: 20px;
         }
 
         .dash-card {
             background: var(--bg-card);
             border-radius: 12px;
-            padding: 16px;
+            padding: 14px;
             border-left: 4px solid var(--secondary);
             box-shadow: 0 2px 8px var(--shadow);
             transition: all 0.25s ease;
+            word-wrap: break-word;
+            overflow-wrap: anywhere;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .dash-card:hover {
@@ -546,22 +564,27 @@
         }
 
         .dash-card .label {
-            font-size: 11px;
+            font-size: 10px;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
+            letter-spacing: 0.5px;
             color: var(--text-main);
             opacity: 0.7;
             margin-bottom: 4px;
+            line-height: 1.3;
+            word-wrap: break-word;
         }
 
         .dash-card .value {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
             color: var(--primary);
+            line-height: 1.2;
+            word-wrap: break-word;
+            word-break: break-word;
         }
 
         .dash-card .unit {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 500;
             opacity: 0.7;
         }
@@ -586,12 +609,13 @@
             display: inline-block;
             background: linear-gradient(90deg, var(--primary), var(--accent));
             color: white;
-            padding: 4px 12px;
+            padding: 5px 14px;
             border-radius: 20px;
             font-size: 11px;
             font-weight: 600;
             letter-spacing: 0.5px;
-            margin-bottom: 10px;
+            margin: 16px 0 10px 0;
+            white-space: nowrap;
         }
 
         .doc-footer {
@@ -829,9 +853,12 @@
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
                 white-space: normal;
+                margin: 8px 0 14px 0;
             }
             table th, table td {
                 padding: 7px 8px;
+                font-size: 12px;
+                line-height: 1.4;
             }
             table th {
                 width: 38%;
@@ -839,6 +866,19 @@
             }
             .dash-card .value {
                 font-size: 18px;
+            }
+            .dash-card .label {
+                font-size: 9px;
+                letter-spacing: 0.3px;
+            }
+            .dashboard {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .section-badge {
+                font-size: 10px;
+                padding: 4px 10px;
+                margin: 12px 0 8px 0;
             }
             .agreement-box {
                 padding: 14px;
