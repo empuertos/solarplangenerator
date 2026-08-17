@@ -1736,7 +1736,7 @@ function generateAll() {
         '<tr><td>Cable Specification</td><td class="wire-safe"><strong>' + sys.acWire.l + ' - THHN/THWN-2 Copper, 600V, 90\u00B0C</strong></td></tr>' +
         '<tr><td>Design Current (125% Safety)</td><td>' + sys.acWire.amps + ' A</td></tr>' +
         '<tr><td>Voltage Drop</td><td>' + sys.acWire.vDrop + 'V - within 3% acceptable limit</td></tr>' +
-        '<tr><td>Main Circuit Breaker</td><td class="wire-safe"><strong>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles</strong> - Matched to wire ampacity</td></tr>' +
+        '<tr><td>Main Circuit Breaker</td><td class="wire-safe"><strong>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles + '</strong> - Matched to wire ampacity</td></tr>' +
         '</table>' +
         '<table>' +
         '<tr><th colspan="2">PROJECT PRICE</th></tr>' +
@@ -1888,7 +1888,7 @@ function generateAll() {
         '<tr><td>Total PV Array Capacity</td><td><strong>' + sys.actualKwp + ' kWp</strong></td></tr>' +
         '<tr><td>PV Modules</td><td>' + sys.panelCount + ' pieces x ' + inputs.panelWp + ' Wp Monocrystalline</td></tr>' +
         '<tr><td>Inverter</td><td>' + sys.invKw + ' kW ' + inputs.sysType + ' Inverter</td></tr>' +
-        '<tr><td>Main Breaker</td><td>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles</td></tr>' +
+        '<tr><td>Main Breaker</td><td>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles + '</td></tr>' +
         '<tr><td>Estimated Monthly Production</td><td>' + sys.monthlyProd + ' kWh</td></tr>' +
         (sys.battery ? '<tr><td>Battery System</td><td>' + sys.battery.totalKwh + ' kWh ' + sys.battery.battType + ' @ ' + sys.battery.nominalVoltage + 'V</td></tr>' : '') +
         '</table>' +
@@ -2402,7 +2402,7 @@ function fillAgreementTab(sys, inputs) {
         '<tr><td>Total PV Array Capacity</td><td><strong>' + sys.actualKwp + ' kWp</strong></td></tr>' +
         '<tr><td>PV Modules</td><td>' + sys.panelCount + ' pieces x ' + inputs.panelWp + ' Wp Monocrystalline</td></tr>' +
         '<tr><td>Inverter</td><td>' + sys.invKw + ' kW ' + inputs.sysType + ' Inverter</td></tr>' +
-        '<tr><td>Main Breaker</td><td>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles</td></tr>' +
+        '<tr><td>Main Breaker</td><td>' + sys.breaker.amps + 'A, ' + sys.acVoltage + 'V, ' + sys.breaker.poles + '</td></tr>' +
         '<tr><td>Estimated Monthly Production</td><td>' + sys.monthlyProd + ' kWh</td></tr>' +
         (sys.battery ? '<tr><td>Battery System</td><td>' + sys.battery.totalKwh + ' kWh ' + sys.battery.battType + ' @ ' + sys.battery.nominalVoltage + 'V</td></tr>' : '') +
         '</table>' +
@@ -2514,12 +2514,14 @@ function generateAll() {
         clientName: document.getElementById('clientName').value.trim(),
         projAddress: document.getElementById('projAddress').value.trim(),
         sysType: document.getElementById('sysType').value,
+        sysScale: document.getElementById('sysScale').value,
         monthlyKwh: parseFloat(document.getElementById('monthlyKwh').value),
         projectPrice: document.getElementById('projectPrice').value ? parseFloat(document.getElementById('projectPrice').value) : 0,
         panelWp: parseFloat(document.getElementById('panelWp').value),
         peakSun: parseFloat(document.getElementById('peakSun').value),
         dcLength: parseFloat(document.getElementById('dcLength').value),
         acLength: parseFloat(document.getElementById('acLength').value),
+        battLength: parseFloat(document.getElementById('battLength').value),
         batteryType: document.getElementById('batteryType').value,
         autonomyHours: parseFloat(document.getElementById('autonomyHours').value),
         contractorName: document.getElementById('contractorName').value.trim(),
