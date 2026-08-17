@@ -1,4 +1,4 @@
-<!doctype html>
+l<!doctype html>
 <html lang="en">
  <head>
   <meta charset="UTF-8">
@@ -478,7 +478,7 @@
             border: 2px solid var(--border);
             border-radius: 12px;
             padding: 12px;
-            min-height: 500px;
+            min-height: 560px;
             overflow: auto;
             transition: all 0.25s ease;
         }
@@ -1690,7 +1690,7 @@ function renderSLD(sys) {
     }
 
     document.getElementById('sldCanvas').innerHTML =
-        '<svg width="100%" height="480" viewBox="0 0 850 480" xmlns="http://www.w3.org/2000/svg">' +
+        '<svg width="100%" height="520" viewBox="0 0 850 520" xmlns="http://www.w3.org/2000/svg">' +
         '<defs><marker id="arr" viewBox="0 0 10 6" refX="9" refY="3" markerWidth="8" markerHeight="6" orient="auto"><polygon points="0,0 10,3 0,6" fill="' + svgText + '"/></marker></defs>' +
         '<rect x="0" y="0" width="850" height="40" fill="' + svgBg + '" rx="4"/>' +
         '<text x="425" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="' + svgText + '">SINGLE LINE DIAGRAM - ' + sys.actualKwp + ' kWp ' + sys.inputs.sysType + '</text>' +
@@ -1721,14 +1721,15 @@ function renderSLD(sys) {
         
         batterySvg +
         
-        '<rect x="30" y="250" width="500" height="140" rx="6" fill="' + svgBg + '" stroke="' + svgBorder + '"/>' +
+        '<rect x="30" y="250" width="520" height="175" rx="6" fill="' + svgBg + '" stroke="' + svgBorder + '"/>' +
         '<text x="45" y="275" font-size="13" font-weight="bold" fill="' + svgText + '">LEGEND & SIZING - PNEC 2017 COMPLIANT</text>' +
-        '<text x="45" y="300" font-size="11" fill="' + svgText + '">DC: ' + sys.dcWire.l + ' PV1-F | Current: ' + sys.dcWire.amps + 'A | Drop: ' + sys.dcWire.vDrop + 'V</text>' +
-        '<text x="45" y="320" font-size="11" fill="' + svgText + '">AC: ' + sys.acWire.l + ' THHN | Current: ' + sys.acWire.amps + 'A | Drop: ' + sys.acWire.vDrop + 'V</text>' +
-        '<text x="45" y="340" font-size="11" fill="' + svgText + '">PV Array: ' + sys.pvConfig.panelsPerString + 'S x ' + sys.pvConfig.numStrings + 'P | Voc: ' + sys.pvConfig.arrayVoc.toFixed(0) + 'V</text>' +
-        '<text x="45" y="360" font-size="11" fill="' + svgText + '">Main Breaker: ' + sys.breaker.amps + 'A ' + sys.breaker.poles + ' Breaker' + ' | System: ' + sys.actualKwp + ' kWp</text>' +
-        '<text x="45" y="380" font-size="10" fill="' + svgText + '">Safety Factor: 125% | Max Voltage Drop: 3% | Copper Conductors</text>' +
-        '<text x="45" y="400" font-size="10" fill="' + svgText + '">Date: ' + sys.inputs.date + ' | Project: ' + sys.inputs.clientName + '</text>' +
+        '<text x="45" y="298" font-size="11" fill="' + svgText + '">DC: ' + sys.dcWire.l + ' PV1-F | Current: ' + sys.dcWire.amps + 'A | Drop: ' + sys.dcWire.vDrop + 'V</text>' +
+        '<text x="45" y="318" font-size="11" fill="' + svgText + '">AC: ' + sys.acWire.l + ' THHN | Current: ' + sys.acWire.amps + 'A | Drop: ' + sys.acWire.vDrop + 'V</text>' +
+        '<text x="45" y="338" font-size="11" fill="' + svgText + '">PV Array: ' + sys.pvConfig.panelsPerString + 'S x ' + sys.pvConfig.numStrings + 'P | Voc: ' + sys.pvConfig.arrayVoc.toFixed(0) + 'V</text>' +
+        '<text x="45" y="358" font-size="11" fill="' + svgText + '">Main Breaker: ' + sys.breaker.amps + 'A ' + sys.breaker.poles + ' | System: ' + sys.actualKwp + ' kWp</text>' +
+        '<text x="45" y="378" font-size="10" fill="' + svgText + '">Safety Factor: 125% | Max Voltage Drop: 3% | Copper Conductors</text>' +
+        '<text x="45" y="398" font-size="10" fill="' + svgText + '">Date: ' + sys.inputs.date + ' | Project: ' + sys.inputs.clientName + '</text>' +
+        '<text x="45" y="415" font-size="9" fill="' + svgText + '" opacity="0.7">Scale: ' + sys.sysScale + ' | ' + (sys.is3Phase ? '3-Phase ' + sys.acVoltage + 'V' : 'Single-Phase 230V') + ' | Inverter: ' + sys.inverterType + '</text>' +
         '</svg>';
 }
 
