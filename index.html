@@ -167,6 +167,7 @@
             box-shadow: 0 4px 12px var(--shadow);
             border: 1px solid var(--border);
             transition: all 0.25s ease;
+            overflow-x: auto;
         }
 
         .card h2 {
@@ -384,6 +385,9 @@
             width: 100%;
             margin: 16px 0;
             font-size: 14px;
+            table-layout: fixed;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         table th, table td {
@@ -392,12 +396,15 @@
             text-align: left;
             vertical-align: top;
             transition: all 0.25s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         table th {
             background: linear-gradient(180deg, #EFF6FF, #DBEAFE);
             color: var(--primary);
             font-weight: 700;
+            width: 40%;
         }
 
         html.dark-mode table th {
@@ -415,6 +422,9 @@
             background: var(--bg-card);
             line-height: 1.8;
             transition: all 0.25s ease;
+            overflow-x: auto;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .agreement-box h2 {
@@ -773,13 +783,26 @@
         @media (max-width: 768px) {
             body {
                 padding: 12px;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
             }
-            .header-bar {
+            .company-header {
                 padding: 16px;
                 padding-right: 60px;
             }
+            .company-header h1 {
+                font-size: 16px;
+            }
+            .company-header .subtitle {
+                font-size: 11px;
+            }
+            .company-header .meta-row {
+                gap: 10px;
+                font-size: 11px;
+            }
             .card {
-                padding: 16px;
+                padding: 14px;
+                overflow-x: auto;
             }
             .grid {
                 grid-template-columns: 1fr;
@@ -793,6 +816,29 @@
             }
             .signature-section {
                 grid-template-columns: 1fr;
+            }
+            table {
+                font-size: 12px;
+            }
+            table th, table td {
+                padding: 7px 8px;
+            }
+            table th {
+                width: 38%;
+                font-size: 11px;
+            }
+            .dash-card .value {
+                font-size: 18px;
+            }
+            .agreement-box {
+                padding: 14px;
+                font-size: 13px;
+            }
+            .agreement-box h2 {
+                font-size: 16px;
+            }
+            .agreement-box h3 {
+                font-size: 14px;
             }
         }
     </style>
