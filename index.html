@@ -145,6 +145,22 @@
             color: #FECACA;
         }
 
+        .warning-box {
+            background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+            border-left: 5px solid #D97706;
+            padding: 16px;
+            border-radius: 10px;
+            margin: 16px 0;
+            color: #92400E;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        html.dark-mode .warning-box {
+            background: linear-gradient(135deg, #451A03, #78350F);
+            color: #FDE68A;
+        }
+
         .header-bar {
             background: var(--header-grad);
             color: white;
@@ -977,6 +993,7 @@
    <h2>Project Information</h2>
    <p style="margin-bottom:16px;"><strong>Auto-Save ON:</strong> Everything you enter is automatically saved!</p>
    <div id="errorContainer"></div>
+   <div id="warningContainer"></div>
    <div class="grid">
     <div class="form-group">
      <label>Client / Project Name *</label> <input type="text" id="clientName" placeholder="e.g. Juan Dela Cruz Residence" required>
@@ -1180,6 +1197,7 @@ function updateHeaderDisplay() {
 // ============================================================
 var saveIndicator = document.getElementById('saveIndicator');
 var errorContainer = document.getElementById('errorContainer');
+var warningContainer = document.getElementById('warningContainer');
 var tabsContainer = document.getElementById('mainTabs');
 
 var fieldsToSave = [
@@ -1709,6 +1727,53 @@ function validateForm() {
             el.classList.add('invalid');
         }
     });
+
+    // ============================================================
+    // SYSTEM SCALE vs MONTHLY CONSUMPTION VALIDATION
+    // ============================================================
+    var scaleEl = document.getElementById('sysScale');
+    var kwhEl = document.getElementById('monthlyKwh');
+    var scaleMismatch = false;
+    var scaleWarning = '';
+    
+    if (scaleEl && kwhEl && scaleEl.value && kwhEl.value && parseFloat(kwhEl.value) > 0) {
+        var scale = scaleEl.value;
+        var kwh = parseFloat(kwhEl.value);
+        
+        // Realistic consumption ranges for Philippine context
+        var ranges = {
+            'Residential': { min: 0, max: 2000, rec: 'Residential (up to 2,000 kWh/mo)' },
+            'Commercial': { min: 1500, max: 50000, rec: 'Commercial Building (1,500-50,000 kWh/mo)' },
+            'Mall': { min: 30000, max: 300000, rec: 'Mall / Large Retail (30,000-300,000 kWh/mo)' },
+            'Industrial': { min: 100000, max: 9999999, rec: 'Industrial / Factory (100,000+ kWh/mo)' }
+        };
+        
+        var r = ranges[scale];
+        if (r) {
+            if (kwh > r.max && scale !== 'Industrial') {
+                scaleMismatch = true;
+                var suggest = kwh <= 50000 ? 'Commercial Building' :
+                              kwh <= 300000 ? 'Mall / Large Retail' : 'Industrial / Factory';
+                scaleWarning = '<strong>⚠️ SCALE MISMATCH:</strong> Your monthly consumption of <strong>' + kwh.toLocaleString() + ' kWh</strong> is too HIGH for <strong>' + scale + '</strong> scale.<br>' +
+                              '<em>Suggested System Scale: <strong>' + suggest + '</strong> (' + kwh.toLocaleString() + ' kWh/mo falls under this category)</em>';
+            } else if (kwh < r.min) {
+                scaleMismatch = true;
+                var suggestLow = kwh <= 2000 ? 'Residential' :
+                                 kwh <= 50000 ? 'Commercial Building' : 'Mall / Large Retail';
+                scaleWarning = '<strong>⚠️ SCALE MISMATCH:</strong> Your monthly consumption of <strong>' + kwh.toLocaleString() + ' kWh</strong> is too LOW for <strong>' + scale + '</strong> scale.<br>' +
+                              '<em>Suggested System Scale: <strong>' + suggestLow + '</strong> (' + kwh.toLocaleString() + ' kWh/mo falls under this category)</em>';
+            }
+        }
+    }
+    
+    // Show warning box if scale mismatch (does NOT block generation - just informs user)
+    var warningBox = document.getElementById('warningContainer');
+    if (scaleMismatch) {
+        warningBox.innerHTML = '<div class="warning-box">' + scaleWarning + '</div>';
+        warningBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+        warningBox.innerHTML = '';
+    }
 
     if (!isValid) {
         errorContainer.innerHTML = '<div class="error-box"><strong>Please fill in all required fields (*) before generating:</strong><ul style="margin:8px 0 0 20px;">' + errorMessages.join('') + '</ul></div>';
