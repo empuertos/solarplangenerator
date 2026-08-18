@@ -1733,8 +1733,6 @@ function validateForm() {
     // ============================================================
     var scaleEl = document.getElementById('sysScale');
     var kwhEl = document.getElementById('monthlyKwh');
-    var scaleMismatch = false;
-    var scaleWarning = '';
     
     if (scaleEl && kwhEl && scaleEl.value && kwhEl.value && parseFloat(kwhEl.value) > 0) {
         var scale = scaleEl.value;
@@ -1751,33 +1749,28 @@ function validateForm() {
         var r = ranges[scale];
         if (r) {
             if (kwh > r.max && scale !== 'Industrial') {
-                scaleMismatch = true;
+                isValid = false;
                 var suggest = kwh <= 50000 ? 'Commercial Building' :
                               kwh <= 300000 ? 'Mall / Large Retail' : 'Industrial / Factory';
-                scaleWarning = '<strong>⚠️ SCALE MISMATCH:</strong> Your monthly consumption of <strong>' + kwh.toLocaleString() + ' kWh</strong> is too HIGH for <strong>' + scale + '</strong> scale.<br>' +
-                              '<em>Suggested System Scale: <strong>' + suggest + '</strong> (' + kwh.toLocaleString() + ' kWh/mo falls under this category)</em>';
+                errorMessages.push('<li><strong>Scale Mismatch:</strong> Monthly consumption of <strong>' + kwh.toLocaleString() + ' kWh</strong> is too HIGH for <strong>' + scale + '</strong>. Suggested: <strong>' + suggest + '</strong></li>');
+                scaleEl.classList.add('invalid');
+                kwhEl.classList.add('invalid');
             } else if (kwh < r.min) {
-                scaleMismatch = true;
+                isValid = false;
                 var suggestLow = kwh <= 2000 ? 'Residential' :
                                  kwh <= 50000 ? 'Commercial Building' : 'Mall / Large Retail';
-                scaleWarning = '<strong>⚠️ SCALE MISMATCH:</strong> Your monthly consumption of <strong>' + kwh.toLocaleString() + ' kWh</strong> is too LOW for <strong>' + scale + '</strong> scale.<br>' +
-                              '<em>Suggested System Scale: <strong>' + suggestLow + '</strong> (' + kwh.toLocaleString() + ' kWh/mo falls under this category)</em>';
+                errorMessages.push('<li><strong>Scale Mismatch:</strong> Monthly consumption of <strong>' + kwh.toLocaleString() + ' kWh</strong> is too LOW for <strong>' + scale + '</strong>. Suggested: <strong>' + suggestLow + '</strong></li>');
+                scaleEl.classList.add('invalid');
+                kwhEl.classList.add('invalid');
             }
         }
     }
-    
-    // Show warning box if scale mismatch (does NOT block generation - just informs user)
-    var warningBox = document.getElementById('warningContainer');
-    if (scaleMismatch) {
-        warningBox.innerHTML = '<div class="warning-box">' + scaleWarning + '</div>';
-        warningBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-        warningBox.innerHTML = '';
-    }
 
     if (!isValid) {
-        errorContainer.innerHTML = '<div class="error-box"><strong>Please fill in all required fields (*) before generating:</strong><ul style="margin:8px 0 0 20px;">' + errorMessages.join('') + '</ul></div>';
+        errorContainer.innerHTML = '<div class="error-box"><strong>Please fix the following before generating:</strong><ul style="margin:8px 0 0 20px;">' + errorMessages.join('') + '</ul></div>';
         errorContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+        errorContainer.innerHTML = '';
     }
     return isValid;
 }
