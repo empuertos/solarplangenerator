@@ -1005,7 +1005,7 @@
      <label>System Type *</label> <select id="sysType" required> <option value="">-- Select System Type --</option> <option value="Grid-tie">Grid-tie (On-Grid / Net Metering)</option> <option value="Hybrid">Hybrid (Grid + Battery Backup)</option> <option value="Off-grid">Off-grid (Stand-alone, No Utility)</option> </select>
     </div>
     <div class="form-group">
-     <label>System Scale *</label> <select id="sysScale" required> <option value="">-- Select System Scale --</option> <option value="Residential">🏠 Residential (Bahay, 230V Single-Phase)</option> <option value="Commercial">🏢 Commercial Building (400V 3-Phase)</option> <option value="Mall">🏬 Mall / Large Retail (400V 3-Phase)</option> <option value="Industrial">🏭 Industrial / Factory (400V 3-Phase)</option> </select>
+     <label>System Scale *</label> <select id="sysScale" required> <option value="">-- Select System Scale --</option> <option value="Residential">🏠 Residential (1-2,000 kWh/mo) — Bahay</option> <option value="Commercial">🏢 Commercial Building (2,001-50,000 kWh/mo) — Opisina</option> <option value="Mall">🏬 Mall / Large Retail (50,001-200,000 kWh/mo) — Mall</option> <option value="Industrial">🏭 Industrial / Factory (200,001+ kWh/mo) — Pabrika</option> </select>
     </div>
     <div class="form-group">
      <label>Monthly Electricity Consumption (kWh) *</label> <input type="number" id="monthlyKwh" placeholder="e.g. 250 kWh" min="1" required>
@@ -1729,7 +1729,7 @@ function validateForm() {
     });
 
     // ============================================================
-    // SYSTEM SCALE vs MONTHLY CONSUMPTION VALIDATION
+    // SYSTEM SCALE vs MONTHLY CONSUMPTION VALIDATION (STRICT)
     // ============================================================
     var scaleEl = document.getElementById('sysScale');
     var kwhEl = document.getElementById('monthlyKwh');
@@ -1738,28 +1738,59 @@ function validateForm() {
         var scale = scaleEl.value;
         var kwh = parseFloat(kwhEl.value);
         
-        // Realistic consumption ranges for Philippine context
+        // STRICT ranges - NO overlap (Philippine context)
         var ranges = {
-            'Residential': { min: 0, max: 2000, rec: 'Residential (up to 2,000 kWh/mo)' },
-            'Commercial': { min: 1500, max: 50000, rec: 'Commercial Building (1,500-50,000 kWh/mo)' },
-            'Mall': { min: 30000, max: 300000, rec: 'Mall / Large Retail (30,000-300,000 kWh/mo)' },
-            'Industrial': { min: 100000, max: 9999999, rec: 'Industrial / Factory (100,000+ kWh/mo)' }
+            'Residential': { 
+                min: 1, max: 2000, 
+                label: 'Residential',
+                rangeText: '1 - 2,000 kWh/month',
+                typical: 'Bahay, apartment, small home'
+            },
+            'Commercial': { 
+                min: 2001, max: 50000, 
+                label: 'Commercial Building',
+                rangeText: '2,001 - 50,000 kWh/month',
+                typical: 'Office, restaurant, small building'
+            },
+            'Mall': { 
+                min: 50001, max: 200000, 
+                label: 'Mall / Large Retail',
+                rangeText: '50,001 - 200,000 kWh/month',
+                typical: 'Mall, supermarket, large retail'
+            },
+            'Industrial': { 
+                min: 200001, max: 9999999, 
+                label: 'Industrial / Factory',
+                rangeText: '200,001+ kWh/month',
+                typical: 'Factory, manufacturing plant, large industrial'
+            }
         };
         
         var r = ranges[scale];
         if (r) {
-            if (kwh > r.max && scale !== 'Industrial') {
+            var isOutOfRange = false;
+            var errorMsg = '';
+            
+            if (kwh < r.min) {
+                isOutOfRange = true;
+                var correctScale = kwh <= 2000 ? 'Residential' :
+                                   kwh <= 50000 ? 'Commercial Building' :
+                                   kwh <= 200000 ? 'Mall / Large Retail' : 'Industrial / Factory';
+                errorMsg = '<li><strong>Scale Mismatch:</strong> <strong>' + kwh.toLocaleString() + ' kWh</strong> is TOO LOW for <strong>' + r.label + '</strong>.<br>' +
+                          '<em>Required range for ' + r.label + ': <strong>' + r.rangeText + '</strong></em><br>' +
+                          '<em>Suggested correct scale: <strong>' + correctScale + '</strong></em></li>';
+            } else if (kwh > r.max && scale !== 'Industrial') {
+                isOutOfRange = true;
+                var correctScaleHi = kwh <= 50000 ? 'Commercial Building' :
+                                    kwh <= 200000 ? 'Mall / Large Retail' : 'Industrial / Factory';
+                errorMsg = '<li><strong>Scale Mismatch:</strong> <strong>' + kwh.toLocaleString() + ' kWh</strong> is TOO HIGH for <strong>' + r.label + '</strong>.<br>' +
+                          '<em>Required range for ' + r.label + ': <strong>' + r.rangeText + '</strong></em><br>' +
+                          '<em>Suggested correct scale: <strong>' + correctScaleHi + '</strong></em></li>';
+            }
+            
+            if (isOutOfRange) {
                 isValid = false;
-                var suggest = kwh <= 50000 ? 'Commercial Building' :
-                              kwh <= 300000 ? 'Mall / Large Retail' : 'Industrial / Factory';
-                errorMessages.push('<li><strong>Scale Mismatch:</strong> Monthly consumption of <strong>' + kwh.toLocaleString() + ' kWh</strong> is too HIGH for <strong>' + scale + '</strong>. Suggested: <strong>' + suggest + '</strong></li>');
-                scaleEl.classList.add('invalid');
-                kwhEl.classList.add('invalid');
-            } else if (kwh < r.min) {
-                isValid = false;
-                var suggestLow = kwh <= 2000 ? 'Residential' :
-                                 kwh <= 50000 ? 'Commercial Building' : 'Mall / Large Retail';
-                errorMessages.push('<li><strong>Scale Mismatch:</strong> Monthly consumption of <strong>' + kwh.toLocaleString() + ' kWh</strong> is too LOW for <strong>' + scale + '</strong>. Suggested: <strong>' + suggestLow + '</strong></li>');
+                errorMessages.push(errorMsg);
                 scaleEl.classList.add('invalid');
                 kwhEl.classList.add('invalid');
             }
